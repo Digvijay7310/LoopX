@@ -1,9 +1,10 @@
 import multer from 'multer';
 import fs from 'fs';
+import path from 'path';
 
-const tempDir = "../public/temp";
+const tempDir = path.resolve("src/public/temp");
 if(!fs.existsSync(tempDir)){
-    fs.unlinkSync(tempDir, {recursive: true})
+    fs.mkdirSync(tempDir, {recursive: true})
 }
 
 const storage = multer.diskStorage({

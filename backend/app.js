@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './src/routes/auth.routes.js'
-
+import userRoutes from './src/routes/user.routes.js'
+import videoRoutes from './src/routes/video.routes.js'
 
 
 const app = express();
@@ -22,6 +23,8 @@ app.get("/" ,(req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/video", videoRoutes);
 
 
 
