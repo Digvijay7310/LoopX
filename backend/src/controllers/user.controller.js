@@ -1,8 +1,31 @@
 import { User } from "../models/user.model.js";
+import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+
+const getUserByUsername = AsyncHandler(async(req, res) => {
+try {
+        const {username} = req.params;
+        if(!/^[a-zA-Z]+$/.test(username)){
+            return new ApiError(400, "Invalid user format")
+        }
+    
+        const user = await User.findOne({username}).select("-password -refreshToken").lean();
+    
+        if(!user){
+            throw new ApiError(404, "User not found")
+        }
+
+        const videos = await Video.find({owner: user._id}).lean()
+        if(!videos) new ApiError(400, "User don't have videos")
+    
+        return res.status(200).json(new ApiResponse(200, {user, videos}, "User found successfully"))
+} catch (error) {
+    console.log("Error while getUser: ", error)
+}
+})
 
 const updateUserProfile = AsyncHandler(async (req, res) => {
     const { fullName } = req.body;
@@ -43,4 +66,4 @@ const updateUserProfile = AsyncHandler(async (req, res) => {
     }, "Profile updated successfully!"));
 });
 
-export { updateUserProfile };
+export { getUserByUsername, updateUserProfile };

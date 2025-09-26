@@ -49,7 +49,7 @@ function WatchPage() {
 
   const handleSubscribeToggle = async () => {
     try {
-      await axiosInstance.post(`/video/subscriber${channelId}`);
+      await axiosInstance.post(`/video/subscriber/${video.owner._id}`);
       setSubscribed(!subscribed);
       toast.success(subscribed ? "Unsubscribed" : "Subscribed");
     } catch (error) {

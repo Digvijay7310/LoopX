@@ -1,9 +1,11 @@
 import express from 'express'
 import { verifyToken } from '../middlewares/verify.middleware.js';
-import { updateUserProfile } from '../controllers/user.controller.js';
+import { getUserByUsername, updateUserProfile } from '../controllers/user.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 
 const router = express.Router();
+
+router.get("/@:username", verifyToken, getUserByUsername);
 
 router.patch("/profile/update", verifyToken,
     upload.fields([
