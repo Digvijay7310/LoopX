@@ -3,7 +3,10 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 import { FaThumbsUp, FaCommentDots, FaBell } from 'react-icons/fa';
-import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+
+import SuggestedVideos from '../components/SuggestVideos';
+import CommentsSection from '../components/CommentSection';
 
 function WatchPage() {
   const { id } = useParams();
@@ -12,7 +15,6 @@ function WatchPage() {
   const [likeStatus, setLikeStatus] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [showFullDesc, setShowFullDesc] = useState(false);
-  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,24 +59,13 @@ function WatchPage() {
     }
   };
 
-  const handleCommentSubmit = async () => {
-    if (!comment.trim()) return;
-    try {
-      const res = await axiosInstance.post(`/video/${video._id}/comment`, { text: comment });
-      setComments([res.data.data, ...comments]);
-      setComment("");
-      toast.success("Comment added");
-    } catch (error) {
-      toast.error("Error adding comment");
-    }
-  };
-
   if (loading || !video) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 max-w-7xl mx-auto">
-      {/* Video Player */}
+      {/* Left part: Video + details + comments */}
       <div className="flex-1">
+        {/* Video player */}
         <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 border-4 border-red-600">
           <video
             controls
@@ -83,116 +74,85 @@ function WatchPage() {
           />
         </div>
 
-        <h1 className="text-xl font-semibold mb-2">{video.title}</h1>
+        {/* Video title */}
+        <h1 className="text-xl font-semibold mb-0.5">{video.title}</h1>
+        <p className='text-xs font-semibold'>views {video.views}</p>
 
-        {/* Channel Info */}
-        <div className="flex items-center gap-3 mb-4">
+        {/* Channel info */}
+        <Link to={`/users/${video.owner.username}`} className="flex items-center gap-3 mb-4">
           <img
             src={video.owner.avatar}
-            alt="avatar"
-            className="rounded-full h-10 w-10"
+            alt={`${video.owner.username} avatar`}
+            className="rounded-full h-10 w-10 border border-red-600"
           />
           <div>
             <p className="font-medium">{video.owner.username}</p>
             <p className="text-sm text-gray-500">Category: {video.category}</p>
           </div>
-        </div>
+        </Link>
 
-        {/* Description toggle */}
+        {/* Description with toggle */}
         <div className="mb-4">
           <p className="text-gray-700">
-            {showFullDesc ? video.description : video.description.slice(0, 150) + "..."}
-            <button
-              className="text-blue-600 ml-2 text-sm"
-              onClick={() => setShowFullDesc(!showFullDesc)}
-            >
-              {showFullDesc ? "Show less" : "Read more"}
-            </button>
+            {showFullDesc
+              ? video.description
+              : video.description.length > 150
+              ? video.description.slice(0, 150) + "..."
+              : video.description}
+            {video.description.length > 150 && (
+              <button
+                className="text-blue-600 ml-2 text-sm"
+                onClick={() => setShowFullDesc(!showFullDesc)}
+                aria-expanded={showFullDesc}
+              >
+                {showFullDesc ? "Show less" : "Read more"}
+              </button>
+            )}
           </p>
         </div>
 
-        {/* Actions */}
+        {/* Action buttons */}
         <div className="flex gap-6 text-gray-700 text-lg mb-6">
-          <div
-            className="flex items-center gap-2 cursor-pointer hover:text-blue-600"
+          <button
+            type="button"
+            className="flex items-center shadow-md ring ring-blue-600 px-2 py-1 rounded-4xl gap-2 cursor-pointer hover:text-blue-600"
             onClick={handleLikeToggle}
+            aria-pressed={likeStatus}
           >
-            <FaThumbsUp />
+            <FaThumbsUp className="text-blue-600" />
             <span className="text-sm">{likeStatus ? "Unlike" : "Like"}</span>
-          </div>
-          <div
-            className="flex items-center gap-2 cursor-pointer hover:text-green-600"
+          </button>
+
+          <button
+            type="button"
+            className="flex items-center shadow-md ring ring-green-600 px-2 py-1 rounded-4xl gap-2 cursor-pointer hover:text-green-600"
             onClick={() => document.getElementById('commentInput')?.focus()}
           >
-            <FaCommentDots />
+            <FaCommentDots className="text-green-600" />
             <span className="text-sm">Comment</span>
-          </div>
-          <div
-            className="flex items-center gap-2 cursor-pointer hover:text-red-600"
-            onClick={handleSubscribeToggle}
-          >
-            <FaBell />
-            <span className="text-sm">{subscribed ? "Unsubscribe" : "Subscribe"}</span>
-          </div>
-        </div>
+          </button>
 
-        {/* Comment Box */}
-        <div className="mb-4">
-          <textarea
-            id="commentInput"
-            className="w-full border rounded p-2"
-            placeholder="Write a comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
           <button
-            className="mt-2 px-4 py-1 bg-blue-600 text-white rounded"
-            onClick={handleCommentSubmit}
+            type="button"
+            className="flex items-center shadow-md ring ring-red-600 px-2 py-1 rounded-4xl gap-2 cursor-pointer hover:text-red-600"
+            onClick={handleSubscribeToggle}
+            aria-pressed={subscribed}
           >
-            Post
+            <FaBell className="text-red-600" />
+            <span className="text-sm">{subscribed ? "Unsubscribe" : "Subscribe"}</span>
           </button>
         </div>
 
-        {/* Comments */}
-        <div className="space-y-4">
-          <h3 className="text-md font-semibold mb-2">Comments</h3>
-          {comments.map((c) => (
-            <div key={c._id} className="flex gap-3">
-              <img src={c.user.avatar} className="h-8 w-8 rounded-full" />
-              <div>
-                <p className="font-semibold text-sm">{c.user.username}</p>
-                <p className="text-sm text-gray-700">{c.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Comments Section */}
+        <CommentsSection
+          videoId={video._id}
+          comments={comments}
+          setComments={setComments}
+        />
       </div>
 
-      {/* Suggested Videos */}
-      <div className="w-full lg:w-[350px] space-y-4">
-        <h2 className="text-lg font-semibold">Suggested Videos</h2>
-        {relatedVideos
-          .filter((v) => v._id !== video._id)
-          .map((v) => (
-            <div
-              key={v._id}
-              className="flex gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition"
-            >
-              <div className="w-32 h-20 bg-gray-300 rounded-md overflow-hidden">
-                <img
-                  src={v.thumbnail}
-                  alt={v.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-sm font-medium line-clamp-2">{v.title}</p>
-                <p className="text-xs text-gray-500">{v.owner.username}</p>
-                <p className="text-xs text-gray-500">{v.views} views</p>
-              </div>
-            </div>
-          ))}
-      </div>
+      {/* Right part: Suggested Videos */}
+      <SuggestedVideos videos={relatedVideos} currentVideoId={video._id} />
     </div>
   );
 }
