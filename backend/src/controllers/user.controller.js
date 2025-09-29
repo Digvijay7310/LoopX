@@ -41,7 +41,7 @@ const getMe = AsyncHandler(async (req, res) => {
 })
 
 const updateUserProfile = AsyncHandler(async (req, res) => {
-    const { fullName } = req.body;
+    const { fullName, channelDescription } = req.body;
 
     // Find user by ID
     const user = await User.findById(req.user._id);
@@ -49,6 +49,7 @@ const updateUserProfile = AsyncHandler(async (req, res) => {
 
     // Update fullName if provided
     if (fullName) user.fullName = fullName;
+    if(channelDescription) user.channelDescription = channelDescription;
 
     // Upload avatar if provided
     if (req.files?.avatar?.[0]?.path) {
@@ -74,6 +75,7 @@ const updateUserProfile = AsyncHandler(async (req, res) => {
     // Return success response
     return res.status(200).json(new ApiResponse(200, {
         fullName: user.fullName,
+        channelDescription: user.channelDescription,
         avatar: user.avatar,
         coverImage: user.coverImage
     }, "Profile updated successfully!"));

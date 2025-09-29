@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaImage, FaSave } from 'react-icons/fa';
+import { MdDescription } from "react-icons/md"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axiosInstance from '../utils/Axios';
@@ -7,6 +8,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 function UpdateProfilePage() {
   const [fullName, setFullName] = useState('');
+  const [channelDescription, setChannelDescription] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [coverImageFile, setCoverImageFile] = useState(null);
 
@@ -28,6 +30,7 @@ function UpdateProfilePage() {
 
     const formData = new FormData();
     if (fullName) formData.append('fullName', fullName);
+    if(channelDescription) formData.append("channelDescription", channelDescription)
     if (avatarFile) formData.append('avatar', avatarFile);
     if (coverImageFile) formData.append('coverImage', coverImageFile);
 
@@ -66,7 +69,7 @@ function UpdateProfilePage() {
             Full Name
           </label>
           <div className="flex items-center border rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
-            <span className="bg-gray-100 px-3 text-gray-500">
+            <span className=" px-3 text-gray-500">
               <FaUser />
             </span>
             <input
@@ -76,6 +79,27 @@ function UpdateProfilePage() {
               placeholder="Enter full name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        {/* Channel Description */}
+        <div>
+          <label className="block text-gray-700 mb-1" htmlFor="channelDescription">
+            Description
+          </label>
+          <div className="flex items-center border rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
+            <span className=" px-3 text-gray-500">
+              <MdDescription  />
+            </span>
+            <input
+              id="channelDescription"
+              type="text"
+              className="flex-grow p-2 outline-none"
+              placeholder="Enter channel Description"
+              value={fullName}
+              onChange={(e) => setChannelDescription(e.target.value)}
               required
             />
           </div>
@@ -149,7 +173,7 @@ function UpdateProfilePage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white px-6 py-2 rounded-md font-semibold transition"
+          className="flex items-center justify-center m-auto gap-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white px-6 py-2 rounded-md font-semibold transition"
         >
           <FaSave />
           {loading ? 'Saving...' : 'Save Changes'}

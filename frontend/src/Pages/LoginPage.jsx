@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axiosInstance from '../utils/Axios';
+import { useNavigate, Link } from 'react-router-dom'
+import axiosInstance from '../utils/Axios'
+import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -8,69 +9,92 @@ function LoginPage() {
     const [form, setForm] = useState({
         email: "",
         password: ""
-    })
+    });
 
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
-        setForm({...form, [e.target.name]: e.target.value})
-        setError("")
-    }
+        setForm({ ...form, [e.target.name]: e.target.value });
+        setError("");
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         try {
             const res = await axiosInstance.post("/auth/login", form);
-
             navigate("/video/home");
         } catch (error) {
-            console.error("Error in login ", error)
-            setError(error?.response?.data)
+            console.error("Error in login ", error);
+            setError(error?.response?.data?.message || "Login failed.");
         } finally {
             setLoading(false);
         }
-    }
-  return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
-        <form 
-        onSubmit={handleSubmit}
-        className='bg-white p-6 rounded shadow-md w-full max-w-sm'
-        >
-            <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-            {error && (
-                <div className='bg-red-100 text-red-700 px-3 py-2 rounded mb-4 text-sm'>{error} </div>
-            )}
+    };
 
-            <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium mb-1">Email:</label>
-                <input 
-                type="email" 
-                name="email" 
-                value={form.email}
-                onChange={handleChange}
-                required 
-                className='w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200'/>
-            </div>
+    return (
+        <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
+            <form
+                onSubmit={handleSubmit}
+                className='bg-white p-6 rounded shadow-md w-full max-w-sm space-y-5'
+            >
+                <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
-            <div className="mb-6">
-                <label htmlFor="password" className="block text-sm font-medium mb-1">Password:</label>
-                <input 
-                type="password"
-                 name="password" 
-                 value={form.password}
-                 onChange={handleChange}
-                 required
-                 className='w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200'/>
-            </div>
+                {error && (
+                    <div className='bg-red-100 text-red-700 px-3 py-2 rounded text-sm'>{error}</div>
+                )}
 
-            <button type='submit' disabled={loading}
-            className='w-full bg-blue-600 cursor-pointer text-white py-2 rounded hover:bg-blue-700 transition'>
-                {loading ? "Logging in..." : "Login"}
-            </button>
-        </form>
-    </div>
-  )
+                {/* Email Field */}
+                <div className="flex items-center border rounded px-3 py-2">
+                    <FiMail className="mr-2 text-gray-500" />
+                    <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        required
+                        className="w-full outline-none"
+                    />
+                </div>
+
+                {/* Password Field */}
+                <div className="flex items-center border rounded px-3 py-2 relative">
+                    <FiLock className="mr-2 text-gray-500" />
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                        className="w-full outline-none pr-10"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(prev => !prev)}
+                        className="absolute right-3 text-gray-500 focus:outline-none"
+                        tabIndex={-1}
+                    >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                </div>
+
+                <button
+                    type='submit'
+                    disabled={loading}
+                    className='w-full bg-red-600 text-white font-semibold py-2 px-4 rounded hover:bg-red-700 transition duration-200'
+                >
+                    {loading ? "Logging in..." : "Login"}
+                </button>
+                <span className='mt-2'> Admin Login ? 
+            <Link to="/admin/login" className='text-blue-500 hover:underline'> Click here</Link>
+        </span>
+            </form>
+        </div>
+    );
 }
 
-export default LoginPage
+export default LoginPage;

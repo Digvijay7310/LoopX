@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/Axios'
+import {  useNavigate } from 'react-router-dom'
 
 function RequestedUserPage() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchMySelf = async () => {
@@ -62,7 +65,7 @@ function RequestedUserPage() {
           <button
             type="button"
             className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition"
-            onClick={() => alert("Redirect to Edit Profile")}
+            onClick={() => navigate("/users/profile/update")}
           >
             Edit Profile
           </button>
