@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/Axios'
-import {  useNavigate } from 'react-router-dom'
+import {  useNavigate, Link } from 'react-router-dom'
 
 function RequestedUserPage() {
   const [user, setUser] = useState(null)
@@ -70,6 +70,10 @@ function RequestedUserPage() {
             Edit Profile
           </button>
         </div>
+      </div>
+      <div className='flex justify-center items-center gap-2 m-auto'>
+        <button className='bg-red-600 text-white px-3 py-1 rounded-4xl shadow-lg'><Link to="/likes/my-likes">My Likes</Link></button>
+      <button className='bg-red-600 text-white px-3 py-1 rounded-4xl shadow-lg'><Link to="/comments/my-comments">My Comments</Link></button>
       </div>
     </div>
   )

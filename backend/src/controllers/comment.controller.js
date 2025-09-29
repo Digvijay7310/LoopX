@@ -24,6 +24,17 @@ const addCommentToVideo = AsyncHandler(async(req, res) => {
     }
 });
 
+const myComments = AsyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const comments = await Comment.find({ user: userId })
+        .populate('video') // Optional: populate video details for each comment
+        .sort({ createdAt: -1 }); // Optional: latest comments first
+
+    return res.status(200).json(
+        new ApiResponse(200, comments, "Comments fetched successfully")
+    );
+});
 
 const replyToComment = AsyncHandler(async(req,res) => {
    try {
@@ -55,4 +66,4 @@ const replyToComment = AsyncHandler(async(req,res) => {
 })
 
 
-export {addCommentToVideo, replyToComment};
+export {addCommentToVideo, replyToComment, myComments};

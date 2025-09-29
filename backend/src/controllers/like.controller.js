@@ -18,4 +18,14 @@ const toggleVideoLike = AsyncHandler(async(req, res)=> {
     }
 });
 
-export {toggleVideoLike}
+const myLikes = AsyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const likes = await Like.find({ user: userId }).populate('video');
+
+    const likedVideos = likes.map(like => like.video);
+
+    return res.status(200).json(new ApiResponse(200, likedVideos, "Liked videos fetched successfully"));
+});
+
+export {toggleVideoLike, myLikes}

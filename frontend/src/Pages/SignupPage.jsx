@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiUpload } from 'react-icons/fi';
 
 function SignupPage() {
@@ -172,6 +172,9 @@ function SignupPage() {
                 >
                     {loading ? "Signing up..." : "Signup"}
                 </button>
+                <span className='mt-2 flex justify-center items-center gap-1'>Already have an account ? 
+                    <Link to="/auth/login" className="text-blue-500">Login</Link>
+                </span>
             </form>
         </div>
     );

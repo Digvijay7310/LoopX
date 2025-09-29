@@ -102,7 +102,6 @@ const signup = AsyncHandler(async (req, res) => {
     }
 });
 
-
 const login = AsyncHandler(async(req, res) => {
     try {
         const {email, password} = req.body;

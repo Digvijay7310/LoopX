@@ -10,35 +10,39 @@ function Header() {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <header className="relative bg-white shadow-md p-4 flex items-center justify-between z-50">
-      {/* Logo */}
-      <Logo />
+    <header className="w-full bg-white shadow-md px-4 py-3 z-50 sticky top-0">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <Logo />
 
-      {/* Search (hidden on mobile) */}
-      <div className="flex-grow max-w-xl mx-4 hidden sm:block">
-        <SearchComponent />
+        {/* Search Component (visible on md and above) */}
+        <div className="hidden md:flex flex-grow-2 mx-6 max-w-xl">
+          <SearchComponent />
+        </div>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex">
+          <Navbar />
+        </nav>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden text-gray-700 focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
       </div>
 
-      {/* Desktop Nav */}
-      <nav className="hidden sm:flex">
-        <Navbar />
-      </nav>
-
-      {/* Hamburger button (mobile) */}
-      <button
-        onClick={toggleMenu}
-        className="sm:hidden text-gray-700 focus:outline-none z-50"
-        aria-label="Toggle menu"
-      >
-        {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-      </button>
-
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <nav className="absolute top-full left-0 w-full bg-white shadow-md p-4 flex flex-col gap-4 sm:hidden z-50 border-t">
-          <SearchComponent />
-          <Navbar isMobile onLinkClick={() => setMenuOpen(false)} />
-        </nav>
+        <div className="md:hidden mt-3 border-t pt-4 px-2 pb-4 bg-white shadow-inner">
+          <div className="mb-4">
+            <SearchComponent />
+          </div>
+          <Navbar />
+        </div>
       )}
     </header>
   );
