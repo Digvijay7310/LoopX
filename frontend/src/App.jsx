@@ -16,6 +16,8 @@ import AdminSignupPage from './Pages/AdminSignupPage'
 import AdminLoginPage from './Pages/AdminLoginPage'
 import AdminDashboardPage from './Pages/AdminDashboardPage'
 import VideoUploadPage from './Pages/VideoUploadPage'
+import MyVideosPage from './Pages/MyVideosPage'
+import UpdateAndDeletePage from './Pages/UpdateAndDeletePage'
 
 function App() {
 
@@ -32,11 +34,13 @@ function App() {
         <Route path='/video/search' element={<SearchResultsPage />}/>
         <Route path='/video/home' element={<HomePage />} />
         <Route path='/video/:id' element={<WatchPage /> } />
+        <Route path='/video/:id/edit' element={<UpdateAndDeletePage /> } />
         <Route path='/users/me' element={<RequestedUserPage /> } />
+        <Route path='/video/my-videos' element={<MyVideosPage />} />
         <Route path='/users/:username' element={<UserProfilePage /> }/>
         <Route path='/users/profile/update' element={<UpdateProfilePage />} />
-        <Route path='/users/my-likes' element={<MyLikesPage />} />
-        <Route path='/users/my-comments' element={<MyCommentsPage />} />
+        <Route path='/likes/my-likes' element={<MyLikesPage />} />
+        <Route path='/comments/my-comments' element={<MyCommentsPage />} />
         <Route path='/video/upload' element={<VideoUploadPage />} />
       </Routes>
       <ToastContainer />

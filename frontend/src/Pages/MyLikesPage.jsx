@@ -11,7 +11,7 @@ function MyLikesPage() {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const res = await axiosInstance.get("/users/my-likes");
+        const res = await axiosInstance.get("/likes/my-likes");
         if (res.data?.data) {
           setLikes(res.data.data.likes);
           setLikeCount(res.data.data.likeCount);

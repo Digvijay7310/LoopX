@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteVideo, getVideoById, getVideosForHome, searchVideos, updateVideoDetails, uploadVideo } from '../controllers/video.controller.js';
+import { deleteVideo, getVideoById, getVideosForHome, myVideos, searchVideos, updateVideoDetails, uploadVideo } from '../controllers/video.controller.js';
 import { verifyToken } from '../middlewares/verify.middleware.js';
 import {upload} from '../middlewares/multer.middleware.js'
 import { toggleVideoLike } from '../controllers/like.controller.js';
@@ -20,6 +20,9 @@ router.post("/upload", verifyToken, upload.fields([
 
 // Get video for home
 router.get("/home", verifyToken, getVideosForHome)
+
+// My videos
+router.get("/my-videos", verifyToken, myVideos)
 // Watch video
 router.get("/:id", verifyToken, getVideoById);
 

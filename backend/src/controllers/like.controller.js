@@ -19,13 +19,33 @@ const toggleVideoLike = AsyncHandler(async(req, res)=> {
 });
 
 const myLikes = AsyncHandler(async (req, res) => {
-    const userId = req.user._id;
+  try {
+    const user = req.user;
+    if (!user) throw new ApiError(403, "Invalid credentials");
 
-    const likes = await Like.find({ user: userId }).populate('video');
+    const likes = await Like.find({ user: user._id })
+      .populate({
+        path: "video",
+        select: "title thumbnail createdAt owner", // get necessary fields
+        populate: {
+          path: "owner",
+          select: "username avatar" // populate nested owner data
+        }
+      });
 
-    const likedVideos = likes.map(like => like.video);
+    if (likes.length === 0) {
+      throw new ApiError(404, "User has no likes");
+    }
 
-    return res.status(200).json(new ApiResponse(200, likedVideos, "Liked videos fetched successfully"));
+    const likeCount = await Like.countDocuments({ user: user._id });
+
+    return res.status(200).json(
+      new ApiResponse(200, { likeCount, likes }, "User likes fetched")
+    );
+  } catch (error) {
+    console.log("Error in fetching likes: ", error);
+    return res.status(500).json(new ApiError(500, "Internal server error"));
+  }
 });
 
 export {toggleVideoLike, myLikes}

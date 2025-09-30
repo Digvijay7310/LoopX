@@ -71,9 +71,14 @@ function RequestedUserPage() {
           </button>
         </div>
       </div>
-      <div className='flex justify-center items-center gap-2 m-auto'>
-        <button className='bg-red-600 text-white px-3 py-1 rounded-4xl shadow-lg'><Link to="/likes/my-likes">My Likes</Link></button>
-      <button className='bg-red-600 text-white px-3 py-1 rounded-4xl shadow-lg'><Link to="/comments/my-comments">My Comments</Link></button>
+      <div className='flex justify-center items-center gap-6 mb-3'>
+        <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+          <Link to="/likes/my-likes">My Likes</Link></button>
+      <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+        <Link to="/comments/my-comments">My Comments</Link></button>
+        
+      <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+        <Link to="/video/my-videos">My Vidoes</Link></button>
       </div>
     </div>
   )

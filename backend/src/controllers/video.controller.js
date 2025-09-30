@@ -71,21 +71,43 @@ const getVideosForHome = AsyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, combinedVideos, 'Home videos fetched successfully'));
 });
 
+const myVideos = AsyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    throw new ApiError(401, "Unauthorized: User ID not found in request");
+  }
+
+  const videos = await Video.find({ owner: userId }).populate("owner", "username avatar").sort({createdAt: -1})
+
+  if (!videos || videos.length === 0) {
+    return res.status(200).json(
+      new ApiResponse(200, { videos: [], videoCount: 0 }, "No videos found for the user")
+    );
+  }
+
+  const videoCount = videos.length;
+
+  return res.status(200).json(
+    new ApiResponse(200, { videos, videoCount }, "User videos fetched successfully")
+  );
+});
+
 const getVideoById = AsyncHandler(async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     const userId = req.user._id;
 
-    const video = await Video.findById(id).populate("owner", "username avatar")
+    const video = await Video.findById(id).populate("owner", "username avatar");
 
-    if(!video){
-        throw new ApiError(404, "Video not found")
+    if (!video) {
+        throw new ApiError(404, "Video not found");
     }
 
     video.views += 1;
     await video.save();
 
-    const likes = await Like.find({video: id}).populate("user", "username avatar")
-    const likeByCurrentUser = likes.some(like => like.user.id.toString() === userId.toString());
+    const likes = await Like.find({ video: id }).populate("user", "username avatar");
+    const likeByCurrentUser = likes.some(like => like.user._id.toString() === userId.toString());
     const likeUsers = likes.map(like => ({
         userId: like.user._id,
         username: like.user.username,
@@ -93,10 +115,10 @@ const getVideoById = AsyncHandler(async (req, res) => {
         likedAt: like.createdAt
     }));
 
-    // Fetch comments 
-    const comments = await Comment.find({video: id, parentComment: null})
-    .populate("user", "username avatar")
-    .sort({createdAt: -1});
+    // Fetch top-level comments
+    const comments = await Comment.find({ video: id, parentComment: null })
+        .populate("user", "username avatar")
+        .sort({ createdAt: -1 });
 
     const commentList = comments.map(comment => ({
         _id: comment._id,
@@ -109,36 +131,32 @@ const getVideoById = AsyncHandler(async (req, res) => {
         }
     }));
 
-    // Check if current user subscribed to channel or not
+    // Check if current user subscribed to channel
     const isSubscribed = await Subscription.findOne({
         subscriber: userId,
         channel: video.owner._id
     });
 
-    // And also find some related videos from channel
-
+    // ✅ 1. Videos from same owner (excluding current)
     const relatedVideos = await Video.find({
         owner: video.owner._id,
-        _id: {$ne: video._id}
+        _id: { $ne: video._id }
     })
     .populate("owner", "username avatar")
-    .sort({createdAt: -1})
+    .sort({ createdAt: -1 })
     .limit(5);
-    
 
-    // Random videos by same category excluding current and same channel
-    const randomCategoryVideos = await Video.aggregate([
+    // ✅ 2. Random videos (excluding current only)
+    const randomVideos = await Video.aggregate([
         {
             $match: {
-                category: video.category,
-                _id: {$ne: video._id},
-                owner: {$ne: video.owner._id} // exclude same channel
+                _id: { $ne: video._id }
             }
         },
-        {$sample: {size: 5}}
-    ])
+        { $sample: { size: 5 } }
+    ]);
 
-    return res.status(200).json(new ApiResponse(200,{
+    return res.status(200).json(new ApiResponse(200, {
         video,
         views: video.views,
         likes: {
@@ -150,10 +168,13 @@ const getVideoById = AsyncHandler(async (req, res) => {
             count: commentList.length,
             list: commentList
         },
-        subscribed: !!isSubscribed  ,
-        relatedVideos,  
+        subscribed: !!isSubscribed,
+        relatedVideos,         // from same owner
+        randomVideos           // random global
     }, "Video fetched successfully"));
 });
+
+
 
 const updateVideoDetails = AsyncHandler(async(req, res) => {
     const {id} = req.params;
@@ -254,7 +275,7 @@ const searchVideos = AsyncHandler(async (req, res) => {
 });
 
 
-export {uploadVideo, getVideosForHome,
+export {uploadVideo, getVideosForHome, myVideos,
      getVideoById, updateVideoDetails,
      deleteVideo, searchVideos
 }
