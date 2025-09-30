@@ -24,7 +24,7 @@ function AdminLoginPage() {
     setLoading(true);
     try {
       await axiosInstance.post('/admin/login', form);
-      navigate('/admin/dashboard');
+      navigate('/admin/all-users');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     } finally {

@@ -60,7 +60,8 @@ function RequestedUserPage() {
         <div className="ml-40">
           <h1 className="text-3xl font-semibold">{user.fullName || "No Name"}</h1>
           <p className="text-gray-600">@{user.username || "username"}</p>
-          <p className="text-gray-500 mt-1">{user.email}</p>
+          <p className="text-gray-500 mt-1">Email: {user.email}</p>
+          <p className="text-gray-500 mt-1">Description: {user.channelDescription}</p>
 
           <button
             type="button"

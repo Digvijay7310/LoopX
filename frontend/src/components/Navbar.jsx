@@ -50,12 +50,12 @@ function Navbar() {
         </Link>
       </li>
       <li>
-        <Link to="/users/my-likes" className="flex items-center gap-2 md:hidden hover:text-red-600">
+        <Link to="/likes/my-likes" className="flex items-center gap-2 md:hidden hover:text-red-600">
           <FaHeart /> Likes
         </Link>
       </li>
       <li>
-        <Link to="/users/my-comments" className="flex items-center gap-2 md:hidden hover:text-red-600">
+        <Link to="/comments/my-comments" className="flex items-center gap-2 md:hidden hover:text-red-600">
           <FaComments /> Comments
         </Link>
       </li>
