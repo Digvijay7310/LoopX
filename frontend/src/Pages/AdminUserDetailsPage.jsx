@@ -42,7 +42,7 @@ function AdminUserDetailsPage() {
     setActionLoading(true);
     try {
       await axiosInstance.post(`/admin/${username}/block`);
-      setUser(prev => ({ ...prev, isBlock: true }));
+      setUser(prev => ({ ...prev, isBlocked: true }));
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to block user.");
@@ -56,7 +56,7 @@ function AdminUserDetailsPage() {
     setActionLoading(true);
     try {
       await axiosInstance.post(`/admin/${username}/unblock`);
-      setUser(prev => ({ ...prev, isBlock: false }));
+      setUser(prev => ({ ...prev, isBlocked: false }));
       setError("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to unblock user.");
@@ -90,7 +90,7 @@ function AdminUserDetailsPage() {
       <div className="mb-6">
         <span className='font-semibold'>Avatar: <img src={user.avatar} alt="avatar" className='h-10 w-10 rounded-full' /> </span>
         <strong>Email:</strong>{user.email}<br />
-        <strong>Status:</strong> {user.isBlock ? (
+        <strong>Status:</strong> {user.isBlocked ? (
           <span className="text-red-600 font-semibold">Blocked</span>
         ) : (
           <span className="text-green-600 font-semibold">Active</span>
@@ -127,7 +127,7 @@ function AdminUserDetailsPage() {
       </div>
 
       <div className="flex gap-4">
-        {user.isBlock ? (
+        {user.isBlocked ? (
           <button
             onClick={unblockUser}
             disabled={actionLoading}

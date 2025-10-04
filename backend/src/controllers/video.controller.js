@@ -10,7 +10,7 @@ import { User } from '../models/user.model.js'
 
 const uploadVideo = AsyncHandler(async(req, res) => {
     try {
-        if(req.user?.isBlocked){
+        if(req.user?.isBlocked === true){
             throw new ApiError(403, "You are blocked and you cannot upload a video");
         }
 

@@ -163,7 +163,7 @@ const userBlock = AsyncHandler(async (req, res) => {
       }
     const {username} = req.params;
     
-    const user = await User.findOneAndUpdate({username}, {isBlock: true}, {new: true})
+    const user = await User.findOneAndUpdate({username}, {isBlocked: true}, {new: true})
     if(!user) return new ApiError(404, "user not found")
       res.status(201).json(new ApiResponse(201, {user}, `${username} has been block`))
   } catch (error) {
@@ -178,7 +178,7 @@ const userUnBlock = AsyncHandler(async (req, res) => {
       }
     const {username} = req.params;
 
-    const user = await User.findOneAndUpdate({username}, {isBlock: false}, {new: true})
+    const user = await User.findOneAndUpdate({username}, {isBlocked: false}, {new: true})
     if(!user) return new ApiError(404, "user not found")
       res.status(201).json(new ApiResponse(201, {user}, `${username} has been unblock`))
   } catch (error) {
