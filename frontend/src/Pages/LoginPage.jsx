@@ -89,10 +89,10 @@ function LoginPage() {
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
-                <span className='mt-2 flex justify-center items-center gap-1'> Don't have an account ?
+                <span className='mt-2 flex justify-center items-center gap-1 text-xs'> Don't have an account ?
             <Link to="/auth/signup" className='text-blue-500 hover:underline'> Signup</Link>
         </span><br />
-                <span className='mt-2 flex justify-center items-center gap-1'> Admin Login ? 
+                <span className='mt-2 flex justify-center items-center gap-1 text-xs'> Admin Login ? 
             <Link to="/admin/login" className='text-blue-500 hover:underline'> Click here</Link>
         </span>
             </form>

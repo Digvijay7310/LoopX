@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUsers, FaHeart, FaVideo, FaComments, FaSignOutAlt } from 'react-icons/fa';
 
 function AdminDashboardPage() {
@@ -54,11 +54,11 @@ function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="p-4 border rounded shadow text-center flex flex-col items-center gap-2">
+        <Link to="/admin/users" className="p-4 border rounded shadow text-center flex flex-col items-center gap-2">
           <FaUsers className="text-4xl text-red-600" />
           <h2 className="text-xl font-semibold">Users</h2>
           <p className="text-2xl">{stats.usersCount}</p>
-        </div>
+        </Link>
 
         <div className="p-4 border rounded shadow text-center flex flex-col items-center gap-2">
           <FaHeart className="text-4xl text-red-600" />

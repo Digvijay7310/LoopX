@@ -18,6 +18,8 @@ import AdminDashboardPage from './Pages/AdminDashboardPage'
 import VideoUploadPage from './Pages/VideoUploadPage'
 import MyVideosPage from './Pages/MyVideosPage'
 import UpdateAndDeletePage from './Pages/UpdateAndDeletePage'
+import AdminUserDetailsPage from './Pages/AdminUserDetailsPage'
+import AdminUsersPage from './Pages/AdminUsersPage'
 
 function App() {
 
@@ -30,6 +32,8 @@ function App() {
         <Route path='/auth/login' element={<LoginPage />} />
         <Route path='/admin/signup' element={<AdminSignupPage />} />
         <Route path='/admin/login' element={<AdminLoginPage />} />
+        <Route path='/admin/users' element={<AdminUsersPage />} />
+        <Route path='/admin/:username' element={<AdminUserDetailsPage />} />
         <Route path='/admin/all-users' element={<AdminDashboardPage />} />
         <Route path='/video/search' element={<SearchResultsPage />}/>
         <Route path='/video/home' element={<HomePage />} />

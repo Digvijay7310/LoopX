@@ -10,19 +10,23 @@ import { User } from '../models/user.model.js'
 
 const uploadVideo = AsyncHandler(async(req, res) => {
     try {
+        if(req.user?.isBlocked){
+            throw new ApiError(403, "You are blocked and you cannot upload a video");
+        }
+
         const {title, description, category} = req.body;
         const videoUrl = req.files?.videoUrl?.[0]?.path;
         const thumbnail = req.files?.thumbnail?.[0]?.path;
 
         if(!title || !description || !videoUrl || !thumbnail){
-            return new ApiError(400, "All fields are required");
+            throw new ApiError(400, "All fields are required");
         }
 
-        const videoUpload = await uploadOnCloudinary(videoUrl)
-        const thumbnailUpload = await uploadOnCloudinary(thumbnail)
+        const videoUpload = await uploadOnCloudinary(videoUrl);
+        const thumbnailUpload = await uploadOnCloudinary(thumbnail);
 
         if(!videoUpload || !thumbnailUpload){
-            return new ApiError(500, "Cloudinary upload failed")
+            throw new ApiError(500, "Cloudinary upload failed");
         }
 
         const video = await Video.create({
@@ -31,14 +35,17 @@ const uploadVideo = AsyncHandler(async(req, res) => {
             videoUrl: videoUpload.secure_url,
             category,
             thumbnail: thumbnailUpload.secure_url,
-            owner: req.user,
-        })
+            owner: req.user._id,  // assuming req.user is user object
+        });
 
-        return res.status(200).json(new ApiResponse(201, video, "Video uploaded successfull"))
+        return res.status(201).json(new ApiResponse(201, video, "Video uploaded successfully"));
     } catch (error) {
-        console.log("Video upload error: ", error)
+        console.log("Video upload error: ", error);
+        // Pass the error to your error handler middleware:
+        throw error;
     }
-})
+});
+
 
 const getVideosForHome = AsyncHandler(async (req, res) => {
   const { page = 1, limit = 20 } = req.query;
@@ -173,7 +180,6 @@ const getVideoById = AsyncHandler(async (req, res) => {
         randomVideos           // random global
     }, "Video fetched successfully"));
 });
-
 
 
 const updateVideoDetails = AsyncHandler(async(req, res) => {

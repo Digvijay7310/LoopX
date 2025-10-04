@@ -12,11 +12,14 @@ import {
 } from 'react-icons/fa';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
+// import useAuth from '../context/useAuth';
 
 function Navbar() {
   const navigate = useNavigate();
+  //  const { user } = useAuth();
 
   const handleLogout = async () => {
+
     try {
       await axiosInstance.post('/auth/logout');
       toast.success('Logged out successfully');
@@ -28,7 +31,21 @@ function Navbar() {
   };
 
   return (
-    <ul className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-700">
+    <nav>
+      {/* {user ? ( */}
+         <>
+        <button
+        type='button' className='flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none'>
+          <Link to="/users/login">Login</Link>
+        </button>
+        <button
+        type='button' className='flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none'>
+        <Link to="/users/signup">Signup</Link>
+        </button>
+        </>
+      {/* ): ( */}
+        <>
+        <ul className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-700">
       <li>
         <Link to="/video/home" className="flex items-center gap-2 hover:text-red-600">
           <FaHome /> Home
@@ -61,6 +78,7 @@ function Navbar() {
       </li>
       <li className='inline-flex'>
         <button
+        type='button'
           onClick={handleLogout}
           className="flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none"
         >
@@ -68,6 +86,9 @@ function Navbar() {
         </button>
       </li>
     </ul>
+        </>
+      {/* )} */}
+    </nav>
   );
 }
 

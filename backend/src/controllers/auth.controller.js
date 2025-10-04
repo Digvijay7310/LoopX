@@ -71,14 +71,14 @@ const signup = AsyncHandler(async (req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 1 * 24 * 60 * 60 * 1000
         });
 
@@ -125,14 +125,14 @@ const login = AsyncHandler(async(req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -144,6 +144,7 @@ const login = AsyncHandler(async(req, res) => {
                 username: user.username,
                 email: user.email,
                 fullName: user.fullName,
+                isBlocked: user.isBlocked
             }
         }, "User login successfull"))
     } catch (error) {
@@ -156,12 +157,12 @@ const logout = AsyncHandler(async(req, res) => {
         res.clearCookie("refreshToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
         });
         res.clearCookie("accessToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
         });
         res.status(200).json(new ApiResponse(200, null, "Logged out successfully"))
     } catch (error) {

@@ -1,89 +1,100 @@
-import React, { useState } from 'react';
-import axiosInstance from '../utils/Axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaSignInAlt, FaEnvelope, FaLock } from 'react-icons/fa';
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import axiosInstance from '../utils/Axios'
+import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
 
 function AdminLoginPage() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
+    const [form, setForm] = useState({
+        email: "",
+        password: ""
+    });
 
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setError('');
-  };
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+        setError("");
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await axiosInstance.post('/admin/login', form);
-      navigate('/admin/all-users');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const res = await axiosInstance.post("/admin/login", form);
+            navigate("/admin/all-users");
+        } catch (error) {
+            console.error("Error in login ", error);
+            setError(error?.response?.data?.message || "Login failed.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
-          <FaSignInAlt /> Admin Login
-        </h2>
-        {error && <div className="mb-4 text-red-600">{error}</div>}
+    return (
+        <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
+            <form
+                onSubmit={handleSubmit}
+                className='bg-white p-6 rounded shadow-md w-full max-w-sm space-y-5'
+            >
+                <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
-        <label className="block mb-2 flex items-center gap-2">
-          <FaEnvelope />
-          Email
-        </label>
-        <input
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-          className="mb-4 p-2 border rounded w-full"
-          placeholder="you@example.com"
-        />
+                {error && (
+                    <div className='bg-red-100 text-red-700 px-3 py-2 rounded text-sm'>{error}</div>
+                )}
 
-        <label className="block mb-2 flex items-center gap-2">
-          <FaLock />
-          Password
-        </label>
-        <input
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          required
-          className="mb-6 p-2 border rounded w-full"
-          placeholder="••••••••"
-        />
+                {/* Email Field */}
+                <div className="flex items-center border rounded px-3 py-2">
+                    <FiMail className="mr-2 text-gray-500" />
+                    <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        required
+                        className="w-full outline-none"
+                    />
+                </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
-        >
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-        <span className="mt-2 inline-flex items-center gap-1">
-          Don't have an account?
-          <Link to="/admin/signup" className="text-blue-500 hover:underline">
-            Signup
-          </Link>
+                {/* Password Field */}
+                <div className="flex items-center border rounded px-3 py-2 relative">
+                    <FiLock className="mr-2 text-gray-500" />
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                        className="w-full outline-none pr-10"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(prev => !prev)}
+                        className="absolute right-3 text-gray-500 focus:outline-none"
+                        tabIndex={-1}
+                    >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                </div>
+
+                <button
+                    type='submit'
+                    disabled={loading}
+                    className='w-full bg-red-600 text-white font-semibold py-2 px-4 rounded hover:bg-red-700 transition duration-200'
+                >
+                    {loading ? "Logging in..." : "Login"}
+                </button>
+                <span className='mt-2 flex justify-center items-center gap-1 text-xs'> User Login ? 
+            <Link to="/auth/login" className='text-blue-500 hover:underline'> Click here</Link>
         </span>
-      </form>
-    </div>
-  );
+            </form>
+        </div>
+    );
 }
 
 export default AdminLoginPage;

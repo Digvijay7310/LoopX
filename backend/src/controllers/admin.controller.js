@@ -29,14 +29,14 @@ const adminRegister = AsyncHandler(async (req, res) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: "strict",
+    sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   });
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: "strict",
+    sameSite: "lax",
     maxAge: 1 * 24 * 60 * 60 * 1000 // 1 day
   });
 
@@ -70,14 +70,14 @@ const adminLogin = AsyncHandler(async (req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -96,8 +96,29 @@ const adminLogin = AsyncHandler(async (req, res) => {
 
 })
 
+const adminLogout = AsyncHandler(async (req, res) => {
+  try {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "lax",
+    });
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax"
+    });
+    res.status(200).json(new ApiResponse(201, null, "Admin logout successfull"))
+  } catch (error) {
+    console.log("Error in admin logout: ", error)
+  }
+})
+
 const getAllUser = AsyncHandler(async (req, res) => {
     try {
+      if(req.role !== "admin") {
+        return new ApiError(403, "Access denied Only Admin")
+      }
         const usersCount = await User.countDocuments();
         const likesCount = await Like.countDocuments();
         const videosCount = await Video.countDocuments();
@@ -120,4 +141,121 @@ const getAllUser = AsyncHandler(async (req, res) => {
     }
 });
 
-export {adminRegister, adminLogin, getAllUser}
+const users = AsyncHandler(async (req, res) => {
+  try {
+    if(req.role !== "admin"){
+       return new ApiError(403, "Access denied Only Admin")
+    }
+
+    const users = await User.find({}, "avatar email username isBlock fullName");
+
+    if(!users) return new ApiError(404, "There are no users");
+    res.status(200).json(new ApiResponse(201, {users}, "user with basic details"))
+  } catch (error) {
+    console.log("Error in users: ", error)
+  }
+})
+
+const userBlock = AsyncHandler(async (req, res) => {
+  try {
+     if(req.role !== "admin") {
+        return new ApiError(403, "Access denied Only Admin")
+      }
+    const {username} = req.params;
+    
+    const user = await User.findOneAndUpdate({username}, {isBlock: true}, {new: true})
+    if(!user) return new ApiError(404, "user not found")
+      res.status(201).json(new ApiResponse(201, {user}, `${username} has been block`))
+  } catch (error) {
+    console.log("Error in userBlock: ", error)
+  }
+})
+
+const userUnBlock = AsyncHandler(async (req, res) => {
+  try {
+     if(req.role !== "admin") {
+        return new ApiError(403, "Access denied Only Admin")
+      }
+    const {username} = req.params;
+
+    const user = await User.findOneAndUpdate({username}, {isBlock: false}, {new: true})
+    if(!user) return new ApiError(404, "user not found")
+      res.status(201).json(new ApiResponse(201, {user}, `${username} has been unblock`))
+  } catch (error) {
+    console.log("Error in user unblock: ", error)
+  }
+})
+
+const userDetails = AsyncHandler(async (req, res) => {
+  try {
+     if(req.role !== "admin") {
+        return new ApiError(403, "Access denied Only Admin")
+      }
+    const {username} = req.params;
+
+    const user = await User.findOne({username})
+     if(!user) return new ApiError(403, "user not found")
+
+      const userId = user._id
+
+      const [videos, videosCount] = await Promise.all([
+        Video.find({owner: userId}),
+        Video.countDocuments({owner: userId})
+      ]);
+
+      const [comments, commentsCount] = await Promise.all([
+        Comment.find({user: userId}),
+        Comment.countDocuments({user: userId})
+      ])
+
+      const [likes, likesCount] = await Promise.all([
+        Like.find({user: userId}),
+        Like.countDocuments({user: userId})
+      ])
+
+      if(videosCount === 0) return new ApiError(403, "User not upload any video")
+        if(commentsCount === 0) return new ApiError(403, "User cannot comment on a video")
+          if(likesCount === 0) return new ApiError(403, "User cannot like a video")
+            
+            res.status(200).json(new ApiResponse(201, {user, videos, videosCount, comments, commentsCount, likes, likesCount}, "user details fetch successfull"))
+  } catch (error) {
+    console.log("Error in user Detail: ", error)
+  }
+})
+
+const userDelete = AsyncHandler(async (req, res) => {
+  try {
+     if(req.role !== "admin") {
+        return new ApiError(403, "Access denied Only Admin")
+      }
+    const {username} = req.params;
+   
+    const user = await User.findOne({username})
+    if(!user) return new ApiError(404, "user not fount")
+
+      const userId = user._id;
+
+      const [videoResult, commnentResult, likeResult] = await Promise.all([
+        Video.deleteMany({owner: userId}),
+        Comment.deleteMany({user: userId}),
+        Like.deleteMany({user: userId})
+      ])
+
+      const deletedUser = await User.findByIdAndDelete(userId)
+
+      res.status(200).json(new ApiResponse(201, {
+        message: 'user with their related data has been deleted successfully',
+        deletedUser,
+        deletedCounts: {
+          videos: videoResult.deletedCounts,
+          comments: commnentResult.deletedCounts,
+          likes: likeResult.deletedCounts
+      }
+      }
+    ));
+  } catch (error) {
+    console.log("Error in user Delete: ", error)
+  }
+})
+
+export {adminRegister, adminLogin, getAllUser, adminLogout, userBlock, userUnBlock, userDetails, userDelete, users}

@@ -8,9 +8,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 const getUserByUsername = AsyncHandler(async(req, res) => {
 try {
         const {username} = req.params;
-        if(!/^[a-zA-Z]+$/.test(username)){
-            return new ApiError(400, "Invalid user format")
-        }
     
         const user = await User.findOne({username}).select("-password -refreshToken").lean();
     
