@@ -114,6 +114,21 @@ const adminLogout = AsyncHandler(async (req, res) => {
   }
 })
 
+const myProfile = AsyncHandler(async (req, res) => {
+ try {
+   const {userId} = req.user._id;
+ 
+   const admin = await Admin.findOne({id: userId})
+ 
+   if(!admin) {
+     new ApiError(404, "Admin not found")
+   }
+   return res.status(200).json(new ApiResponse(200, admin, "Admin found"))
+ } catch (error) {
+  console.log("Error in myProfile admin: ", error)
+ }
+})
+
 const getAllUser = AsyncHandler(async (req, res) => {
     try {
       if(req.role !== "admin") {
@@ -258,4 +273,4 @@ const userDelete = AsyncHandler(async (req, res) => {
   }
 })
 
-export {adminRegister, adminLogin, getAllUser, adminLogout, userBlock, userUnBlock, userDetails, userDelete, users}
+export {adminRegister, adminLogin, getAllUser, adminLogout, myProfile, userBlock, userUnBlock, userDetails, userDelete, users}

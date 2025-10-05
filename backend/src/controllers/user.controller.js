@@ -25,14 +25,18 @@ try {
 })
 
 const getMe = AsyncHandler(async (req, res) => {
-    const {userId} = req.user._id;
-
-    const user = await User.findOne({id: userId})
-
-    if(!user){
-        new ApiError(404, "User npt found")
-    } 
-    return res.status(200).json(new ApiResponse(200, user, "User found"))
+    try {
+        const {userId} = req.user._id;
+    
+        const user = await User.findOne({id: userId})
+    
+        if(!user){
+            new ApiError(404, "User not found")
+        } 
+        return res.status(200).json(new ApiResponse(200, user, "User found"))
+    } catch (error) {
+     console.log("Error in get me user: ", error)   
+    }
 })
 
 const updateUserProfile = AsyncHandler(async (req, res) => {

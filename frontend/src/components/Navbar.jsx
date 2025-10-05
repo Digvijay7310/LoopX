@@ -29,8 +29,7 @@ function Navbar() {
   return (
     <nav>
         <div className='flex justify-between items-center gap-2'>
-          <Link className='px-4 py-1 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-semibold' to="/users/login">Login</Link>
-          <Link className='px-4 py-1 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-semibold' to="/users/signup">Signup</Link>
+          <Link className="flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none" to="/users/login">Login</Link>
         </div>
 
         <ul className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-700">
