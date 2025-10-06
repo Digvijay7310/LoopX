@@ -10,6 +10,9 @@ import { User } from '../models/user.model.js'
 
 const uploadVideo = AsyncHandler(async(req, res) => {
     try {
+        if(req.role !== "user"){
+            throw new ApiError(403, "You cannot upload a video")
+        }
         if(req.user?.isBlocked === true){
             throw new ApiError(403, "You are blocked and you cannot upload a video");
         }
@@ -45,7 +48,6 @@ const uploadVideo = AsyncHandler(async(req, res) => {
         throw error;
     }
 });
-
 
 const getVideosForHome = AsyncHandler(async (req, res) => {
   const { page = 1, limit = 20 } = req.query;

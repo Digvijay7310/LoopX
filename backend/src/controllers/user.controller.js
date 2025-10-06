@@ -25,19 +25,22 @@ try {
 })
 
 const getMe = AsyncHandler(async (req, res) => {
-    try {
-        const {userId} = req.user._id;
-    
-        const user = await User.findOne({id: userId})
-    
-        if(!user){
-            new ApiError(404, "User not found")
-        } 
-        return res.status(200).json(new ApiResponse(200, user, "User found"))
-    } catch (error) {
-     console.log("Error in get me user: ", error)   
+  try {
+    const userId = req.user._id; // ✅ Fix from earlier mistake
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json(new ApiError(404, "User not found")); // ✅ ADD RETURN
     }
-})
+
+    return res.status(200).json(new ApiResponse(200, user, "User found"));
+  } catch (error) {
+    console.log("Error in get me user: ", error);
+    return res.status(500).json(new ApiError(500, "Internal server error"));
+  }
+});
+
 
 const updateUserProfile = AsyncHandler(async (req, res) => {
     const { fullName, channelDescription } = req.body;
@@ -79,9 +82,6 @@ const updateUserProfile = AsyncHandler(async (req, res) => {
         coverImage: user.coverImage
     }, "Profile updated successfully!"));
 });
-
-
-
 
 
 export { getUserByUsername, getMe, updateUserProfile };

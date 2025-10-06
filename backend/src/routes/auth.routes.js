@@ -1,6 +1,7 @@
 import express from 'express';
 import { signup, login, logout, refreshToken } from '../controllers/auth.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
+import { isUser } from '../middlewares/user.middlware.js';
 
 const router = express.Router();
 

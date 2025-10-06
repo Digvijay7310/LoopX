@@ -6,6 +6,7 @@ import { toggleVideoLike } from '../controllers/like.controller.js';
 import { addCommentToVideo, replyToComment } from '../controllers/comment.controller.js';
 import { reportVideo } from '../controllers/report.controller.js';
 import { toggleSubscribe } from '../controllers/subscription.controller.js';
+import { isUser } from '../middlewares/user.middlware.js';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get("/search", verifyToken, searchVideos)
 
 // Video upload
-router.post("/upload", verifyToken, upload.fields([
+router.post("/upload", verifyToken, isUser, upload.fields([
     {name: 'videoUrl', maxCount: 1},
     {name: "thumbnail", maxCount: 1},
 ]), uploadVideo);
@@ -22,12 +23,12 @@ router.post("/upload", verifyToken, upload.fields([
 router.get("/home", verifyToken, getVideosForHome)
 
 // My videos
-router.get("/my-videos", verifyToken, myVideos)
+router.get("/my-videos", verifyToken, isUser, myVideos)
 // Watch video
 router.get("/:id", verifyToken, getVideoById);
 
 // Video update
-router.put("/:id/edit", verifyToken, updateVideoDetails);
+router.put("/:id/edit", verifyToken, isUser, updateVideoDetails);
 
 // Video delete
 router.delete("/:id/delete-video", verifyToken, deleteVideo)
@@ -45,7 +46,7 @@ router.post("/comment/:commentId/reply", verifyToken, replyToComment)
 router.post("/:videoId/report", verifyToken, reportVideo)
 
 // Subscribe or unsubscribe
-router.post("/subscriber/:channelId", verifyToken, toggleSubscribe)
+router.post("/subscriber/:channelId", verifyToken, isUser, toggleSubscribe)
 
 
 export default router

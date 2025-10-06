@@ -9,28 +9,33 @@ function RequestedUserPage() {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchMySelf = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const res = await axiosInstance.get("/users/me")
-        if (res.data.data) {
-          setUser(res.data.data)
-        }
-      } catch (error) {
-        console.log("Error fetch me, ", error)
-        setError("You are not logged in")
-      } finally {
-        setLoading(false)
+ useEffect(() => {
+  const fetchMySelf = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await axiosInstance.get("/users/me")
+      if (res.data.data) {
+        setUser(res.data.data) // ✅ FIXED
       }
+    } catch (error) {
+      console.log("Error fetch me, ", error)
+      setError("You are not logged in")
+    } finally {
+      setLoading(false)
     }
-    fetchMySelf()
-  }, [])
+  }
+  fetchMySelf()
+}, [])
+
 
   if (loading)
     return <p className="text-center mt-10 text-gray-500">Loading...</p>
 
+  if (!user)
+  return <p className="text-center mt-10 text-gray-500">Loading user data...</p>;
+
+  
   if (error)
     return <p className="text-center mt-10 text-red-500">{error}</p>
 
@@ -40,7 +45,7 @@ function RequestedUserPage() {
       <div
         className="h-48 w-full bg-gray-300"
         style={{
-          backgroundImage: `url(${user.coverImage || "https://via.placeholder.com/900x200"})`,
+          backgroundImage: `url(${user?.coverImage || "https://via.placeholder.com/900x200"})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -50,7 +55,7 @@ function RequestedUserPage() {
         {/* Avatar */}
         <div className="absolute -top-16 left-6 border-4 border-white rounded-full overflow-hidden w-32 h-32 bg-gray-200">
           <img
-            src={user.avatar || "https://via.placeholder.com/150"}
+            src={user?.avatar || "https://via.placeholder.com/150"}
             alt={`${user.fullName || "User"} avatar`}
             className="object-cover w-full h-full"
           />
