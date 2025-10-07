@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUserPlus, FaEnvelope, FaLock } from 'react-icons/fa';
@@ -33,6 +33,10 @@ function AdminSignupPage() {
     }
   };
 
+  useEffect(() => {
+    document.title = "LoopX - Admin Signup"
+  })
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-md">
@@ -41,7 +45,7 @@ function AdminSignupPage() {
         </h2>
         {error && <div className="mb-4 text-red-600">{error}</div>}
 
-        <label className="block mb-2 flex items-center gap-2">
+        <label className="mb-2 flex items-center gap-2">
           <FaUserPlus />
           Full Name
         </label>
@@ -55,7 +59,7 @@ function AdminSignupPage() {
           placeholder="Your full name"
         />
 
-        <label className="block mb-2 flex items-center gap-2">
+        <label className="mb-2 flex items-center gap-2">
           <FaEnvelope />
           Email
         </label>

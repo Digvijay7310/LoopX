@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/Axios';
 import { Link } from 'react-router-dom';
 import HomePageLoading from '../components/LoadingComponents/HomePageLoading';
+import VideoShareButton from '../components/VideoShareButton';
 
 function HomePage() {
   const [videos, setVideos] = useState([]);
@@ -20,6 +21,7 @@ function HomePage() {
         setLoading(false);
       }
     };
+    document.title = "LoopX - Home"
     fetchVideos();
   }, []);
 
@@ -36,7 +38,7 @@ function HomePage() {
             <Link
               to={`/video/${video._id}`}
               key={video._id}
-              className="cursor-pointer rounded overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow"
+              className="cursor-pointer rounded overflow-hidden bg-white hover:border transition-shadow"
             >
               {/* Video Preview */}
               <div className="aspect-video relative bg-black group">
@@ -69,27 +71,30 @@ function HomePage() {
               </div>
 
               {/* Video Info */}
-              <div className="p-3">
-                <h2 className="font-semibold text-md line-clamp-2">
-                  {video.title}
-                </h2>
-                <div className="flex items-center gap-2 mt-2">
-                  <img
-                    src={video.owner?.avatar}
-                    alt={video.owner?.username}
-                    className="rounded-full w-8 h-8"
-                  />
-                  <div className="flex flex-col">
-                    <p className="text-sm font-semibold text-gray-600">
-                      {video.owner?.username}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {video.views} views •{' '}
-                      {new Date(video.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
+<div className="p-3">
+  <h2 className="font-semibold text-md line-clamp-2">
+    {video.title}
+  </h2>
+
+  <div className="text-xs text-gray-500 mt-1 flex justify-between items-center">
+    <span>{video.views} views • {new Date(video.createdAt).toLocaleDateString()}</span>
+
+    {/* Share Button */}
+    <VideoShareButton videoId={video._id} />
+  </div>
+
+  <div className="flex items-center gap-2 mt-2">
+    <img
+      src={video.owner?.avatar}
+      alt={video.owner?.username}
+      className="rounded-full w-8 h-8"
+    />
+    <p className="text-sm font-semibold text-gray-600">
+      {video.owner?.username}
+    </p>
+  </div>
+</div>
+
             </Link>
           ))
         )}

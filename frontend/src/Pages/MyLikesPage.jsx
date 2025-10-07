@@ -25,6 +25,7 @@ function MyLikesPage() {
         setLoading(false);
       }
     };
+    document.title = "LoopX - My likes"
 
     fetchLikes();
   }, []);
@@ -63,10 +64,10 @@ function MyLikesPage() {
                   <img
                     src={video.thumbnail}
                     alt={video.title}
-                    className="w-full h-60 object-cover rounded-t-lg"
+                    className="w-full h-60 object-contain rounded-t-lg"
                   />
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-800 truncate">
+                  <div>
+                    <h3 className="text-sm px-0.5 font-semibold text-gray-800 truncate">
                       {video.title}
                     </h3>
                     <div className="flex items-center gap-3 mt-2">

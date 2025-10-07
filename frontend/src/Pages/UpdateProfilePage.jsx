@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaImage, FaSave } from 'react-icons/fa';
 import { MdDescription } from "react-icons/md"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import axiosInstance from '../utils/Axios';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+import { FiImage, FiSave, FiUser } from 'react-icons/fi';
 
 function UpdateProfilePage() {
   const [fullName, setFullName] = useState('');
@@ -18,11 +17,7 @@ function UpdateProfilePage() {
 
   const navigate = useNavigate()
 
-  // Animation: fade in on mount
-  const [fadeIn, setFadeIn] = useState(false);
-  useEffect(() => {
-    setFadeIn(true);
-  }, []);
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,14 +47,16 @@ function UpdateProfilePage() {
     }
   };
 
+  useEffect(() => {
+    document.title = `LoopX - Profile Edit`
+  })
+
   return (
     <div
-      className={`max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md transition-opacity duration-700 ${
-        fadeIn ? 'opacity-100' : 'opacity-0'
-      }`}
+      className={`max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md transition-opacity`}
     >
       <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-2">
-        <FaUser /> Edit Profile
+        <FiUser /> Edit Profile
       </h2>
 
       <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
@@ -68,9 +65,9 @@ function UpdateProfilePage() {
           <label className="block text-gray-700 mb-1" htmlFor="fullName">
             Full Name
           </label>
-          <div className="flex items-center border rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
+          <div className="flex items-center border border-red-500 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
             <span className=" px-3 text-gray-500">
-              <FaUser />
+              <FiUser />
             </span>
             <input
               id="fullName"
@@ -89,16 +86,16 @@ function UpdateProfilePage() {
           <label className="block text-gray-700 mb-1" htmlFor="channelDescription">
             Description
           </label>
-          <div className="flex items-center border rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
+          <div className="flex items-center border border-red-500 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-red-600">
             <span className=" px-3 text-gray-500">
               <MdDescription  />
             </span>
             <input
               id="channelDescription"
               type="text"
-              className="flex-grow p-2 outline-none"
+              className="flex-grow p-2 outline-none border-0"
               placeholder="Enter channel Description"
-              value={fullName}
+              value={channelDescription}
               onChange={(e) => setChannelDescription(e.target.value)}
               required
             />
@@ -113,7 +110,7 @@ function UpdateProfilePage() {
               htmlFor="avatar"
               className="flex items-center gap-2 cursor-pointer bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
             >
-              <FaImage />
+              <FiImage />
               Choose Avatar
             </label>
             <input
@@ -145,7 +142,7 @@ function UpdateProfilePage() {
               htmlFor="coverImage"
               className="flex items-center gap-2 cursor-pointer bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
             >
-              <FaImage />
+              <FiImage />
               Choose Cover
             </label>
             <input
@@ -175,7 +172,7 @@ function UpdateProfilePage() {
           disabled={loading}
           className="flex items-center justify-center m-auto gap-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white px-6 py-2 rounded-md font-semibold transition"
         >
-          <FaSave />
+          <FiSave />
           {loading ? 'Saving...' : 'Save Changes'}
         </button>
       </form>

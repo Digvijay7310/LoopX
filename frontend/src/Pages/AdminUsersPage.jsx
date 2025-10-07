@@ -21,6 +21,7 @@ function AdminUsersPage() {
       }
     };
 
+    document.title = "LoopX - User Block or unBlock and Delete"
     fetchUsers();
   }, []);
 

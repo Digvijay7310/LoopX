@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axiosInstance from '../utils/Axios'
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
@@ -33,6 +33,10 @@ function LoginPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        document.title = "LoopX - User Login"
+    })
 
     return (
         <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>

@@ -34,6 +34,7 @@ function AdminUserDetailsPage() {
         setLoading(false);
       }
     }
+    document.title = "LoopX - Users Details"
     fetchUserDetails();
   }, [username]);
 

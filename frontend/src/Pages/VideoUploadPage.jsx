@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaUpload } from 'react-icons/fa';
+import { FiUpload } from 'react-icons/fi';
 
 function VideoUploadPage() {
   const [title, setTitle] = useState("");
@@ -43,10 +44,14 @@ function VideoUploadPage() {
     }
   };
 
+  useEffect(() => {
+    document.title = "LoopX - Video Upload"
+  })
+
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-2">
-        <FaUpload /> Upload Video
+        <FiUpload /> Upload Your Video
       </h2>
 
       <form onSubmit={handleUpload} encType="multipart/form-data" className="space-y-6">
@@ -56,7 +61,7 @@ function VideoUploadPage() {
           <label className="block text-gray-700 mb-1">Title</label>
           <input
             type="text"
-            className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
             placeholder="Enter title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -68,7 +73,7 @@ function VideoUploadPage() {
         <div>
           <label className="block text-gray-700 mb-1">Description</label>
           <textarea
-            className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
             placeholder="Enter description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -83,7 +88,7 @@ function VideoUploadPage() {
           <label className="block text-gray-700 mb-1">Category</label>
           <input
             type="text"
-            className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full p-2 border border-red-600 rounded-md outline-none focus:ring-1 focus:ring-red-600"
             placeholder="Enter category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -157,7 +162,7 @@ function VideoUploadPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-red-600 text-white py-2 px-6 rounded hover:bg-red-700 disabled:bg-red-300 transition"
+          className="w-full bg-red-600 cursor-pointer text-white py-2 px-6 rounded hover:bg-red-700 disabled:bg-red-300 transition"
         >
           {loading ? "Uploading..." : "Upload"}
         </button>

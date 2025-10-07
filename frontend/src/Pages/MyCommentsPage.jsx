@@ -27,6 +27,7 @@ function MyCommentsPage() {
         setLoading(false);
       }
     };
+    document.title = "LoopX - My Comments"
 
     fetchComments();
   }, []);
@@ -76,13 +77,13 @@ function MyCommentsPage() {
                     <img
                       src={video.thumbnail}
                       alt={video.title}
-                      className="w-full h-60 object-cover rounded-t-lg"
+                      className="w-full h-60 object-contain rounded-lg"
                     />
                   </Link>
 
-                  <div className="p-4">
+                  <div className="px-1">
                     <div className="flex justify-between items-start">
-                      <h3 className="text-lg font-semibold text-gray-800 truncate w-10/12">
+                      <h3 className="text-sm font-semibold text-gray-800">
                         {video.title}
                       </h3>
 
@@ -95,7 +96,7 @@ function MyCommentsPage() {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-3 mt-3">
+                    <div className="flex items-center gap-3 mt-1">
                       <img
                         src={video.owner?.avatar}
                         alt="Avatar"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axiosInstance from '../utils/Axios'
 import { toast } from 'react-toastify'
@@ -49,6 +49,7 @@ function UpdateAndDeletePage() {
       toast.error("Error deleting video")
     }
   }
+   useEffect(() => document.title = "LoopX - Update and Delete Videos")
 
   return (
     <div className="max-w-xl mx-auto mt-10 bg-white p-8 shadow-md rounded-md">

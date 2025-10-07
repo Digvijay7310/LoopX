@@ -3,14 +3,16 @@ import {
   FaUpload,
   FaUserCircle,
   FaSignOutAlt,
-  FaSign
+  FaSign,
+  FaComment
 } from 'react-icons/fa';
+import { SlLike } from 'react-icons/sl'
+import { FiUpload, FiUser, FiUserPlus } from 'react-icons/fi'
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 
 function Navbar() {
   const navigate = useNavigate();
-
 
   const handleLogout = async () => {
     try {
@@ -24,39 +26,50 @@ function Navbar() {
   };
 
   return (
-    <nav>
-      <ul className="flex flex-col sm:flex-row sm:items-center gap-4 text-gray-700">
-            <li>
-              <Link to="/video/upload" className="flex items-center gap-2 hover:text-red-600">
-                <FaUpload /> Upload
-              </Link>
-            </li>
-            <li>
-              <Link to="/users/me" className="flex items-center gap-2 hover:text-red-600">
-                <FaUserCircle /> My Profile
-              </Link>
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none"
-              >
-                <FaSignOutAlt /> Logout
-              </button>
-            </li>
-
-          <li>
-            <Link
-              to="/auth/login"
-              className="flex items-center gap-2 px-4 py-2 rounded-4xl cursor-pointer bg-red-600 text-white font-semibold focus:outline-none"
-            >
-              <FaSign /> Login
-            </Link>
-          </li>
-
-      </ul>
-    </nav>
+    <ul className="flex flex-col md:flex-row md:items-center gap-4 text-gray-700">
+      <li>
+        <Link to="/video/upload" className="flex items-center gap-2 hover:text-red-600">
+          <FiUpload /> Upload
+        </Link>
+      </li>
+      <li>
+        <Link to="/users/me" className="flex items-center gap-2 hover:text-red-600">
+          <FiUser /> My Profile
+        </Link>
+      </li>
+      <li>
+        <Link to="/users/profile/update" className="flex items-center gap-2 hover:text-red-600">
+          <FiUserPlus /> Profile Update
+        </Link>
+      </li>
+      <li>
+        <Link to="/likes/my-likes" className="flex items-center gap-2 hover:text-red-600">
+          <SlLike /> My Likes
+        </Link>
+      </li>
+      <li>
+        <Link to="/comments/my-comments" className="flex items-center gap-2 hover:text-red-600">
+          <FaComment /> My Comments
+        </Link>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-700"
+        >
+          <FaSignOutAlt /> Logout
+        </button>
+      </li>
+      <li>
+        <Link
+          to="/auth/login"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-700"
+        >
+          <FaSign /> Login
+        </Link>
+      </li>
+    </ul>
   );
 }
 

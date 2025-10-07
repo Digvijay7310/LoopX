@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, data } from 'react-router-dom';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 import { FaThumbsUp, FaCommentDots, FaBell } from 'react-icons/fa';
 
 import SuggestedVideos from '../components/SuggestVideos';
 import CommentsSection from '../components/CommentSection';
+import VideoPlayer from '../components/VideoPlayer';
+import { FiBell, FiThumbsUp } from 'react-icons/fi';
+import VideoShareButton from '../components/VideoShareButton';
 
 function WatchPage() {
   const { id } = useParams();
@@ -59,6 +62,16 @@ function WatchPage() {
       toast.error("Error toggling subscription");
     }
   };
+  useEffect(() => {
+  if (video?.title) {
+    document.title = `LoopX - ${video.title}`; // You can customize this
+  }
+
+  return () => {
+    document.title = "LoopX"; // Reset to default when navigating away
+  };
+}, [video]);
+
 
   if (loading || !video) return <p className="p-4">Loading...</p>;
 
@@ -66,14 +79,8 @@ function WatchPage() {
     <div className="flex flex-col lg:flex-row gap-6 p-4 max-w-7xl mx-auto">
       {/* Left section */}
       <div className="flex-1">
-        {/* Video player */}
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 border-4 border-red-600">
-          <video
-            controls
-            src={video.videoUrl}
-            className="w-full h-full object-contain bg-black"
-          />
-        </div>
+
+        <VideoPlayer src={video.videoUrl} />
 
         {/* Video info */}
         <h1 className="text-xl font-semibold mb-0.5">{video.title}</h1>
@@ -116,28 +123,30 @@ function WatchPage() {
           <button
             type="button"
             onClick={handleLikeToggle}
-            className="flex items-center shadow-md ring ring-blue-600 px-2 py-1 rounded-4xl gap-2 hover:text-blue-600"
+            className="flex items-center cursor-pointer shadow-md ring ring-red-600 px-2 py-1 rounded-4xl gap-2 hover:text-red-600"
           >
-            <FaThumbsUp className="text-blue-600" />
-            <span className="text-sm">{likeStatus ? "Unlike" : "Like"}</span>
+            
+            <span className="text-sm">{likeStatus ? (<FaThumbsUp size={20} />) : (<FiThumbsUp size={20} />)}</span>
           </button>
 
           <button
             type="button"
             onClick={() => document.getElementById('commentInput')?.focus()}
-            className="flex items-center shadow-md ring ring-green-600 px-2 py-1 rounded-4xl gap-2 hover:text-green-600"
+            className="flex items-center cursor-pointer shadow-md ring ring-green-600 px-2 py-1 rounded-4xl gap-2 hover:text-green-600"
           >
             <FaCommentDots className="text-green-600" />
-            <span className="text-sm">Comment</span>
           </button>
 
           <button
             type="button"
             onClick={handleSubscribeToggle}
-            className="flex items-center shadow-md ring ring-red-600 px-2 py-1 rounded-4xl gap-2 hover:text-red-600"
-          >
-            <FaBell className="text-red-600" />
-            <span className="text-sm">{subscribed ? "Unsubscribe" : "Subscribe"}</span>
+            className="flex items-center shadow-md cursor-pointer ring ring-red-600 px-2 py-1 rounded-4xl gap-2 hover:text-red-600"
+          >{subscribed ? "Unsubscribe" : "Subscribe"}
+            
+            <span className="text-sm text-red-500 hover:text-red-600 ">{subscribed ? (<FaBell size={20}  /> ) : (<FiBell size={20}  />)}</span>
+          </button>
+          <button>
+            <VideoShareButton videoId={video._id} />
           </button>
         </div>
 

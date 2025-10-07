@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 function SearchComponent() {
@@ -13,7 +14,7 @@ function SearchComponent() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex">
+    <form onSubmit={handleSubmit} className="flex w-full">
       <input
         type="text"
         placeholder="Search videos or channels..."
@@ -24,11 +25,12 @@ function SearchComponent() {
       <button
         type="submit"
         className="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700"
+        title="Search"
       >
-        Search
+        <FiSearch size={20} />
       </button>
     </form>
   );
 }
 
-export default SearchComponent
+export default SearchComponent;

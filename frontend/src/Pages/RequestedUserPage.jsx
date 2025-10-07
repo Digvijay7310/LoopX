@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/Axios'
 import {  useNavigate, Link } from 'react-router-dom'
+import { FiEdit } from 'react-icons/fi'
 
 function RequestedUserPage() {
   const [user, setUser] = useState(null)
@@ -25,6 +26,7 @@ function RequestedUserPage() {
       setLoading(false)
     }
   }
+  document.title = `LoopX - My Profile`
   fetchMySelf()
 }, [])
 
@@ -40,7 +42,7 @@ function RequestedUserPage() {
     return <p className="text-center mt-10 text-red-500">{error}</p>
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="max-w-4xl mx-auto mt-8 bg-white shadow-2xl rounded-lg overflow-hidden">
       {/* Cover Image */}
       <div
         className="h-48 w-full bg-gray-300"
@@ -70,20 +72,20 @@ function RequestedUserPage() {
 
           <button
             type="button"
-            className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition"
+            className="mt-4 px-4 py-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white rounded-md transition"
             onClick={() => navigate("/users/profile/update")}
-          >
-            Edit Profile
+            title='Edit Profile'
+          ><FiEdit />
           </button>
         </div>
       </div>
       <div className='flex justify-center items-center gap-6 mb-3'>
-        <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+        <button className='bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
           <Link to="/likes/my-likes">My Likes</Link></button>
-      <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+      <button className='bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
         <Link to="/comments/my-comments">My Comments</Link></button>
         
-      <button className='bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
+      <button className='bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-lg'>
         <Link to="/video/my-videos">My Vidoes</Link></button>
       </div>
     </div>

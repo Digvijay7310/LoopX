@@ -3,6 +3,7 @@ import axiosInstance from '../utils/Axios'
 import { Link, useParams } from 'react-router-dom'
 import { FaBell, FaEdit } from 'react-icons/fa'
 import { toast } from 'react-toastify'
+import { FiBell, FiEdit } from 'react-icons/fi'
 
 function UserProfilePage() {
   const { username } = useParams()
@@ -117,7 +118,7 @@ function UserProfilePage() {
               className="text-red-600 hover:text-red-800 transition"
               title="Edit Profile"
             >
-              <FaEdit size={24} />
+              <FiEdit size={24} />
             </Link>
           </div>
         )}
@@ -133,7 +134,7 @@ function UserProfilePage() {
               subscribed ? 'bg-gray-300 text-gray-700' : 'bg-red-600 hover:bg-red-700 text-white'
             }`}
           >
-            <FaBell />
+            <FiBell />
             {subscribed ? 'Unsubscribe' : 'Subscribe'}
           </button>
         </div>

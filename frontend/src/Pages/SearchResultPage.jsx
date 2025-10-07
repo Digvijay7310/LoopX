@@ -31,6 +31,7 @@ function SearchResultsPage() {
         setLoading(false);
       }
     };
+    document.title = `LoopX - Search Result for ${query}`
 
     fetchResults();
   }, [query]);
