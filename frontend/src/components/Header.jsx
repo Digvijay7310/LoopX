@@ -13,7 +13,7 @@ function Header() {
       {/* Sticky Header */}
       <header className="w-full bg-white shadow-md px-4 py-3 z-50 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Logo />
+          <Logo  />
 
           {/* Search Bar (Hidden in collapsed nav, shown in menu) */}
           <div className="hidden md:flex flex-grow mx-6 max-w-xl">
@@ -23,7 +23,7 @@ function Header() {
           {/* Hamburger menu shown on all screen sizes */}
           <button
             onClick={toggleMenu}
-            className="text-gray-700 focus:outline-none"
+            className="text-black focus:outline-none cursor-pointer"
             aria-label="Toggle menu"
           >
             {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}

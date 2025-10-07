@@ -6,6 +6,36 @@ import jwt from 'jsonwebtoken'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 
 // Signup new user
+const checkUsername = AsyncHandler (async (req, res) => {
+    const {username} = req.query;
+
+    if(!username) return new ApiError(403, "Username is required")
+        try {
+            const existingUser = await User.findOne({username})
+            if(existingUser) {
+                return res.status(200).json({available: false})
+            } else {
+                return res.status(200).json({available: true})
+            }
+        } catch (error) {
+            console.log("Error in checkUsername: ", error)
+        }
+});
+
+const checkEmail = AsyncHandler(async (req, res) => {
+    const { email } = req.query;
+    if (!email || !email.includes('@')) {
+        return res.status(400).json({ message: 'Invalid email' });
+    }
+
+    try {
+        const user = await User.findOne({ email: email.toLowerCase() });
+        return res.json({ available: !user });
+    } catch (err) {
+        console.error("Email check error:", err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+})
 const signup = AsyncHandler(async (req, res) => {
     try {
         console.log("Request body: ", req.body);
@@ -192,4 +222,4 @@ const refreshToken = AsyncHandler(async (req, res) => {
     }
 })
 
-export {signup, login, logout, refreshToken};
+export {checkEmail, checkUsername, signup, login, logout, refreshToken};
