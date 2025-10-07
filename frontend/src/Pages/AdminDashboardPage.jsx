@@ -12,11 +12,11 @@ function AdminDashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axiosInstance.get('/admin/all-users');
+        const res = await axiosInstance.get('/api/admin/all-users');
         setStats(res.data.data);
       } catch (err) {
         if (err.response?.status === 401) {
-          navigate('/admin/login');
+          navigate('/api/admin/login');
         } else {
           setError('Failed to load dashboard stats.');
         }
@@ -30,10 +30,10 @@ function AdminDashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post('/admin/logout');
-      navigate('/admin/login');
+      await axiosInstance.post('/api/admin/logout');
+      navigate('/api/admin/login');
     } catch {
-      navigate('/admin/login');
+      navigate('/api/admin/login');
     }
   };
 
@@ -56,7 +56,7 @@ function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Link to="/admin/users" className="p-4 border rounded shadow text-center flex flex-col items-center gap-2">
+        <Link to="/api/admin/users" className="p-4 border rounded shadow text-center flex flex-col items-center gap-2">
           <FaUsers className="text-4xl text-red-600" />
           <h2 className="text-xl font-semibold">Users</h2>
           <p className="text-2xl">{stats.usersCount}</p>

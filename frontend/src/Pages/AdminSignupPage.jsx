@@ -24,8 +24,8 @@ function AdminSignupPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosInstance.post('/admin/signup', form);
-      navigate('/admin/login');
+      await axiosInstance.post('/api/admin/signup', form);
+      navigate('/api/admin/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');
     } finally {
@@ -96,7 +96,7 @@ function AdminSignupPage() {
         </button>
         <span className="mt-2 inline-flex items-center gap-1">
           Already have an account?
-          <Link to="/admin/login" className="text-blue-500 hover:underline">
+          <Link to="/api/admin/login" className="text-blue-500 hover:underline">
             Login
           </Link>
         </span>

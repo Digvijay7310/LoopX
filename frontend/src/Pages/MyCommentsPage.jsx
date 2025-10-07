@@ -14,7 +14,7 @@ function MyCommentsPage() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axiosInstance.get('/comments/my-comments');
+        const res = await axiosInstance.get('/api/comments/my-comments');
         const commentData = res.data?.data?.comments || [];
         const validComments = commentData.filter(comment => comment.video !== null);
 
@@ -34,7 +34,7 @@ function MyCommentsPage() {
 
   const handleDelete = async (commentId) => {
     try {
-      await axiosInstance.post('/comments/delete-comment', { commentId });
+      await axiosInstance.post('/api/comments/delete-comment', { commentId });
 
       setComments((prev) => prev.filter((c) => c._id !== commentId));
       setCommentCount((prev) => prev - 1);
@@ -73,7 +73,7 @@ function MyCommentsPage() {
                   key={comment._id}
                   className="group bg-white border rounded-lg shadow hover:shadow-md transition relative"
                 >
-                  <Link to={`/video/${video._id}`}>
+                  <Link to={`/api/video/${video._id}`}>
                     <img
                       src={video.thumbnail}
                       alt={video.title}

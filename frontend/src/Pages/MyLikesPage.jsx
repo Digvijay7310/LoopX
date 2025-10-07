@@ -11,7 +11,7 @@ function MyLikesPage() {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const res = await axiosInstance.get("/likes/my-likes");
+        const res = await axiosInstance.get("/api/likes/my-likes");
 
         const likeData = res.data?.data?.likes || [];
         const validLikes = likeData.filter(like => like.video !== null);
@@ -58,7 +58,7 @@ function MyLikesPage() {
               return (
                 <Link
                   key={like._id}
-                  to={`/video/${video._id}`}
+                  to={`/api/video/${video._id}`}
                   className="group bg-white border rounded-lg shadow hover:shadow-md transition"
                 >
                   <img

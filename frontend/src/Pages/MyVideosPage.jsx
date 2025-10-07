@@ -13,7 +13,7 @@ function MyVideosPage() {
     const fetchMyVideos = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.get("/video/my-videos");
+        const res = await axiosInstance.get("/api/video/my-videos");
         if (res.data?.data) {
           setVideos(res.data.data.videos);
           setVideosCount(res.data.data.videoCount);
@@ -36,7 +36,7 @@ function MyVideosPage() {
     if (!confirmDelete) return;
 
     try {
-      await axiosInstance.delete(`/video/${videoId}/delete-video`);
+      await axiosInstance.delete(`/api/video/${videoId}/delete-video`);
       toast.success("Video deleted successfully!");
 
       // Remove deleted video from state to update UI immediately

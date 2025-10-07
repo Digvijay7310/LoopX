@@ -24,7 +24,7 @@ function LoginPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axiosInstance.post("/auth/login", form);
+            const res = await axiosInstance.post("/api/auth/login", form);
             navigate("/video/home");
         } catch (error) {
             console.error("Error in login ", error);
@@ -36,7 +36,7 @@ function LoginPage() {
 
     useEffect(() => {
         document.title = "LoopX - User Login"
-    })
+    }, [])
 
     return (
         <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>

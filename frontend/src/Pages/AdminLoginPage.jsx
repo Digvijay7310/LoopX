@@ -24,8 +24,8 @@ function AdminLoginPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axiosInstance.post("/admin/login", form);
-            navigate("/admin/all-users");
+            const res = await axiosInstance.post("/api/admin/login", form);
+            navigate("/api/admin/all-users");
         } catch (error) {
             console.error("Error in login ", error);
             setError(error?.response?.data?.message || "Login failed.");
@@ -94,7 +94,7 @@ function AdminLoginPage() {
                     {loading ? "Logging in..." : "Login"}
                 </button>
                 <span className='mt-2 flex justify-center items-center gap-1 text-xs'> User Login ? 
-            <Link to="/auth/login" className='text-blue-500 hover:underline'> Click here</Link>
+            <Link to="/api/auth/login" className='text-blue-500 hover:underline'> Click here</Link>
         </span>
             </form>
         </div>

@@ -21,6 +21,7 @@ import UpdateAndDeletePage from './Pages/UpdateAndDeletePage'
 import AdminUserDetailsPage from './Pages/AdminUserDetailsPage'
 import AdminUsersPage from './Pages/AdminUsersPage'
 import Layout from './Layout/Layout'
+import NotFoundPage from './Pages/NotFoundPage'
 
 function App() {
 
@@ -44,11 +45,13 @@ function App() {
         <Route path='/video/upload' element={<VideoUploadPage />} />
         </ Route>
       
-                <Route path='/admin/signup' element={<AdminSignupPage />} />
+        <Route path='/admin/signup' element={<AdminSignupPage />} />
         <Route path='/admin/login' element={<AdminLoginPage />} />
         <Route path='/admin/users' element={<AdminUsersPage />} />
         <Route path='/admin/:username' element={<AdminUserDetailsPage />} />
         <Route path='/admin/all-users' element={<AdminDashboardPage />} />
+
+        <Route path='*' element={<NotFoundPage />}/>
       </Routes>
       <ToastContainer />
     </>

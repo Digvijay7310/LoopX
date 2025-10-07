@@ -18,7 +18,7 @@ function UpdateAndDeletePage() {
 
 
     try {
-      const res = await axiosInstance.put(`/video/${id}/edit`, title, description)
+      const res = await axiosInstance.put(`/api/video/${id}/edit`, title, description)
 
       if (res.data.data) {
         toast.success("Video updated successfully")
@@ -37,7 +37,7 @@ function UpdateAndDeletePage() {
 
   const handleDelete = async () => {
     try {
-      const res = await axiosInstance.delete(`/video/${id}/delete-video`)
+      const res = await axiosInstance.delete(`/api/video/${id}/delete-video`)
       if (res.status === 200) {
         toast.success("Video deleted successfully")
         setTimeout(() =>navigate("/"), 1000)

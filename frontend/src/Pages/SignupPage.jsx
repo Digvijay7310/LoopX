@@ -57,7 +57,7 @@ function SignupPage() {
     const checkUsernameAvailability = async (name) => {
         setCheckingUsername(true);
         try {
-            const res = await axiosInstance.get(`/auth/check-username`, {
+            const res = await axiosInstance.get(`/api/auth/check-username`, {
                 params: { username: name },
             });
             setIsUsernameAvailable(res.data.available);
@@ -72,7 +72,7 @@ function SignupPage() {
     const checkEmailAvailability = async (email) => {
         setCheckingEmail(true);
         try {
-            const res = await axiosInstance.get(`/auth/check-email`, {
+            const res = await axiosInstance.get(`/api/auth/check-email`, {
                 params: { email },
             });
             setIsEmailAvailable(res.data.available);
@@ -115,7 +115,7 @@ function SignupPage() {
         if (coverImage) formData.append("coverImage", coverImage);
 
         try {
-            const res = await axiosInstance.post("/auth/signup", formData);
+            const res = await axiosInstance.post("/api/auth/signup", formData);
             if (res.data?.data) {
                 toast.success("Successfully signed up!");
                 navigate("/");
@@ -293,7 +293,7 @@ function SignupPage() {
 
                 <span className='mt-2 flex justify-center items-center gap-1'>
                     Already have an account? 
-                    <Link to="/auth/login" className="text-blue-500">Login</Link>
+                    <Link to="/api/auth/login" className="text-blue-500">Login</Link>
                 </span>
             </form>
         </div>

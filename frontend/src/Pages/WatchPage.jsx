@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, data } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 import { FaThumbsUp, FaCommentDots, FaBell } from 'react-icons/fa';
@@ -28,7 +28,7 @@ function WatchPage() {
   const fetchVideoData = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get(`/video/${id}`);
+      const res = await axiosInstance.get(`/api/video/${id}`);
       const data = res.data.data;
       setVideo(data.video);
       setRelatedVideos(data.relatedVideos);
@@ -55,7 +55,7 @@ function WatchPage() {
 
   const handleSubscribeToggle = async () => {
     try {
-      await axiosInstance.post(`/video/subscriber/${video.owner._id}`);
+      await axiosInstance.post(`/api/video/subscriber/${video.owner._id}`);
       setSubscribed(!subscribed);
       toast.success(subscribed ? "Unsubscribed" : "Subscribed");
     } catch (error) {
@@ -87,7 +87,7 @@ function WatchPage() {
         <p className='text-xs font-semibold mb-2'>Views: {video.views}</p>
 
         {/* Channel */}
-        <Link to={`/users/${video.owner.username}`} className="flex items-center gap-3 mb-4">
+        <Link to={`/api/users/${video.owner.username}`} className="flex items-center gap-3 mb-4">
           <img
             src={video.owner.avatar}
             alt={`${video.owner.username} avatar`}
@@ -145,9 +145,7 @@ function WatchPage() {
             
             <span className="text-sm text-red-500 hover:text-red-600 ">{subscribed ? (<FaBell size={20}  /> ) : (<FiBell size={20}  />)}</span>
           </button>
-          <button>
             <VideoShareButton videoId={video._id} />
-          </button>
         </div>
 
         {/* Comments */}

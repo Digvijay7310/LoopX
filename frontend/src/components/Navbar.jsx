@@ -14,7 +14,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post('/auth/logout');
+      await axiosInstance.post('/api/auth/logout');
       toast.success('Logged out successfully');
       navigate('/auth/login');
     } catch (error) {
@@ -83,6 +83,7 @@ function Navbar() {
         </li>
         <li>
           <Link
+          onClick={handleLogout}
             to="/auth/login"
             className="flex items-center mt-2 gap-2 px-5 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-700 transition"
           >

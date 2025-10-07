@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/Axios'
 import { Link, useParams } from 'react-router-dom'
-import { FaBell, FaEdit } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { FiBell, FiEdit } from 'react-icons/fi'
 
@@ -20,7 +19,7 @@ function UserProfilePage() {
       setLoading(true)
       setError(null)
       try {
-        const res = await axiosInstance.get(`/users/@${username}`)
+        const res = await axiosInstance.get(`/api/users/@${username}`)
         if (res.data?.data?.user) {
           setUser(res.data.data.user)
           setVideos(res.data.data.videos || [])
@@ -42,7 +41,7 @@ function UserProfilePage() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const res = await axiosInstance.get('/users/me')
+        const res = await axiosInstance.get('/api/users/me')
         if (res.data?.data) {
           setCurrentUser(res.data.data)
         }
@@ -56,7 +55,7 @@ function UserProfilePage() {
   const handleSubscribeToggle = async () => {
     if (!user) return
     try {
-      await axiosInstance.post(`/video/subscriber/${user._id}`)
+      await axiosInstance.post(`/api/video/subscriber/${user._id}`)
       setSubscribed(!subscribed)
       toast.success(subscribed ? 'Unsubscribed' : 'Subscribed')
     } catch (err) {
@@ -114,7 +113,7 @@ function UserProfilePage() {
         {isOwnProfile && (
           <div className="flex items-center gap-4">
             <Link
-              to="/users/profile/update"
+              to="/api/users/profile/update"
               className="text-red-600 hover:text-red-800 transition"
               title="Edit Profile"
             >
@@ -156,7 +155,7 @@ function UserProfilePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {videos.map((video) => (
               <Link
-                to={`/video/${video._id}`}
+                to={`/api/video/${video._id}`}
                 key={video._id}
                 className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
               >

@@ -17,7 +17,7 @@ function SearchResultsPage() {
 
     const fetchResults = async () => {
       try {
-        const res = await axiosInstance.get(`/video/search?q=${encodeURIComponent(query)}`);
+        const res = await axiosInstance.get(`/api/video/search?q=${encodeURIComponent(query)}`);
         if (res.data && res.data.data && res.data.data.results) {
           setResults(res.data.data.results);
         } else {
@@ -48,7 +48,7 @@ function SearchResultsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {results.map(video => (
-            <Link key={video._id} to={`/video/${video._id}`} className="border rounded shadow hover:shadow-md">
+            <Link key={video._id} to={`/api/video/${video._id}`} className="border rounded shadow hover:shadow-md">
               <img src={video.thumbnail} alt={video.title} className="w-full h-40 object-cover rounded-t" />
               <div className="p-3">
                 <h3 className="font-medium text-gray-800">{video.title}</h3>

@@ -21,7 +21,7 @@ function AdminUserDetailsPage() {
     async function fetchUserDetails() {
       setLoading(true);
       try {
-        const res = await axiosInstance.get(`/admin/${username}`);
+        const res = await axiosInstance.get(`/api/admin/${username}`);
         const data = res.data.data;
         setUser(data.user);
         setVideos(data.videos);
@@ -42,7 +42,7 @@ function AdminUserDetailsPage() {
   const blockUser = async () => {
     setActionLoading(true);
     try {
-      await axiosInstance.post(`/admin/${username}/block`);
+      await axiosInstance.post(`/api/admin/${username}/block`);
       setUser(prev => ({ ...prev, isBlocked: true }));
       setError("");
     } catch (err) {
@@ -56,7 +56,7 @@ function AdminUserDetailsPage() {
   const unblockUser = async () => {
     setActionLoading(true);
     try {
-      await axiosInstance.post(`/admin/${username}/unblock`);
+      await axiosInstance.post(`/api/admin/${username}/unblock`);
       setUser(prev => ({ ...prev, isBlocked: false }));
       setError("");
     } catch (err) {
@@ -71,9 +71,9 @@ function AdminUserDetailsPage() {
     if (!window.confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) return;
     setActionLoading(true);
     try {
-      await axiosInstance.delete(`/admin/${username}/delete`);
+      await axiosInstance.delete(`/api/admin/${username}/delete`);
       alert("User deleted successfully.");
-      navigate('/admin/all-users'); // go back to all users list
+      navigate('/api/admin/all-users'); // go back to all users list
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete user.");
     } finally {

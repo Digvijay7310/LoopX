@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaUpload } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
 
 function VideoUploadPage() {
@@ -29,10 +28,10 @@ function VideoUploadPage() {
     if (videoUrl) form.append("videoUrl", videoUrl); // Match backend key
 
     try {
-      const res = await axiosInstance.post("/video/upload", form);
+      const res = await axiosInstance.post("/api/video/upload", form);
       if (res.data.data) {
         toast.success("Video uploaded successfully!");
-        navigate("/video/home");
+        navigate("/api/video/home");
       } else {
         toast.error("Video not uploaded.");
       }

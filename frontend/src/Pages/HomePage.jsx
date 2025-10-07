@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axiosInstance.get('/video/home');
+        const res = await axiosInstance.get('/api/video/home');
         if (res.data.data) {
           setVideos(res.data.data);
         }
@@ -32,7 +32,8 @@ function HomePage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {videos.length === 0 ? (
-          <p>No Videos available</p>
+          <p>Login to see videos </p>
+
         ) : (
           videos.map((video) => (
             <Link
