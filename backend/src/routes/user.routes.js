@@ -5,9 +5,8 @@ import { upload } from '../middlewares/multer.middleware.js';
 
 const router = express.Router();
 
-router.get("/@:username", verifyToken, getUserByUsername);
-
 router.get("/me", verifyToken, getMe);
+router.get("/:username", verifyToken, getUserByUsername);
 
 router.patch("/profile/update", verifyToken,
     upload.fields([

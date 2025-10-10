@@ -114,6 +114,38 @@ const adminLogout = AsyncHandler(async (req, res) => {
   }
 })
 
+const searchUsers = AsyncHandler(async (req, res) => {
+  const { q } = req.query;
+
+  if (!q || q.trim() === "") {
+    return res
+      .status(400)
+      .json({ success: false, message: "Search query is required" });
+  }
+
+  try {
+    const users = await User.find({
+      $or: [
+        { username: { $regex: q, $options: "i" } },
+        { email: { $regex: q, $options: "i" } },
+      ],
+    }).select("username email fullName avatar");
+
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      data: users,
+    });
+  } catch (error) {
+    console.error("Search error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while searching",
+    });
+  }
+});
+
+
 const myProfile = AsyncHandler(async (req, res) => {
  try {
    const {userId} = req.user._id;
@@ -273,4 +305,4 @@ const userDelete = AsyncHandler(async (req, res) => {
   }
 })
 
-export {adminRegister, adminLogin, getAllUser, adminLogout, myProfile, userBlock, userUnBlock, userDetails, userDelete, users}
+export {adminRegister, adminLogin, searchUsers, getAllUser, adminLogout, myProfile, userBlock, userUnBlock, userDetails, userDelete, users}

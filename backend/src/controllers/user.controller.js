@@ -15,29 +15,31 @@ try {
             throw new ApiError(404, "User not found")
         }
 
-        const videos = await Video.find({owner: user._id}).lean()
-        if(!videos) new ApiError(400, "User don't have videos")
+        const videos = await Video.find({owner: user._id}).lean();
+        if(videos.length === 0) {
+          throw new ApiError(404, "You don't have any videos")
+        } 
     
         return res.status(200).json(new ApiResponse(200, {user, videos}, "User found successfully"))
 } catch (error) {
-    console.log("Error while getUser: ", error)
+    throw new ApiError(404, "User not found", error)
 }
 })
 
 const getMe = AsyncHandler(async (req, res) => {
   try {
-    const userId = req.user._id; // ✅ Fix from earlier mistake
+    const userId = req.user._id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password -refreshToken").lean();
 
     if (!user) {
-      return res.status(404).json(new ApiError(404, "User not found")); // ✅ ADD RETURN
+      throw new ApiError(404, "User not found");
     }
 
-    return res.status(200).json(new ApiResponse(200, user, "User found"));
+    return res.status(200).json(new ApiResponse(200, user, "User found successfully"));
   } catch (error) {
-    console.log("Error in get me user: ", error);
-    return res.status(500).json(new ApiError(500, "Internal server error"));
+    console.error("Error in getMe controller:", error);
+    throw error; // or handle as you want
   }
 });
 

@@ -1,9 +1,10 @@
 import express from 'express';
-import { adminLogin, adminLogout, adminRegister, getAllUser, myProfile, userBlock, userDelete, userDetails, users, userUnBlock } from '../controllers/admin.controller.js';
+import { adminLogin, adminLogout, adminRegister, getAllUser, myProfile, searchUsers, userBlock, userDelete, userDetails, users, userUnBlock } from '../controllers/admin.controller.js';
 import {verifyToken} from '../middlewares/verify.middleware.js'
 import { isAdmin } from '../middlewares/admin.middleware.js';
 const router = express.Router();
 
+router.get("/search", verifyToken, isAdmin, searchUsers)
 router.post("/signup", adminRegister)
 router.post("/login", adminLogin)
 router.post("/logout", verifyToken, isAdmin, adminLogout)

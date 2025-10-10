@@ -7,7 +7,6 @@ import { FiBell, FiEdit } from 'react-icons/fi'
 function UserProfilePage() {
   const { username } = useParams()
   const [user, setUser] = useState(null)
-  const [currentUser, setCurrentUser] = useState(null)
   const [videos, setVideos] = useState([])
   const [subscribed, setSubscribed] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -19,38 +18,27 @@ function UserProfilePage() {
       setLoading(true)
       setError(null)
       try {
-        const res = await axiosInstance.get(`/api/users/@${username}`)
-        if (res.data?.data?.user) {
+        const res = await axiosInstance.get(`/api/users/${username}`)
+        if (res.data.data.user) {
           setUser(res.data.data.user)
           setVideos(res.data.data.videos || [])
-          setSubscribed(res.data.data.user.isSubscribed || false)
+          setSubscribed(Boolean(res.data.data.user.isSubscribed))
         } else {
           setError('User data not found')
         }
       } catch (err) {
         console.error('Error fetching user:', err)
-        setError('Failed to fetch user data')
+        setError(err.response?.data?.message || 'Failed to fetch user data')
       } finally {
         setLoading(false)
       }
     }
-    fetchUserAndVideos()
+    if (username) {
+      fetchUserAndVideos()
+    }
   }, [username])
 
-  // Fetch current logged-in user
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const res = await axiosInstance.get('/api/users/me')
-        if (res.data?.data) {
-          setCurrentUser(res.data.data)
-        }
-      } catch (err) {
-        console.error('Error fetching current user:', err)
-      }
-    }
-    fetchCurrentUser()
-  }, [])
+
 
   const handleSubscribeToggle = async () => {
     if (!user) return
@@ -64,11 +52,14 @@ function UserProfilePage() {
     }
   }
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Loading user details...</p>
-  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>
-  if (!user) return <p className="text-center mt-10 text-gray-700">User not found</p>
+  if (loading)
+    return <p className="text-center mt-10 text-gray-500">Loading user details...</p>
+  if (error)
+    return <p className="text-center mt-10 text-red-500">{error}</p>
+  if (!user)
+    return <p className="text-center mt-10 text-gray-700">User not found</p>
 
-  const isOwnProfile = currentUser && currentUser._id === user._id
+
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -109,35 +100,9 @@ function UserProfilePage() {
           )}
         </div>
 
-        {/* Edit Profile (only for own profile) */}
-        {isOwnProfile && (
-          <div className="flex items-center gap-4">
-            <Link
-              to="/api/users/profile/update"
-              className="text-red-600 hover:text-red-800 transition"
-              title="Edit Profile"
-            >
-              <FiEdit size={24} />
-            </Link>
-          </div>
-        )}
+
       </div>
 
-      {/* Subscribe Button (only for other users) */}
-      {!isOwnProfile && (
-        <div className="mb-6">
-          <button
-            type="button"
-            onClick={handleSubscribeToggle}
-            className={`flex justify-center items-center gap-2 px-4 py-2 w-48 rounded-md font-semibold transition ${
-              subscribed ? 'bg-gray-300 text-gray-700' : 'bg-red-600 hover:bg-red-700 text-white'
-            }`}
-          >
-            <FiBell />
-            {subscribed ? 'Unsubscribe' : 'Subscribe'}
-          </button>
-        </div>
-      )}
 
       {/* Channel Description */}
       {user.channelDescription && (
@@ -155,7 +120,7 @@ function UserProfilePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {videos.map((video) => (
               <Link
-                to={`/api/video/${video._id}`}
+                to={`/video/${video._id}`}
                 key={video._id}
                 className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
               >

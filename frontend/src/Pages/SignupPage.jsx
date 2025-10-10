@@ -131,13 +131,13 @@ function SignupPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+        <div className="min-h-screen flex items-center justify-center bg-red-100 p-4">
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-8 py-6 w-full max-w-md space-y-4">
                 <h2 className="text-2xl font-bold text-center text-gray-800">Signup</h2>
 
                 {/* Username */}
                 <div className="flex flex-col">
-                    <div className="flex items-center border rounded px-3 py-2">
+                    <div className="flex items-center ring ring-red-600 rounded px-3 py-2">
                         <FiUser className="mr-2 text-gray-500" />
                         <input
                             type="text"
@@ -158,7 +158,7 @@ function SignupPage() {
                 </div>
 
                 {/* Full Name */}
-                <div className="flex items-center border rounded px-3 py-2">
+                <div className="flex items-center ring ring-red-600 rounded px-3 py-2">
                     <FiUser className="mr-2 text-gray-500" />
                     <input
                         type="text"
@@ -172,7 +172,7 @@ function SignupPage() {
 
                 {/* Email */}
                 <div className="flex flex-col">
-                    <div className="flex items-center border rounded px-3 py-2">
+                    <div className="flex items-center ring ring-red-600 rounded px-3 py-2">
                         <FiMail className="mr-2 text-gray-500" />
                         <input
                             type="email"
@@ -194,7 +194,7 @@ function SignupPage() {
 
                 {/* Password */}
                 <div className="flex flex-col">
-                    <div className="flex items-center border rounded px-3 py-2 relative">
+                    <div className="flex items-center ring ring-red-600 rounded px-3 py-2 relative">
                         <FiLock className="mr-2 text-gray-500" />
                         <input
                             type={showPassword ? "text" : "password"}
@@ -293,7 +293,7 @@ function SignupPage() {
 
                 <span className='mt-2 flex justify-center items-center gap-1'>
                     Already have an account? 
-                    <Link to="/api/auth/login" className="text-blue-500">Login</Link>
+                    <Link to="/auth/login" className="text-blue-500">Login</Link>
                 </span>
             </form>
         </div>

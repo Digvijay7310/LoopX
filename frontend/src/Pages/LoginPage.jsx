@@ -39,7 +39,7 @@ function LoginPage() {
     }, [])
 
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
+        <div className='min-h-screen flex items-center justify-center bg-red-100'>
             <form
                 onSubmit={handleSubmit}
                 className='bg-white p-6 rounded shadow-md w-full max-w-sm space-y-5'
@@ -51,7 +51,7 @@ function LoginPage() {
                 )}
 
                 {/* Email Field */}
-                <div className="flex items-center border rounded px-3 py-2">
+                <div className="flex items-center ring ring-red-600 rounded px-3 py-2">
                     <FiMail className="mr-2 text-gray-500" />
                     <input
                         type="email"
@@ -65,7 +65,7 @@ function LoginPage() {
                 </div>
 
                 {/* Password Field */}
-                <div className="flex items-center border rounded px-3 py-2 relative">
+                <div className="flex items-center ring ring-red-600 rounded px-3 py-2 relative">
                     <FiLock className="mr-2 text-gray-500" />
                     <input
                         type={showPassword ? "text" : "password"}

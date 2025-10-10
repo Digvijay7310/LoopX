@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Logo from './Logo';
 import SearchComponent from './SearchComponent';
 import Navbar from './Navbar';
@@ -6,39 +7,87 @@ import { FaTimes, FaBars } from "react-icons/fa";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const menuRef = useRef();
+  const location = useLocation();
+
+  // Toggle menu open/close
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
+
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <>
       {/* Sticky Header */}
       <header className="w-full bg-white shadow-md px-4 py-3 z-50 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Logo  />
+          <Logo />
 
-          {/* Search Bar (Hidden in collapsed nav, shown in menu) */}
+          {/* Desktop Search */}
           <div className="hidden md:flex flex-grow mx-6 max-w-xl">
             <SearchComponent />
           </div>
 
-          {/* Hamburger menu shown on all screen sizes */}
+          {/* Hamburger icon */}
           <button
             onClick={toggleMenu}
-            className="text-black focus:outline-none cursor-pointer"
+            className="text-black focus:outline-none cursor-pointer z-50"
             aria-label="Toggle menu"
           >
-            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            <FaBars size={24} />
           </button>
         </div>
       </header>
 
-      {/* Fullscreen-style Menu for All Screens */}
+      {/* Overlay + Sidebar Drawer */}
       {menuOpen && (
-        <div className="w-full px-4 pt-4 pb-6 bg-white shadow-inner border-t space-y-4">
-          {/* Search bar for all screen sizes inside the expanded menu */}
-          <div className="md:hidden mb-4">
-            <SearchComponent />
+        <div className="fixed inset-0 z-[9999] flex">
+          {/* Backdrop */}
+          <div className="flex-1 bg-black/30" />
+
+          {/* Sidebar */}
+          <div
+            ref={menuRef}
+            className="w-[300px] sm:w-[350px] md:w-[400px] h-full bg-white shadow-lg p-4 overflow-y-auto relative"
+          >
+            {/* Close Icon */}
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-4 right-4 text-gray-700"
+              aria-label="Close menu"
+            >
+              <FaTimes size={24} />
+            </button>
+
+            {/* Mobile search */}
+            <div className="mb-4 mt-8 md:hidden">
+              <SearchComponent />
+            </div>
+
+            {/* Navbar */}
+            <Navbar onLinkClick={() => setMenuOpen(false)} />
           </div>
-          <Navbar />
         </div>
       )}
     </>

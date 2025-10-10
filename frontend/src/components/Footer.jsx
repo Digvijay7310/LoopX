@@ -4,7 +4,7 @@ import { FaYoutube, FaTwitter, FaGithub } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-8 mt-12">
+    <footer className="bg-gray-900 text-white py-8">
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
 
         {/* Branding */}

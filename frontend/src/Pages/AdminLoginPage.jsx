@@ -25,7 +25,7 @@ function AdminLoginPage() {
         setLoading(true);
         try {
             const res = await axiosInstance.post("/api/admin/login", form);
-            navigate("/api/admin/all-users");
+            navigate("/admin/all-users");
         } catch (error) {
             console.error("Error in login ", error);
             setError(error?.response?.data?.message || "Login failed.");
@@ -39,12 +39,12 @@ function AdminLoginPage() {
     })
 
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gray-100 p-4'>
+        <div className='min-h-screen flex items-center justify-center bg-red-100 p-4'>
             <form
                 onSubmit={handleSubmit}
                 className='bg-white p-6 rounded shadow-md w-full max-w-sm space-y-5'
             >
-                <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
+                <h2 className="text-2xl font-bold text-center text-gray-800">Admin Login</h2>
 
                 {error && (
                     <div className='bg-red-100 text-red-700 px-3 py-2 rounded text-sm'>{error}</div>
@@ -94,7 +94,7 @@ function AdminLoginPage() {
                     {loading ? "Logging in..." : "Login"}
                 </button>
                 <span className='mt-2 flex justify-center items-center gap-1 text-xs'> User Login ? 
-            <Link to="/api/auth/login" className='text-blue-500 hover:underline'> Click here</Link>
+            <Link to="/auth/login" className='text-blue-500 hover:underline'> Click here</Link>
         </span>
             </form>
         </div>

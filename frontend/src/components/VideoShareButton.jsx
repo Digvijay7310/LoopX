@@ -1,10 +1,13 @@
 import React from 'react';
-import { FaShareAlt } from 'react-icons/fa';
-import { FiShare, FiShare2 } from 'react-icons/fi';
+import { FiShare2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
 function VideoShareButton({ videoId }) {
-  const handleShare = () => {
+  const handleShare = (e) => {
+    // Prevent bubbling to Link
+    e.stopPropagation();
+    e.preventDefault();
+
     const videoUrl = `${window.location.origin}/video/${videoId}`;
     
     navigator.clipboard.writeText(videoUrl)
