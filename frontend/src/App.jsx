@@ -9,7 +9,6 @@ import UpdateProfilePage from './Pages/UpdateProfilePage'
 import RequestedUserPage from './Pages/RequestedUserPage'
 import MyLikesPage from './Pages/MyLikesPage'
 import MyCommentsPage from './Pages/MyCommentsPage'
-import Header from './components/Header'
 import SearchResultsPage from './Pages/SearchResultPage'
 import SignupPage from './Pages/SignupPage'
 import AdminSignupPage from './Pages/AdminSignupPage'
@@ -19,7 +18,7 @@ import VideoUploadPage from './Pages/VideoUploadPage'
 import MyVideosPage from './Pages/MyVideosPage'
 import UpdateAndDeletePage from './Pages/UpdateAndDeletePage'
 import AdminUserDetailsPage from './Pages/AdminUserDetailsPage'
-import AdminUsersPage from './Pages/AdminUsersPage'
+import AdminAllUsers from './Pages/AdminAllUsers'
 import Layout from './Layout/Layout'
 import NotFoundPage from './Pages/NotFoundPage'
 
@@ -47,9 +46,9 @@ function App() {
       
         <Route path='/admin/signup' element={<AdminSignupPage />} />
         <Route path='/admin/login' element={<AdminLoginPage />} />
-        <Route path='/admin/users' element={<AdminUsersPage />} />
+        <Route path='/admin/all-users' element={<AdminAllUsers />} />
         <Route path='/admin/:username' element={<AdminUserDetailsPage />} />
-        <Route path='/admin/all-users' element={<AdminDashboardPage />} />
+        <Route path='/admin/all-users-data' element={<AdminDashboardPage />} />
 
         <Route path='*' element={<NotFoundPage />}/>
       </Routes>

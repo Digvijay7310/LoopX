@@ -129,7 +129,7 @@ const searchUsers = AsyncHandler(async (req, res) => {
         { username: { $regex: q, $options: "i" } },
         { email: { $regex: q, $options: "i" } },
       ],
-    }).select("username email fullName avatar");
+    }).select("username email fullName avatar isBlocked");
 
     return res.status(200).json({
       success: true,
@@ -161,7 +161,7 @@ const myProfile = AsyncHandler(async (req, res) => {
  }
 })
 
-const getAllUser = AsyncHandler(async (req, res) => {
+const getAllData = AsyncHandler(async (req, res) => {
     try {
       if(req.role !== "admin") {
         return new ApiError(403, "Access denied Only Admin")
@@ -188,7 +188,7 @@ const getAllUser = AsyncHandler(async (req, res) => {
     }
 });
 
-const users = AsyncHandler(async (req, res) => {
+const getAllUsers = AsyncHandler(async (req, res) => {
   try {
     if(req.role !== "admin"){
        return new ApiError(403, "Access denied Only Admin")
@@ -235,40 +235,50 @@ const userUnBlock = AsyncHandler(async (req, res) => {
 
 const userDetails = AsyncHandler(async (req, res) => {
   try {
-     if(req.role !== "admin") {
-        return new ApiError(403, "Access denied Only Admin")
-      }
-    const {username} = req.params;
+    if (req.role !== "admin") {
+      return res.status(403).json(new ApiError(403, "Access denied. Only Admin"))
+    }
 
-    const user = await User.findOne({username})
-     if(!user) return new ApiError(403, "user not found")
+    const { username } = req.params;
 
-      const userId = user._id
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json(new ApiError(404, "User not found"));
+    }
 
-      const [videos, videosCount] = await Promise.all([
-        Video.find({owner: userId}),
-        Video.countDocuments({owner: userId})
-      ]);
+    const userId = user._id;
 
-      const [comments, commentsCount] = await Promise.all([
-        Comment.find({user: userId}),
-        Comment.countDocuments({user: userId})
-      ])
+    const [videos, videosCount] = await Promise.all([
+      Video.find({ owner: userId }),
+      Video.countDocuments({ owner: userId })
+    ]);
 
-      const [likes, likesCount] = await Promise.all([
-        Like.find({user: userId}),
-        Like.countDocuments({user: userId})
-      ])
+    const [comments, commentsCount] = await Promise.all([
+      Comment.find({ user: userId }),
+      Comment.countDocuments({ user: userId })
+    ]);
 
-      if(videosCount === 0) return new ApiError(403, "User not upload any video")
-        if(commentsCount === 0) return new ApiError(403, "User cannot comment on a video")
-          if(likesCount === 0) return new ApiError(403, "User cannot like a video")
-            
-            res.status(200).json(new ApiResponse(201, {user, videos, videosCount, comments, commentsCount, likes, likesCount}, "user details fetch successfull"))
+    const [likes, likesCount] = await Promise.all([
+      Like.find({ user: userId }),
+      Like.countDocuments({ user: userId })
+    ]);
+
+    // ✅ Don't return error if counts are 0
+    return res.status(200).json(new ApiResponse(200, {
+      user,
+      videos,
+      videosCount,
+      comments,
+      commentsCount,
+      likes,
+      likesCount
+    }, "User details fetched successfully"));
   } catch (error) {
-    console.log("Error in user Detail: ", error)
+    console.log("Error in user Detail: ", error);
+    return res.status(500).json(new ApiError(500, "Something went wrong"));
   }
-})
+});
+
 
 const userDelete = AsyncHandler(async (req, res) => {
   try {
@@ -305,4 +315,6 @@ const userDelete = AsyncHandler(async (req, res) => {
   }
 })
 
-export {adminRegister, adminLogin, searchUsers, getAllUser, adminLogout, myProfile, userBlock, userUnBlock, userDetails, userDelete, users}
+export {adminRegister, adminLogin, searchUsers, getAllData, adminLogout,
+   myProfile, userBlock, userUnBlock, userDetails, userDelete, getAllUsers
+  }

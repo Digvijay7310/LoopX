@@ -11,7 +11,7 @@ function AdminUsersPage() {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.get('/api/admin/users');
+        const res = await axiosInstance.get('/api/admin/all-users');
         setUsers(res.data.data.users || []);
         setError('');
       } catch (err) {
@@ -64,7 +64,7 @@ function AdminUsersPage() {
                 </td>
                 <td className="border border-gray-300 p-2">{user.email}</td>
                 <td className="border border-gray-300 p-2 text-blue-600 underline cursor-pointer">
-                  <Link to={`/api/admin/${user.username}`}>{user.username}</Link>
+                  <Link to={`/admin/${user.username}`}>{user.username}</Link>
                 </td>
                 <td className="border border-gray-300 p-2">{user.fullName}</td>
                 <td

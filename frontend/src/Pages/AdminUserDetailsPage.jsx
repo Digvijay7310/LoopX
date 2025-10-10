@@ -73,7 +73,7 @@ function AdminUserDetailsPage() {
     try {
       await axiosInstance.delete(`/api/admin/${username}/delete`);
       alert("User deleted successfully.");
-      navigate('/api/admin/all-users'); // go back to all users list
+      navigate('/admin/all-users'); // go back to all users list
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete user.");
     } finally {
@@ -89,8 +89,9 @@ function AdminUserDetailsPage() {
       <h2 className="text-3xl mb-4 font-semibold">User Details: {user.fullName} ({user.username})</h2>
 
       <div className="mb-6">
-        <span className='font-semibold'>Avatar: <img src={user.avatar} alt="avatar" className='h-10 w-10 rounded-full' /> </span>
-        <strong>Email:</strong>{user.email}<br />
+        <span className='font-semibold'>CoverImage: <img src={user.coverImage} alt="coverImage" className='h-35 w-full aspect-video rounded-lg' /></span>
+        <span className='font-semibold'>Avatar: <img src={user.avatar} alt="avatar" className=' h-20 w-20 rounded-full' /> </span>
+        <strong>Email:</strong> {user.email}<br />
         <strong>Status:</strong> {user.isBlocked ? (
           <span className="text-red-600 font-semibold">Blocked</span>
         ) : (

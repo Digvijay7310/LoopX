@@ -12,7 +12,7 @@ function Layout() {
   return (
     <>
       {!isAdminRoute && <Header />} {/* Hide header if it's an admin route */}
-      <main>
+      <main className='h-screen'>
         <Outlet />
       </main>
       <Footer />
