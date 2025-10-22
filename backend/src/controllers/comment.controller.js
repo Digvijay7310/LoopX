@@ -3,7 +3,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { AsyncHandler } from '../utils/AsyncHandler.js'
 
-const addCommentToVideo = AsyncHandler(async(req, res) => {
+const addCommentToVideo = AsyncHandler(async(req, res) => {  
     try {
         const {videoId} = req.params;
         const {text} = req.body;
