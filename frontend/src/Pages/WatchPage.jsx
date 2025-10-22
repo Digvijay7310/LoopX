@@ -9,6 +9,7 @@ import CommentsSection from '../components/CommentSection';
 import VideoPlayer from '../components/VideoPlayer';
 import { FiBell, FiThumbsUp } from 'react-icons/fi';
 import VideoShareButton from '../components/VideoShareButton';
+import VideoDescription from '../components/VideoDescription';
 
 function WatchPage() {
   const { id } = useParams();
@@ -17,7 +18,6 @@ function WatchPage() {
   const [randomVideos, setRandomVideos] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
-  const [showFullDesc, setShowFullDesc] = useState(false);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +45,7 @@ function WatchPage() {
 
   const handleLikeToggle = async () => {
     try {
-      await axiosInstance.post(`/video/${video._id}/like`);
+      await axiosInstance.post(`/api/video/${video._id}/like`);
       setLikeStatus(!likeStatus);
       toast.success(likeStatus ? "Like removed" : "Liked video");
     } catch (error) {
@@ -86,6 +86,7 @@ function WatchPage() {
         <h1 className="text-xl font-semibold mb-0.5">{video.title}</h1>
         <p className='text-xs font-semibold mb-2'>Views: {video.views}</p>
 
+      <div className='flex items-center gap-1'>  
         {/* Channel */}
         <Link to={`/api/users/${video.owner.username}`} className="flex items-center gap-3 mb-4">
           <img
@@ -97,56 +98,52 @@ function WatchPage() {
             <p className="font-medium">{video.owner.username}</p>
             <p className="text-sm text-gray-500">Category: {video.category}</p>
           </div>
-        </Link>
+        </Link> 
+
+         {/* Action Buttons */}
+        <div className="flex items-center gap-4 text-gray-700 overflow-x-auto scrollbar mb-6">
+  {/* Like Button */}
+  <button
+    type="button"
+    onClick={handleLikeToggle}
+    className="flex justify-center items-center gap-2 bg-gray-300 px-3 py-1 rounded-2xl hover:text-red-600 transition"
+  >
+    {likeStatus ? <FaThumbsUp className='text-sm md:text-xl' /> : <FiThumbsUp className='text-sm md:text-xl'  />}
+    <span className="text-xs">{likeStatus ? 'Liked' : 'Like'}</span>
+  </button>
+
+  {/* Comment Button */}
+  <button
+    type="button"
+    onClick={() => document.getElementById('commentInput')?.focus()}
+    className="flex justify-center items-center rounded-2xl bg-gray-300 px-3 py-1 gap-2 hover:text-green-600 transition"
+  >
+    <FaCommentDots className='text-sm md:text-xl'  />
+    <span className="text-xs md:sm">Comment</span>
+  </button>
+
+  {/* Subscribe Button */}
+  <button
+    type="button"
+    onClick={handleSubscribeToggle}
+    className={`flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium transition 
+      ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300' : 'bg-red-600 text-white hover:bg-red-700'}`}
+  >
+    {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
+    {subscribed ? 'Subscribed' : 'Subscribe'}
+  </button>
+
+  {/* Share Button */}
+  <VideoShareButton videoId={video._id} />
+</div>
+        </div>  
+
+        
+
 
         {/* Description */}
-        <div className="mb-4">
-          <p className="text-gray-700">
-            {showFullDesc
-              ? video.description
-              : video.description.length > 150
-                ? video.description.slice(0, 150) + "..."
-                : video.description}
-            {video.description.length > 150 && (
-              <button
-                className="text-blue-600 ml-2 text-sm"
-                onClick={() => setShowFullDesc(!showFullDesc)}
-              >
-                {showFullDesc ? "Show less" : "Read more"}
-              </button>
-            )}
-          </p>
-        </div>
+        <VideoDescription video={video} />
 
-        {/* Action Buttons */}
-        <div className="flex gap-6 text-gray-700 text-lg mb-6">
-          <button
-            type="button"
-            onClick={handleLikeToggle}
-            className="flex items-center cursor-pointer shadow-md ring ring-red-600 px-2 py-1 rounded-4xl gap-2 hover:text-red-600"
-          >
-            
-            <span className="text-sm">{likeStatus ? (<FaThumbsUp size={20} />) : (<FiThumbsUp size={20} />)}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => document.getElementById('commentInput')?.focus()}
-            className="flex items-center cursor-pointer shadow-md ring ring-green-600 px-2 py-1 rounded-4xl gap-2 hover:text-green-600"
-          >
-            <FaCommentDots className="text-green-600" />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleSubscribeToggle}
-            className="flex items-center shadow-md cursor-pointer ring ring-red-600 px-2 py-1 rounded-4xl gap-2 hover:text-red-600"
-          >{subscribed ? "Unsubscribe" : "Subscribe"}
-            
-            <span className="text-sm text-red-500 hover:text-red-600 ">{subscribed ? (<FaBell size={20}  /> ) : (<FiBell size={20}  />)}</span>
-          </button>
-            <VideoShareButton videoId={video._id} />
-        </div>
 
         {/* Comments */}
         <CommentsSection

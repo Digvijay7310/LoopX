@@ -54,6 +54,12 @@ function VideoPlayer({ src }) {
 
   // Keyboard shortcuts
   const handleKeyDown = (e) => {
+    const tagName = e.target.tagName.toLowerCase();
+
+    if(tagName === 'input' || tagName === "textarea" || e.target.isContainEditable){
+      return;
+    }
+    
     const video = videoRef.current;
     switch (e.key) {
       case ' ':

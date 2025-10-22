@@ -39,7 +39,7 @@ useEffect(() => {
     return <p className="text-center mt-10 text-gray-500">Loading...</p>
 
   if (!user)
-  return <p className="text-center mt-10 text-gray-500">Loading user data...</p>;
+  return <p className="text-center mt-10 text-gray-500">No user found</p>;
 
   
   if (error)

@@ -73,12 +73,11 @@ function MyCommentsPage() {
                   key={comment._id}
                   className="group bg-white border rounded-lg shadow hover:shadow-md transition relative"
                 >
-                  <Link to={`/api/video/${video._id}`}>
-                    <img
-                      src={video.thumbnail}
-                      alt={video.title}
-                      className="w-full h-60 object-contain rounded-lg"
-                    />
+                  <Link to={`/video/${video._id}`}>
+                    <div className="aspect-video relative bg-black group">
+                      <img src={video.thumbnail} alt={video.title}
+                      className='h-full w-full object-cover' />
+                    </div>
                   </Link>
 
                   <div className="px-1">
@@ -105,13 +104,15 @@ function MyCommentsPage() {
                       <div className="text-sm text-gray-600">
                         <p>{video.owner?.username || 'Unknown'}</p>
                         <p className="text-xs text-gray-400">
-                          {new Date(video.createdAt).toDateString()}
                         </p>
+                        <p className="text-xs text-gray-500">
+                         {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
+                         </p>
                       </div>
                     </div>
 
                     <div className="mt-3 text-sm text-gray-700">
-                      <p className="italic">“{comment.text}”</p>
+                      <p className="italic text-center"> Comment: “{comment.text}”</p>
                     </div>
 
                     {confirmDeleteId === comment._id && (

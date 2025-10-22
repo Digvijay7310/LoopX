@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { Link } from 'react-router-dom';
+import VideoShareButton from '../components/VideoShareButton';
 
 function MyLikesPage() {
   const [likes, setLikes] = useState([]);
@@ -58,32 +59,57 @@ function MyLikesPage() {
               return (
                 <Link
                   key={like._id}
-                  to={`/api/video/${video._id}`}
-                  className="group bg-white border rounded-lg shadow hover:shadow-md transition"
+                  to={`/video/${video._id}`}
+                  className='cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200'
                 >
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-60 object-contain rounded-t-lg"
-                  />
-                  <div>
-                    <h3 className="text-sm px-0.5 font-semibold text-gray-800 truncate">
-                      {video.title}
-                    </h3>
-                    <div className="flex items-center gap-3 mt-2">
-                      <img
-                        src={video.owner?.avatar}
-                        alt="Avatar"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div className="text-sm text-gray-600">
-                        <p>{video.owner?.username || "Unknown"}</p>
-                        <p className="text-xs text-gray-400">
-                          {new Date(video.createdAt).toDateString()}
-                        </p>
-                      </div>
-                    </div>
+                  {/* Thumbnail with hover video */}
+                  <div className="aspect-video relative bg-black group">
+                    <img src={video.thumbnail} alt={video.title}
+                    className='w-full h-full object-cover group-hover:hidden' />
+                    <video src={video.videoUrl}
+                    className='w-full h-full object-cover hidden group-hover:block'
+                    poster={video.thumbnail}
+                    muted
+                    loop
+                    playsInline
+                    preload='metadata'
+                    onMouseOver={(e) => {
+                      if(e.target.readyState >= 2) e.target.play();
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.pause();
+                      e.target.currentTime = 0;
+                    }}
+                    />
                   </div>
+                  
+                  {/* Video info section */}
+                  <div className="flex mt-3 px-2">
+    {/* Avatar */}
+    <img
+      src={video.owner?.avatar}
+      alt={video.owner?.username}
+      className="rounded-full w-9 h-9 object-cover mr-3"
+    />
+
+    {/* Title + metadata */}
+    <div className="flex flex-col flex-grow">
+      <h3 className="font-semibold text-sm text-gray  -900 line-clamp-2">
+        {video.title}
+      </h3>
+      <p className="text-xs text-gray-600 mt-1">
+        {video.owner?.username}
+      </p>
+      <div className="flex justify-between">
+        <p className="text-xs text-gray-500">
+        {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
+      </p>
+      <VideoShareButton />
+      </div>
+      
+    </div>
+
+  </div>
                 </Link>
               );
             })}

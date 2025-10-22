@@ -32,15 +32,15 @@ function HomePage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {videos.length === 0 ? (
-          <p>Login to see videos </p>
+          <p className='w-full text-center font-bold text-3xl'>Login to see videos </p>
 
         ) : (
           videos.map((video) => (
             <Link
-  to={`/video/${video._id}`}
-  key={video._id}
-  className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
->
+              to={`/video/${video._id}`}
+              key={video._id}
+              className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
+             >
   {/* Thumbnail with hover video */}
   <div className="aspect-video relative bg-black group">
     <img
@@ -51,7 +51,7 @@ function HomePage() {
 
     <video
       src={video.videoUrl}
-      className="w-full h-full object-cover hidden group-hover:block"
+      className="w-full h-full object-contain hidden group-hover:block"
       poster={video.thumbnail}
       muted
       loop
@@ -78,7 +78,7 @@ function HomePage() {
 
     {/* Title + metadata */}
     <div className="flex flex-col flex-grow">
-      <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">
+      <h3 className="font-semibold text-sm text-gray  -900 line-clamp-2">
         {video.title}
       </h3>
       <p className="text-xs text-gray-600 mt-1">
@@ -94,7 +94,7 @@ function HomePage() {
       <VideoShareButton videoId={video._id} />
     </div>
   </div>
-</Link>
+         </Link>
 
           ))
         )}

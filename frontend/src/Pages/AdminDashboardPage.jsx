@@ -17,7 +17,7 @@ function AdminDashboardPage() {
         setStats(res.data.data);
       } catch (err) {
         if (err.response?.status === 401) {
-          navigate('/api/admin/login');
+          navigate('/admin/login');
         } else {
           setError('Failed to load dashboard stats.');
         }

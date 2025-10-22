@@ -34,7 +34,7 @@ function VideoUploadPage() {
       const res = await axiosInstance.post("/api/video/upload", form);
       if (res.data.data) {
         toast.success("Video uploaded successfully!");
-        navigate("/api/video/home");
+        navigate("/video/home");
       } else {
         toast.error("Video not uploaded.");
       }

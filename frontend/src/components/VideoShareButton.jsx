@@ -22,7 +22,7 @@ function VideoShareButton({ videoId }) {
   return (
     <button
       onClick={handleShare}
-      className="flex items-center cursor-copy gap-1 text-sm text-gray-600 hover:text-red-600 transition"
+      className="flex items-center cursor-copy gap-1 text-xs bg-gray-300 rounded-2xl px-3 py-1 hover:text-red-600 transition"
       title="Share video"
     >
       <FiShare2 />

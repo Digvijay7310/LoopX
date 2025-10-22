@@ -30,7 +30,7 @@ const getMe = AsyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const user = await User.findById(userId).select("-password -refreshToken").lean();
+    const user = await User.findOne({_id: userId}).select("-password").lean();
 
     if (!user) {
       throw new ApiError(404, "User not found");

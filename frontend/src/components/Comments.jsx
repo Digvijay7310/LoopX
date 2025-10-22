@@ -5,14 +5,14 @@ function Comments({ comments }) {
     return (
       <div className="space-y-4 max-w-md mx-auto">
         <h3 className="text-md font-semibold mb-2">Comments</h3>
-        <p className="text-gray-500 text-sm">No comments yet. Be the first to comment!</p>
+        <p className="text-gray-500 text-sm">No comments yet!</p>
       </div>
     );
   }
 
   return (
-    <section aria-label="Comments section" className="space-y-6 max-w-md mx-auto">
-      <h3 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2">Comments</h3>
+    <section aria-label="Comments section" className="space-y-2 max-w-md mx-auto">
+      <h3 className="text-lg font-semibold mb-0.5 border-b border-gray-300 pb-0.5">Comments</h3>
       {comments.map(({ _id, user, text }) => (
         <article
           key={_id}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { useSearchParams, Link } from 'react-router-dom';
+import VideoShareButton from '../components/VideoShareButton';
 
 function SearchResultsPage() {
   const [searchParams] = useSearchParams();
@@ -48,17 +49,62 @@ function SearchResultsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {results.map(video => (
-            <Link key={video._id} to={`/api/video/${video._id}`} className="border rounded shadow hover:shadow-md">
-              <img src={video.thumbnail} alt={video.title} className="w-full h-40 object-cover rounded-t" />
-              <div className="p-3">
-                <h3 className="font-medium text-gray-800">{video.title}</h3>
-                <div className="text-sm text-gray-500 mt-1 flex items-center gap-2">
-                  <img src={video.owner.avatar} alt="" className="w-6 h-6 rounded-full" />
-                  <span>{video.owner.username}</span>
-                </div>
-                <p>{video.views} views</p>
-              </div>
-            </Link>
+            <Link
+              to={`/video/${video._id}`}
+              key={video._id}
+              className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
+             >
+  {/* Thumbnail with hover video */}
+  <div className="aspect-video relative bg-black group">
+    <img
+      src={video.thumbnail}
+      alt={video.title}
+      className="absolute top-0 left-0 w-full h-full object-cover group-hover:hidden"
+    />
+
+    <video
+      src={video.videoUrl}
+      className="w-full h-full object-contain hidden group-hover:block"
+      poster={video.thumbnail}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      onMouseOver={(e) => {
+        if (e.target.readyState >= 2) e.target.play();
+      }}
+      onMouseOut={(e) => {
+        e.target.pause();
+        e.target.currentTime = 0;
+      }}
+    />
+  </div>
+
+  {/* Video Info Section */}
+  <div className="flex mt-3 px-2">
+    {/* Avatar */}
+    <img
+      src={video.owner?.avatar}
+      alt={video.owner?.username}
+      className="rounded-full w-9 h-9 object-cover mr-3"
+    />
+
+    {/* Title + metadata */}
+    <div className="flex flex-col flex-grow">
+      <h3 className="font-semibold text-sm text-gray  -900 line-clamp-2">
+        {video.title}
+      </h3>
+      <p className="text-xs text-gray-600 mt-1">
+        {video.owner?.username}
+      </p>
+    </div>
+
+    {/* Share Button */}
+    <div className="ml-auto">
+      <VideoShareButton videoId={video._id} />
+    </div>
+  </div>
+         </Link>
           ))}
         </div>
       )}

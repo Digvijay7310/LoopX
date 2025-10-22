@@ -1,42 +1,76 @@
 import React from 'react';
-import { FiTrash } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { FiTrash } from 'react-icons/fi';
 import VideoShareButton from './VideoShareButton';
 
 function MyVideos({ video, onDelete }) {
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition relative">
+    <div className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative border border-red-500">
+      {/* Video Link */}
       <Link to={`/video/${video._id}`}>
-        <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover" />
-        <div className="p-4">
-          <h3 className="text-lg font-semibold">{video.title}</h3>
-          <p className="text-sm text-gray-500">{video.views} views</p>
-
-          <div className="flex items-center gap-2 mt-2">
-            <img
-              src={video.owner?.avatar || "https://via.placeholder.com/40"}
-              alt="avatar"
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <span className="text-sm text-gray-700">@{video.owner?.username}</span>
-          </div>
-
-          <p className="text-xs text-gray-400 mt-1">
-            {new Date(video.createdAt).toDateString()}
-          </p>
+        {/* Thumbnail with hover video */}
+        <div className="aspect-video relative bg-black group">
+          <img
+            src={video.thumbnail}
+            alt={video.title}
+            className="absolute top-0 left-0 w-full h-full object-cover group-hover:hidden"
+          />
+          <video
+            src={video.videoUrl}
+            className="w-full h-full object-contain hidden group-hover:block"
+            poster={video.thumbnail}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onMouseOver={(e) => {
+              if (e.target.readyState >= 2) e.target.play();
+            }}
+            onMouseOut={(e) => {
+              e.target.pause();
+              e.target.currentTime = 0;
+            }}
+          />
         </div>
-        <VideoShareButton videoId={video._id} />
+
+        {/* Video Info Section */}
+        <div className="flex mt-3 px-2">
+          {/* Avatar */}
+          <img
+            src={video.owner?.avatar}
+            alt={video.owner?.username}
+            className="rounded-full w-9 h-9 object-cover mr-3"
+          />
+
+          {/* Title + metadata */}
+          <div className="flex flex-col flex-grow">
+            <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">
+              {video.title}
+            </h3>
+            <p className="text-xs text-gray-600 mt-1">
+              {video.owner?.username}
+            </p>
+            <p className="text-xs text-gray-500">
+              {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
       </Link>
 
-      {onDelete && (
-        <button
-          onClick={() => onDelete(video._id)}
-          className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-          title="Delete Video"
-        >
-          <FiTrash />
-        </button>
-      )}
+      {/* Delete + Share buttons */}
+      <div className="absolute top-2 right-2 flex gap-2">
+        {onDelete && (
+          <button
+            onClick={() => onDelete(video._id)}
+            className="bg-red-600 text-white p-1 rounded hover:bg-red-700"
+            title="Delete Video"
+          >
+            <FiTrash size={16} />
+          </button>
+        )}
+
+        <VideoShareButton videoId={video._id} />
+      </div>
     </div>
   );
 }
