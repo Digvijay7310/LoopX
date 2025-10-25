@@ -44,12 +44,8 @@ function MyVideos({ video, onDelete }) {
 
           {/* Title + metadata */}
           <div className="flex flex-col flex-grow">
-            <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">
-              {video.title}
-            </h3>
-            <p className="text-xs text-gray-600 mt-1">
-              {video.owner?.username}
-            </p>
+            <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">{video.title}</h3>
+            <p className="text-xs text-gray-600 mt-1">{video.owner?.username}</p>
             <p className="text-xs text-gray-500">
               {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
             </p>

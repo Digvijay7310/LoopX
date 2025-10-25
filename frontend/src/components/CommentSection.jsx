@@ -11,7 +11,7 @@ function CommentSection({ videoId, comments, setComments }) {
 
   // Toggle comments visibility on input focus or click
   const handleInputFocus = () => {
-    setShowComments(prev => !prev);
+    setShowComments((prev) => !prev);
   };
 
   const handleSubmit = async () => {

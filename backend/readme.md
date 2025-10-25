@@ -66,4 +66,3 @@ Uploaded files are processed and stored on Cloudinary for media delivery.
 ---
 
 For detailed API specs and request formats, please refer to the API documentation (to be added).
-

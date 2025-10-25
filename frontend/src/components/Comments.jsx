@@ -27,10 +27,7 @@ function Comments({ comments }) {
             loading="lazy"
           />
           <div className="flex flex-col">
-            <h4
-              id={`comment-${_id}-username`}
-              className="font-semibold text-sm text-gray-900"
-            >
+            <h4 id={`comment-${_id}-username`} className="font-semibold text-sm text-gray-900">
               {user.username}
             </h4>
             <p className="text-sm text-gray-700 whitespace-pre-wrap">{text}</p>

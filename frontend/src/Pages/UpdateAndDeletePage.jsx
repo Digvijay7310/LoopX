@@ -1,59 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import axiosInstance from '../utils/Axios'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../utils/Axios';
+import { toast } from 'react-toastify';
 
 function UpdateAndDeletePage() {
-  const { id } = useParams()
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
+  const { id } = useParams();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      const res = await axiosInstance.put(`/api/video/${id}/edit`, title, description)
+      const res = await axiosInstance.put(`/api/video/${id}/edit`, title, description);
 
       if (res.data.data) {
-        toast.success("Video updated successfully")
-        setTimeout(() =>navigate("/"), 1000)
+        toast.success('Video updated successfully');
+        setTimeout(() => navigate('/'), 1000);
       } else {
-        toast.error("Video not updated")
-        setError("Something went wrong")
+        toast.error('Video not updated');
+        setError('Something went wrong');
       }
     } catch (error) {
-      console.log("Video not edited: ", error)
-      setError("Something went wrong")
+      console.log('Video not edited: ', error);
+      setError('Something went wrong');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
     try {
-      const res = await axiosInstance.delete(`/api/video/${id}/delete-video`)
+      const res = await axiosInstance.delete(`/api/video/${id}/delete-video`);
       if (res.status === 200) {
-        toast.success("Video deleted successfully")
-        setTimeout(() =>navigate("/"), 1000)
+        toast.success('Video deleted successfully');
+        setTimeout(() => navigate('/'), 1000);
       } else {
-        toast.error("Video not deleted")
+        toast.error('Video not deleted');
       }
     } catch (error) {
-      console.log("Delete error:", error)
-      toast.error("Error deleting video")
+      console.log('Delete error:', error);
+      toast.error('Error deleting video');
     }
-  }
-   useEffect(() => document.title = "LoopX - Update and Delete Videos")
+  };
+  useEffect(() => (document.title = 'LoopX - Update and Delete Videos'));
 
   return (
     <div className="max-w-xl mx-auto mt-10 bg-white p-8 shadow-md rounded-md">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Update or Delete Video</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        Update or Delete Video
+      </h2>
 
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       {loading && <p className="text-center text-gray-500 mb-4">Processing...</p>}
@@ -97,7 +98,7 @@ function UpdateAndDeletePage() {
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default UpdateAndDeletePage
+export default UpdateAndDeletePage;

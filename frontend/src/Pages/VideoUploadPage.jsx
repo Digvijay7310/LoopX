@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { FiUpload } from 'react-icons/fi';
 
 function VideoUploadPage() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
@@ -24,30 +24,30 @@ function VideoUploadPage() {
     setLoading(true);
 
     const form = new FormData();
-    if (title) form.append("title", title);
-    if (description) form.append("description", description);
-    if (category) form.append("category", category);
-    if (thumbnail) form.append("thumbnail", thumbnail);
-    if (videoUrl) form.append("videoUrl", videoUrl); 
+    if (title) form.append('title', title);
+    if (description) form.append('description', description);
+    if (category) form.append('category', category);
+    if (thumbnail) form.append('thumbnail', thumbnail);
+    if (videoUrl) form.append('videoUrl', videoUrl);
 
     try {
-      const res = await axiosInstance.post("/api/video/upload", form);
+      const res = await axiosInstance.post('/api/video/upload', form);
       if (res.data.data) {
-        toast.success("Video uploaded successfully!");
-        navigate("/video/home");
+        toast.success('Video uploaded successfully!');
+        navigate('/video/home');
       } else {
-        toast.error("Video not uploaded.");
+        toast.error('Video not uploaded.');
       }
     } catch (error) {
-      console.error("Video upload error:", error);
-      toast.error("Upload failed.");
+      console.error('Video upload error:', error);
+      toast.error('Upload failed.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    document.title = "LoopX - Video Upload";
+    document.title = 'LoopX - Video Upload';
   }, []);
 
   return (
@@ -72,12 +72,15 @@ function VideoUploadPage() {
 
             {/* The Form */}
             <form onSubmit={handleUpload} encType="multipart/form-data" className="space-y-6">
-
               {/* Title */}
               <div>
-                <label className="block text-gray-700 mb-1">Title</label>
+                <label htmlFor="title" className="block text-gray-700 mb-1">
+                  Title
+                </label>
                 <input
                   type="text"
+                  id="title"
+                  name="title"
                   className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
                   placeholder="Enter title"
                   value={title}
@@ -88,8 +91,12 @@ function VideoUploadPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-gray-700 mb-1">Description</label>
+                <label htmlFor="description" className="block text-gray-700 mb-1">
+                  Description
+                </label>
                 <textarea
+                  id="description"
+                  name="description"
                   className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
                   placeholder="Enter description"
                   value={description}
@@ -102,8 +109,12 @@ function VideoUploadPage() {
 
               {/* Category */}
               <div>
-                <label className="block text-gray-700 mb-1">Category</label>
+                <label htmlFor="category" className="block text-gray-700 mb-1">
+                  Category
+                </label>
                 <input
+                  id="category"
+                  name="category"
                   type="text"
                   className="w-full p-2 border border-red-600 rounded-md outline-none focus:ring-1 focus:ring-red-600"
                   placeholder="Enter category"
@@ -115,7 +126,9 @@ function VideoUploadPage() {
 
               {/* Thumbnail Upload */}
               <div>
-                <label className="block text-gray-700 mb-1">Thumbnail</label>
+                <label htmlFor="thumbnail" className="block text-gray-700 mb-1">
+                  Thumbnail
+                </label>
                 <div className="flex items-center gap-4">
                   <label
                     htmlFor="thumbnail"
@@ -125,6 +138,7 @@ function VideoUploadPage() {
                   </label>
                   <input
                     id="thumbnail"
+                    name="thumbnail"
                     type="file"
                     accept="image/*"
                     className="hidden"
@@ -146,7 +160,9 @@ function VideoUploadPage() {
 
               {/* Video Upload */}
               <div>
-                <label className="block text-gray-700 mb-1">Video File</label>
+                <label htmlFor="video" className="block text-gray-700 mb-1">
+                  Video File
+                </label>
                 <div className="flex items-center gap-4">
                   <label
                     htmlFor="video"
@@ -166,11 +182,7 @@ function VideoUploadPage() {
                     }}
                   />
                   {videoPreview && (
-                    <video
-                      src={videoPreview}
-                      controls
-                      className="w-40 h-24 rounded-md border"
-                    />
+                    <video src={videoPreview} controls className="w-40 h-24 rounded-md border" />
                   )}
                 </div>
               </div>
@@ -181,7 +193,7 @@ function VideoUploadPage() {
                 disabled={loading}
                 className="w-full bg-red-600 cursor-pointer text-white py-2 px-6 rounded hover:bg-red-700 disabled:bg-red-300 transition"
               >
-                {loading ? "Uploading..." : "Upload"}
+                {loading ? 'Uploading...' : 'Upload'}
               </button>
             </form>
           </div>

@@ -14,7 +14,7 @@ function AdminUserDetailsPage() {
 
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   // Fetch user details on mount
   useEffect(() => {
@@ -27,14 +27,14 @@ function AdminUserDetailsPage() {
         setVideos(data.videos);
         setComments(data.comments);
         setLikes(data.likes);
-        setError("");
+        setError('');
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load user details.");
+        setError(err.response?.data?.message || 'Failed to load user details.');
       } finally {
         setLoading(false);
       }
     }
-    document.title = "LoopX - Users Details"
+    document.title = 'LoopX - Users Details';
     fetchUserDetails();
   }, [username]);
 
@@ -43,10 +43,10 @@ function AdminUserDetailsPage() {
     setActionLoading(true);
     try {
       await axiosInstance.post(`/api/admin/${username}/block`);
-      setUser(prev => ({ ...prev, isBlocked: true }));
-      setError("");
+      setUser((prev) => ({ ...prev, isBlocked: true }));
+      setError('');
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to block user.");
+      setError(err.response?.data?.message || 'Failed to block user.');
     } finally {
       setActionLoading(false);
     }
@@ -57,10 +57,10 @@ function AdminUserDetailsPage() {
     setActionLoading(true);
     try {
       await axiosInstance.post(`/api/admin/${username}/unblock`);
-      setUser(prev => ({ ...prev, isBlocked: false }));
-      setError("");
+      setUser((prev) => ({ ...prev, isBlocked: false }));
+      setError('');
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to unblock user.");
+      setError(err.response?.data?.message || 'Failed to unblock user.');
     } finally {
       setActionLoading(false);
     }
@@ -68,14 +68,19 @@ function AdminUserDetailsPage() {
 
   // Delete user
   const deleteUser = async () => {
-    if (!window.confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) return;
+    if (
+      !window.confirm(
+        `Are you sure you want to delete user "${username}"? This action cannot be undone.`,
+      )
+    )
+      return;
     setActionLoading(true);
     try {
       await axiosInstance.delete(`/api/admin/${username}/delete`);
-      alert("User deleted successfully.");
+      alert('User deleted successfully.');
       navigate('/admin/all-users'); // go back to all users list
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete user.");
+      setError(err.response?.data?.message || 'Failed to delete user.');
     } finally {
       setActionLoading(false);
     }
@@ -86,13 +91,26 @@ function AdminUserDetailsPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <h2 className="text-3xl mb-4 font-semibold">User Details: {user.fullName} ({user.username})</h2>
+      <h2 className="text-3xl mb-4 font-semibold">
+        User Details: {user.fullName} ({user.username})
+      </h2>
 
       <div className="mb-6">
-        <span className='font-semibold'>CoverImage: <img src={user.coverImage} alt="coverImage" className='h-35 w-full aspect-video rounded-lg' /></span>
-        <span className='font-semibold'>Avatar: <img src={user.avatar} alt="avatar" className=' h-20 w-20 rounded-full' /> </span>
-        <strong>Email:</strong> {user.email}<br />
-        <strong>Status:</strong> {user.isBlocked ? (
+        <span className="font-semibold">
+          CoverImage:{' '}
+          <img
+            src={user.coverImage}
+            alt="coverImage"
+            className="h-35 w-full aspect-video rounded-lg"
+          />
+        </span>
+        <span className="font-semibold">
+          Avatar: <img src={user.avatar} alt="avatar" className=" h-20 w-20 rounded-full" />{' '}
+        </span>
+        <strong>Email:</strong> {user.email}
+        <br />
+        <strong>Status:</strong>{' '}
+        {user.isBlocked ? (
           <span className="text-red-600 font-semibold">Blocked</span>
         ) : (
           <span className="text-green-600 font-semibold">Active</span>
@@ -103,28 +121,19 @@ function AdminUserDetailsPage() {
         <div className="border p-4 rounded shadow text-center">
           <h3 className="text-xl font-semibold mb-2">Videos ({videos.length})</h3>
           <ul className="text-sm max-h-32 overflow-auto">
-            {videos.length === 0 ? (
-              <li>No videos uploaded.</li>
-            ) : (
-              videos.map(video => <li key={video._id}>{video.title || 'Untitled'}</li>)
-            )}
+            {videos.length === 0 ? <li>No videos uploaded.</li> : null}
           </ul>
         </div>
 
         <div className="border p-4 rounded shadow text-center">
           <h3 className="text-xl font-semibold mb-2">Comments ({comments.length})</h3>
           <ul className="text-sm max-h-32 overflow-auto">
-            {comments.length === 0 ? (
-              <li>No comments made.</li>
-            ) : (
-              comments.map(comment => <li key={comment._id}>{comment.text || '...'}</li>)
-            )}
+            {comments.length === 0 ? <li>No comments made.</li> : null}
           </ul>
         </div>
 
         <div className="border p-4 rounded shadow text-center">
           <h3 className="text-xl font-semibold mb-2">Likes ({likes.length})</h3>
-          <p>{likes.length} likes</p>
         </div>
       </div>
 

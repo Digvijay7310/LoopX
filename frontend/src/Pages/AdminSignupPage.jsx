@@ -34,8 +34,8 @@ function AdminSignupPage() {
   };
 
   useEffect(() => {
-    document.title = "LoopX - Admin Signup"
-  })
+    document.title = 'LoopX - Admin Signup';
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-red-100">

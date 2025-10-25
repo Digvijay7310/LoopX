@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Logo from './Logo';
 import SearchComponent from './SearchComponent';
 import Navbar from './Navbar';
-import { FaTimes, FaBars } from "react-icons/fa";
+import { FaTimes, FaBars } from 'react-icons/fa';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,18 +29,18 @@ function Header() {
     };
 
     if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [menuOpen]);
 
   return (
     <>
       {/* Sticky Header */}
-      <header className="w-full bg-white shadow-md px-4 py-3 z-50 sticky top-0">
+      <header className="w-full bg-white shadow-lg px-4 py-3 z-50 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
 

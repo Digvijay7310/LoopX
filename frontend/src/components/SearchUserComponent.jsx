@@ -37,9 +37,15 @@ function SearchUserComponent() {
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <form onSubmit={e => e.preventDefault()} className="flex items-center gap-2 border rounded px-2">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="flex items-center gap-2 border rounded px-2"
+      >
+        <label htmlFor="search-user"></label>
         <input
-          type="search"
+          type="search-user"
+          id="search-user"
+          name="search-user"
           placeholder="Search by username or email..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -56,7 +62,7 @@ function SearchUserComponent() {
       {/* Results */}
       {users.length > 0 && (
         <ul className="mt-4 border rounded divide-y">
-          {users.map(user => (
+          {users.map((user) => (
             <li key={user._id} className=" hover:bg-gray-100">
               <Link to={`/admin/${user.username}`} className="flex items-center gap-3">
                 {user.avatar ? (

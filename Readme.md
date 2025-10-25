@@ -1,12 +1,13 @@
-# loopX Video sharing platform 
+# loopX Video sharing platform
 
 This project provide video upload, like, comment, and sharing functionlities to all its users.
 
 ## Tech Stack uses:
 
-  ### MERN STACK:-
-  
- ### backend
+### MERN STACK:-
+
+### backend
+
       - BCRYPT
       - CLOUDINARY
       - COOKIE-PARSER
@@ -19,7 +20,9 @@ This project provide video upload, like, comment, and sharing functionlities to 
       - MONGOOSE-AGGREGATE-PAGINATE-V2
       - NODEJS
       - MULTER
- ### frontend
+
+### frontend
+
       - REACT
       - REACT-ROUTER-DOM
       - AXIOS
@@ -27,4 +30,5 @@ This project provide video upload, like, comment, and sharing functionlities to 
       - REACT-TOASTIFY
 
 ### Unit Test for backend
-  -Postman
+
+-Postman

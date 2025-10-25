@@ -26,7 +26,7 @@ function AdminDashboardPage() {
       }
     };
     fetchStats();
-    document.title = "LoopX - Admin Dashboard"
+    document.title = 'LoopX - Admin Dashboard';
   }, [navigate]);
 
   const handleLogout = async () => {
@@ -37,7 +37,6 @@ function AdminDashboardPage() {
       navigate('/api/admin/login');
     }
   };
-
 
   if (loading) return <div className="p-8 text-center">Loading...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
@@ -59,13 +58,15 @@ function AdminDashboardPage() {
       <SearchUserComponent />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-4 mt-6">
-        <Link to="/admin/all-users"
-         className="h-[150px] w-full ring ring-red-500 rounded shadow  flex justify-center items-center flex-col gap-2">
+        <Link
+          to="/admin/all-users"
+          className="h-[150px] w-full ring ring-red-500 rounded shadow  flex justify-center items-center flex-col gap-2"
+        >
           <FaUsers className="text-4xl text-red-600" />
           <h2 className="text-xl font-semibold">Users</h2>
           <p className="text-2xl">{stats.usersCount}</p>
         </Link>
- 
+
         <div className="h-[150px] w-full ring ring-red-500 rounded shadow  flex justify-center items-center flex-col gap-2">
           <FaHeart className="text-4xl text-red-600" />
           <h2 className="text-xl font-semibold">Likes</h2>

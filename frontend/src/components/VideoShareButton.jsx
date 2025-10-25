@@ -9,20 +9,21 @@ function VideoShareButton({ videoId }) {
     e.preventDefault();
 
     const videoUrl = `${window.location.origin}/video/${videoId}`;
-    
-    navigator.clipboard.writeText(videoUrl)
+
+    navigator.clipboard
+      .writeText(videoUrl)
       .then(() => {
-        toast.success("Link copied to clipboard!");
+        toast.success('Link copied to clipboard!');
       })
       .catch(() => {
-        toast.error("Failed to copy link.");
+        toast.error('Failed to copy link.');
       });
   };
 
   return (
     <button
       onClick={handleShare}
-      className="flex items-center cursor-copy gap-1 text-xs bg-gray-300 rounded-2xl px-3 py-1 hover:text-red-600 transition"
+      className="flex items-center text-gray-200 gap-1 cursor-pointer text-xs bg-red-600 rounded-2xl p-1 hover:text-white transition"
       title="Share video"
     >
       <FiShare2 />

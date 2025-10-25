@@ -21,7 +21,7 @@ function AdminUsersPage() {
       }
     };
 
-    document.title = "LoopX - User Block or unBlock and Delete"
+    document.title = 'LoopX - User Block or unBlock and Delete';
     fetchUsers();
   }, []);
 
@@ -49,7 +49,7 @@ function AdminUsersPage() {
               </td>
             </tr>
           ) : (
-            users.map(user => (
+            users.map((user) => (
               <tr key={user._id} className="hover:bg-gray-100">
                 <td className="border border-gray-300 p-2 text-center">
                   {user.avatar ? (

@@ -56,10 +56,10 @@ function VideoPlayer({ src }) {
   const handleKeyDown = (e) => {
     const tagName = e.target.tagName.toLowerCase();
 
-    if(tagName === 'input' || tagName === "textarea" || e.target.isContainEditable){
+    if (tagName === 'input' || tagName === 'textarea' || e.target.isContainEditable) {
       return;
     }
-    
+
     const video = videoRef.current;
     switch (e.key) {
       case ' ':
@@ -118,22 +118,17 @@ function VideoPlayer({ src }) {
           className="h-0.5 bg-gray-600 rounded cursor-pointer"
           onClick={handleSeek}
         >
-          <div
-            className="h-full bg-red-600 rounded"
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className="h-full bg-red-600 rounded" style={{ width: `${progress}%` }}></div>
         </div>
 
         {/* Bottom controls */}
         <div className="flex items-center justify-between text-white text-sm px-2">
           <div className="flex items-center gap-4">
-            <button onClick={togglePlay}>
-              {isPlaying ? <FaPause /> : <FaPlay />}
-            </button>
-            <button onClick={toggleMute}>
-              {muted ? <FaVolumeMute /> : <FaVolumeUp />}
-            </button>
-            <span>{formatTime(videoRef.current?.currentTime || 0)} / {formatTime(duration)}</span>
+            <button onClick={togglePlay}>{isPlaying ? <FaPause /> : <FaPlay />}</button>
+            <button onClick={toggleMute}>{muted ? <FaVolumeMute /> : <FaVolumeUp />}</button>
+            <span>
+              {formatTime(videoRef.current?.currentTime || 0)} / {formatTime(duration)}
+            </span>
           </div>
           <button onClick={handleFullScreen}>
             <FaExpand />
