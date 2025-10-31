@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 function HomePageVideoCard({ video }) {
   return (
     <Link
+      aria-label={`Watch video titled ${video.title}`}
       to={`/video/${video._id}`}
-      className="cursor-pointer rounded-xl overflow-hidden bg-gray-50 shadow-lg transition-shadow duration-200"
+      className="cursor-pointer rounded-xl overflow-hidden bg-gray-50 "
     >
       {/* Thumbnail with hover video */}
       <div className="aspect-video relative bg-black group">
@@ -16,6 +17,7 @@ function HomePageVideoCard({ video }) {
           className="absolute top-0 left-0 w-full h-full object-cover group-hover:hidden"
         />
         <video
+          aria-label={`Preview of ${video.title}`}
           src={video.videoUrl}
           className="w-full h-full object-contain hidden group-hover:block"
           poster={video.thumbnail}
@@ -39,6 +41,7 @@ function HomePageVideoCard({ video }) {
         <img
           src={video.owner?.avatar}
           alt={video.owner?.username}
+          loading='lazy'
           className="rounded-full w-9 h-9 object-cover mr-3"
         />
 

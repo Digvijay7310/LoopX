@@ -52,7 +52,7 @@ function Header() {
           {/* Hamburger icon */}
           <button
             onClick={toggleMenu}
-            className="text-black focus:outline-none cursor-pointer z-50"
+            className="text-black bg-gray-200 p-2 rounded-lg focus:outline-none cursor-pointer z-50"
             aria-label="Toggle menu"
           >
             <FaBars size={24} />

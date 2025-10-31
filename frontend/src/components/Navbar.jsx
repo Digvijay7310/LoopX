@@ -6,6 +6,7 @@ import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { getCachedUser, setCachedUser } from '../utils/CurrentUserCache';
+import Loading from './Loading';
 
 function Navbar({ onLinkClick }) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -45,7 +46,7 @@ function Navbar({ onLinkClick }) {
     }
   };
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Loading...</p>;
+  if (loading) return <div className='flex justify-center items-center min-h-screen'><Loading /></div>;
 
   return (
     <nav className="w-full max-w-md">

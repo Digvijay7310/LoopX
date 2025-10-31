@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/Axios';
-import { Link } from 'react-router-dom';
 import HomePageLoading from '../components/LoadingComponents/HomePageLoading';
 import HomePageVideoCard from '../components/HomePageVideoCard';
+import { meta } from 'eslint-plugin-prettier';
 
 function HomePage() {
   const [videos, setVideos] = useState([]);
@@ -21,9 +21,25 @@ function HomePage() {
         setLoading(false);
       }
     };
-    document.title = 'LoopX - Home';
     fetchVideos();
   }, []);
+
+  useEffect(() => {
+    document.title = 'LoopX - Watch your favourite videos and like comment & Subscribe you favorite creators';
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if(metaDescription){
+      metaDescription.setAttribute(
+        'content',
+        'LoopX - Watch, like, comment & Subscribe to trending videos using just you email.'
+      );
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'LoopX - Watch, like, comment & Subscribe trending videos using just your email.'
+      document.head.appendChild(meta)
+    }
+  },[])
 
   if (loading) return <HomePageLoading />;
 

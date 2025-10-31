@@ -8,6 +8,7 @@ import {
   checkEmail,
 } from '../controllers/auth.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
+import { validate } from '../middlewares/validate.middlware.js';
 
 const router = express.Router();
 
@@ -19,9 +20,10 @@ router.post(
     { name: 'avatar', maxCount: 1 },
     { name: 'coverImage', maxCount: 1 },
   ]),
+  validate(signup),
   signup,
 );
-router.post('/login', login);
+router.post('/login', validate(login), login);
 router.post('/logout', logout);
 router.post('/refresh-token', refreshToken);
 

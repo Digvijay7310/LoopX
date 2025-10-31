@@ -36,6 +36,7 @@ const checkEmail = AsyncHandler(async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 });
+
 const signup = AsyncHandler(async (req, res) => {
   try {
     console.log('Request body: ', req.body);

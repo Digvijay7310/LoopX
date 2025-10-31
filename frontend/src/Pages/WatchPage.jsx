@@ -11,6 +11,7 @@ import { FiBell, FiThumbsUp } from 'react-icons/fi';
 import VideoShareButton from '../components/VideoShareButton';
 import VideoDescription from '../components/VideoDescription';
 import Loading from '../components/Loading';
+import ReportVideoComponent from '../components/ReportVideoComponent';
 
 function WatchPage() {
   const { id } = useParams();
@@ -138,7 +139,7 @@ function WatchPage() {
               type="button"
               onClick={handleSubscribeToggle}
               className={`flex items-center gap-0.5 px-4 py-1 rounded-full text-sm font-medium transition 
-      ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300' : 'bg-red-600 text-white hover:bg-red-700'}`}
+              ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300' : 'bg-red-600 text-white hover:bg-red-700'}`}
             >
               {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
               {subscribed ? 'Subscribed' : 'Subscribe'}
@@ -146,6 +147,9 @@ function WatchPage() {
 
             {/* Share Button */}
             <VideoShareButton videoId={video._id} />
+
+            {/* Report Button */}
+            <ReportVideoComponent videoId={video._id} videoTitle={video.title} />
           </div>
         </div>
 
