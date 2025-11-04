@@ -9,6 +9,7 @@ import {
 } from '../controllers/auth.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import { validate } from '../middlewares/validate.middlware.js';
+import { loginSchema, registerSchema } from '../validations/user.validation.js';
 
 const router = express.Router();
 
@@ -20,10 +21,10 @@ router.post(
     { name: 'avatar', maxCount: 1 },
     { name: 'coverImage', maxCount: 1 },
   ]),
-  validate(signup),
+  validate(registerSchema),
   signup,
 );
-router.post('/login', validate(login), login);
+router.post('/login', validate(loginSchema), login);
 router.post('/logout', logout);
 router.post('/refresh-token', refreshToken);
 

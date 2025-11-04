@@ -6,23 +6,27 @@ import { AsyncHandler } from '../utils/AsyncHandler.js';
 const addCommentToVideo = AsyncHandler(async (req, res) => {
   try {
     const { videoId } = req.params;
-    const { text } = req.body;
-    const userId = req.user._id;
+    const { text, parentComment } = req.body;
+    const userId = req.user._id; // from verifyToken middleware
 
     if (!text || text.trim().length === 0) {
       throw new ApiError(400, 'Comment text is required');
     }
+
     const comment = await Comment.create({
       user: userId,
       video: videoId,
       text,
+      parentComment: parentComment || null,
     });
 
     return res.status(201).json(new ApiResponse(201, comment, 'Comment added'));
   } catch (error) {
-    console.log('Error in add comment video ', error);
+    console.error('Error in add comment video', error);
+    throw error; // make sure to send proper response
   }
 });
+
 
 const myComments = AsyncHandler(async (req, res) => {
   try {
