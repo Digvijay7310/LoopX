@@ -110,88 +110,94 @@ const getVideoById = AsyncHandler(async (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
 
-  const video = await Video.findById(id).populate('owner', 'username avatar');
+  const video = await Video.findById(id)
+    .populate('owner', 'username avatar')
+    .lean();
 
-  if (!video) {
-    throw new ApiError(404, 'Video not found');
-  }
+  if (!video) throw new ApiError(404, 'Video not found');
 
-  video.views += 1;
-  await video.save();
+  // Increment view count
+  await Video.findByIdAndUpdate(id, { $inc: { views: 1 } });
 
-  const likes = await Like.find({ video: id }).populate('user', 'username avatar');
-  const likeByCurrentUser = likes.some((like) => like.user._id.toString() === userId.toString());
-  const likeUsers = likes.map((like) => ({
-    userId: like.user._id,
-    username: like.user.username,
-    avatar: like.user.avatar,
-    likedAt: like.createdAt,
-  }));
+  // ✅ Parallel likes + likeByUser fetch
+  const [likesCount, likeByCurrentUser] = await Promise.all([
+    Like.countDocuments({ video: id }),
+    Like.exists({ video: id, user: userId }),
+  ]);
 
-  // Fetch top-level comments
+  // ✅ Count comments
+  const commentsCount = await Comment.countDocuments({ video: id });
+
+  // ✅ Get few recent like users
+  const likeUsers = await Like.find({ video: id })
+    .limit(5)
+    .populate('user', 'username avatar')
+    .lean();
+
+  // ✅ Fetch top-level comments
   const comments = await Comment.find({ video: id, parentComment: null })
     .populate('user', 'username avatar')
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .lean();
 
   const commentList = comments.map((comment) => ({
     _id: comment._id,
     text: comment.text,
     createdAt: comment.createdAt,
-    user: {
-      _id: comment.user._id,
-      username: comment.user.username,
-      avatar: comment.user.avatar,
-    },
+    user: comment.user,
   }));
 
-  // Check if current user subscribed to channel
-  const isSubscribed = await Subscription.findOne({
+  // ✅ Check subscription
+  const isSubscribed = await Subscription.exists({
     subscriber: userId,
     channel: video.owner._id,
   });
 
-  // ✅ 1. Videos from same owner (excluding current)
+  // ✅ Related videos (same owner)
   const relatedVideos = await Video.find({
     owner: video.owner._id,
     _id: { $ne: video._id },
   })
     .populate('owner', 'username avatar')
     .sort({ createdAt: -1 })
-    .limit(5);
+    .limit(5)
+    .lean();
 
-  // ✅ 2. Random videos (excluding current only)
-  const randomVideos = await Video.aggregate([
-    {
-      $match: {
-        _id: { $ne: video._id },
-      },
-    },
+  // ✅ Random videos (populate manually)
+  const randomVideosAgg = await Video.aggregate([
+    { $match: { _id: { $ne: video._id } } },
     { $sample: { size: 5 } },
   ]);
+  const randomVideoIds = randomVideosAgg.map(v => v._id);
+  const randomVideos = await Video.find({ _id: { $in: randomVideoIds } })
+    .populate('owner', 'username avatar')
+    .lean();
 
+  // ✅ Send response
   return res.status(200).json(
     new ApiResponse(
       200,
       {
         video,
-        views: video.views,
+        views: video.views + 1,
         likes: {
-          count: likes.length,
+          count: likesCount,
+          likeByCurrentUser: !!likeByCurrentUser,
           users: likeUsers,
-          likeByCurrentUser,
         },
         comments: {
-          count: commentList.length,
+          count: commentsCount,
           list: commentList,
         },
         subscribed: !!isSubscribed,
-        relatedVideos, // from same owner
-        randomVideos, // random global
+        relatedVideos,
+        randomVideos,
       },
       'Video fetched successfully',
     ),
   );
 });
+
 
 const updateVideoDetails = AsyncHandler(async (req, res) => {
   const { id } = req.params;

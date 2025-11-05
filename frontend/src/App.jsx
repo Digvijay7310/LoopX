@@ -21,6 +21,8 @@ import AdminUserDetailsPage from './Pages/AdminUserDetailsPage';
 import AdminAllUsers from './Pages/AdminAllUsers';
 import Layout from './Layout/Layout';
 import NotFoundPage from './Pages/NotFoundPage';
+import SubscribedChannels from './Pages/SubscribedChannels';
+import SubscribersPage from './Pages/SubscribersPage';
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
           <Route path="/likes/my-likes" element={<MyLikesPage />} />
           <Route path="/comments/my-comments" element={<MyCommentsPage />} />
           <Route path="/video/upload" element={<VideoUploadPage />} />
+          <Route path='/subscription/my-subscriptions' element={<SubscribedChannels />}/>
+          <Route path='/subscription/my-subscribers' element={<SubscribersPage />}/>
         </Route>
 
         <Route path="/admin/signup" element={<AdminSignupPage />} />

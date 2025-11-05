@@ -66,7 +66,7 @@ function WatchPage() {
     return () => {
       document.title = 'LoopX'; // Reset to default when navigating away
     };
-  }, [video]);
+  }, []);
 
   if (loading || !video)
     return (
@@ -84,42 +84,42 @@ function WatchPage() {
         {/* Video info */}
         <h1 className="text-sm font-semibold mb-0.5 line-clamp-2">{video.title}</h1>
         <p className="text-xs mb-2">Views: {video.views} { " "}
-          <span className='font-semibold'>{new Date(video.createdAt).toLocaleDateString(undefined, {
+          <span className='font-semibold'>
+            {new Date(video.createdAt).toLocaleDateString(undefined, {
             month: 'short',
             day: 'numeric',
             year: 'numeric'
-          })}</span>
+          })}
+          </span>
         </p>
 
-        <div className="flex items-center justify-between gap-2 scrollbar">
+
+        <div className="flex items-center justify-between gap-2 overflow-auto scrollbar">
           {/* Channel */}
-          <Link to={`/users/${video.owner.username}`} className="flex items-center gap-1 mb-4">
+          <Link to={`/users/${video.owner.username}`} className="flex flex-col items-center mb-4 w-fit">
             <img
               src={video.owner.avatar}
               alt={`${video.owner.username} avatar`}
               className="rounded-full h-10 w-10 border border-red-600"
-              title="username"
-            />
-            <div>
-              <p className="text-xs" title="username">
-                {video.owner.username}
-              </p>
-              <p className="text-xs text-gray-500">Category: {video.category}</p>
+              title={video.owner.username}
+            /> 
+            <p className="text-xs text-center w-10" title={video.owner.username}>{video.owner.username}</p>
+            <div> 
             </div>
           </Link>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-1 text-gray-700 overflow-x-auto scrollbar mb-6 ml-3">
+          <div className="flex items-center gap-1 text-gray-700 mb-6 ml-3">
             {/* Like Button */}
             <button
               type="button"
               onClick={handleLikeToggle}
-              className={`flex justify-center items-center gap-0.5 bg-gray-300 px-3 py-1 rounded-2xl ${likeStatus ? ("bg-red-600 text-white"): ("")} transition`}
+              className={`flex items-center gap-1 px-3 py-1 rounded-full bg-gray-200 text-sm ${likeStatus ? ("bg-red-600 text-white"): ("")} transition`}
             >
               {likeStatus ? (
                 <FaThumbsUp className=" text-white" />
               ) : (
-                <FiThumbsUp className="" />
+                <FiThumbsUp />
               )}
               <span className="text-xs">{likeStatus ? 'Liked' : 'Like'}</span>
             </button>
@@ -128,7 +128,7 @@ function WatchPage() {
             <button
               type="button"
               onClick={() => document.getElementById('commentInput')?.focus()}
-              className="flex justify-center items-center rounded-2xl bg-gray-300 px-3 py-1 gap-0.5 hover:text-blue-600 transition"
+              className="flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-gray-200 hover:text-blue-600 transition"
             >
               <FaCommentDots className="text-sm md:text-xl" />
               <span className="text-xs md:sm">Comment</span>

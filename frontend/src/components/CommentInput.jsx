@@ -19,7 +19,7 @@ function CommentInput({ comment, setComment, onSubmit, isSubmitting = false, onF
       aria-label="Add a comment"
       id="comment"
     >
-      <label htmlFor="commentInput">Comment: </label>
+      <label htmlFor="commentInput"></label>
       <input
         type="text"
         id="commentInput"

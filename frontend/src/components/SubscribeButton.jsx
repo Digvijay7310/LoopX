@@ -43,7 +43,7 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
         <button
             disabled={loading}
             onClick={handleSubscribeToggle}
-            className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition 
+            className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm cursor-pointer font-medium transition 
                 ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300 animate-pulse' : 'bg-red-600 text-white hover:bg-red-800'}`}>
             {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
             {subscribed ? 'Subscribed' : 'Subscribe'}

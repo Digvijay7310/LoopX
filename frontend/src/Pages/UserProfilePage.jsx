@@ -49,7 +49,7 @@ function UserProfilePage() {
   return (
     <div className="max-w-5xl mx-auto px-1 ">
       {/* Cover Image */}
-      <div className="w-full h-48 md:h-64 rounded-lg overflow-hidden mb-2 bg-gray-200">
+      <div className="w-full h-48 md:h-54 rounded-lg overflow-hidden mb-2 bg-gray-200">
         <img
           src={user.coverImage || 'https://via.placeholder.com/900x300'}
           alt={`${user.username}'s cover`}

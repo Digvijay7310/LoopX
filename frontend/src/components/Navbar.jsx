@@ -110,12 +110,21 @@ function Navbar({ onLinkClick }) {
               </Link>
             </li>
 
-            <li title='My Subscribes'>
+            <li title='My Subscribed Channel'>
               <Link 
               onClick={onLinkClick}
-              to="/likes/my-likes"
+              to="/subscription/my-subscriptions"
               className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
-               <FiBell size={18} /> Subscribed Channel
+               <FiBell size={18} /> My Subscribed Channel
+              </Link>
+            </li>
+
+            <li title='My Subscribers'>
+              <Link 
+              onClick={onLinkClick}
+              to="/subscription/my-subscribers"
+              className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
+               <FiBell size={18} /> My Subscribers 
               </Link>
             </li>
 
