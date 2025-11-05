@@ -15,7 +15,7 @@ const getUserByUsername = AsyncHandler(async (req, res) => {
       throw new ApiError(404, 'User not found');
     }
 
-    const videos = await Video.find({ owner: user._id }).lean();
+    const videos = await Video.find({ owner: user._id }).populate('owner', 'username avatar').lean();
     if (videos.length === 0) {
       throw new ApiError(404, "You don't have any videos");
     }

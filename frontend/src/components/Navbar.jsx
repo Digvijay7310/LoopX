@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaComment, FaRegistered } from 'react-icons/fa';
 import { SlLike } from 'react-icons/sl';
-import { FiUpload, FiUser, FiUserPlus } from 'react-icons/fi';
+import { FiBell, FiThumbsUp, FiUpload, FiUser, FiUserPlus, FiVideo } from 'react-icons/fi';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
@@ -92,6 +92,33 @@ function Navbar({ onLinkClick }) {
               </Link>
             </li>
 
+            <li title='My Videos'>
+              <Link 
+              onClick={onLinkClick}
+              to="/video/my-videos"
+              className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
+               <FiVideo size={18} /> My Videos
+              </Link>
+            </li>
+
+            <li title='My Likes'>
+              <Link 
+              onClick={onLinkClick}
+              to="/likes/my-likes"
+              className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
+               <FiThumbsUp size={18} /> My Likes
+              </Link>
+            </li>
+
+            <li title='My Subscribes'>
+              <Link 
+              onClick={onLinkClick}
+              to="/likes/my-likes"
+              className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
+               <FiBell size={18} /> Subscribed Channel
+              </Link>
+            </li>
+
             <li title="Profile Update">
               <Link
                 onClick={onLinkClick}
@@ -102,15 +129,7 @@ function Navbar({ onLinkClick }) {
               </Link>
             </li>
 
-            <li title="My Likes">
-              <Link
-                onClick={onLinkClick}
-                to="/likes/my-likes"
-                className="flex items-center gap-2 px-1 py-2 hover:text-red-600"
-              >
-                <SlLike size={18} /> My Likes
-              </Link>
-            </li>
+           
 
             <li title="My Comments">
               <Link

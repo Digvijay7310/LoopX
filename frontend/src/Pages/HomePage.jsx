@@ -44,7 +44,7 @@ function HomePage() {
   if (loading) return <HomePageLoading />;
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="p-1 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {videos.length === 0 ? (
           <p className="w-full text-center font-bold text-3xl">Login to see videos </p>

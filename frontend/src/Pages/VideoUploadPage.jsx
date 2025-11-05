@@ -2,7 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiUpload } from 'react-icons/fi';
+import { FiImage, FiUpload, FiVideo } from 'react-icons/fi';
+
+const allowedCategories = [
+  "Education",
+  "Entertainment",
+  "Gaming",
+  "Music",
+  "News",
+  "Sports",
+  "Technology",
+  "Travel",
+  "Comedy",
+  "Blogs",
+  "Others"
+]; 
 
 function VideoUploadPage() {
   const [title, setTitle] = useState('');
@@ -21,8 +35,18 @@ function VideoUploadPage() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
+    if(!allowedCategories.includes(category)){
+      toast.error('Please select a valid category');
+      return;
+    }
+
+    if(!title || !description || !thumbnail || !videoUrl){
+      toast.error("Please fill all the fields and select files.")
+      return;
+    }
+
+    setLoading(true);
     const form = new FormData();
     if (title) form.append('title', title);
     if (description) form.append('description', description);
@@ -112,16 +136,24 @@ function VideoUploadPage() {
                 <label htmlFor="category" className="block text-gray-700 mb-1">
                   Category
                 </label>
-                <input
-                  id="category"
-                  name="category"
-                  type="text"
-                  className="w-full p-2 border border-red-600 rounded-md outline-none focus:ring-1 focus:ring-red-600"
-                  placeholder="Enter category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                />
+                <select
+                    id="category"
+                    name="category"
+                    className="w-full p-2 border border-red-600 rounded-md outline-none focus:ring-1 focus:ring-red-600"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    required
+                  >
+                    <option value="" className='text-center' disabled>
+                      -- Select a category --
+                    </option>
+                    {allowedCategories.map((cat) => (
+                      <option key={cat} value={cat} >
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
               </div>
 
               {/* Thumbnail Upload */}
@@ -130,10 +162,12 @@ function VideoUploadPage() {
                   Thumbnail
                 </label>
                 <div className="flex items-center gap-4">
+                  
                   <label
                     htmlFor="thumbnail"
-                    className="cursor-pointer bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="cursor-pointer bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                   >
+                    <FiImage />
                     Choose Thumbnail
                   </label>
                   <input
@@ -166,8 +200,9 @@ function VideoUploadPage() {
                 <div className="flex items-center gap-4">
                   <label
                     htmlFor="video"
-                    className="cursor-pointer bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="cursor-pointer bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                   >
+                    <FiVideo />
                     Choose Video
                   </label>
                   <input

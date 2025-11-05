@@ -101,7 +101,7 @@ function VideoPlayer({ src }) {
   };
 
   return (
-    <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden mb-4 group">
+    <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden mb-2 group">
       <video
         ref={videoRef}
         src={src}

@@ -56,7 +56,7 @@ function UserProfilePage() {
   if (!user) return <p className="text-center mt-10 text-gray-700">User not found</p>;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-4">
+    <div className="max-w-5xl mx-auto px-1 ">
       {/* Cover Image */}
       <div className="w-full h-48 md:h-64 rounded-lg overflow-hidden mb-2 bg-gray-200">
         <img
@@ -67,9 +67,9 @@ function UserProfilePage() {
       </div>
 
       {/* User Info Section */}
-      <div className="flex md:flex-row items-center md:items-start gap-2">
+      <div className="flex md:flex-row items-center md:items-start gap-2 relative">
         {/* Avatar */}
-        <div className="w-32 h-32 rounded-full overflow-hidden border border-red-600 flex-shrink-0 bg-gray-100">
+        <div className="w-32 h-32  rounded-full overflow-hidden border border-red-600 flex-shrink-0 bg-gray-100">
           <img
             src={user.avatar || 'https://via.placeholder.com/150'}
             alt={`${user.username}'s avatar`}
@@ -81,11 +81,12 @@ function UserProfilePage() {
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-900">{user.fullName}</h1>
           <p className="text-red-600 text-lg font-semibold">@{user.username}</p>
-          <p className="mt-1 text-gray-500">{user.email}</p>
+          <p className="mt-1 text-gray-500 hover:text-green-600 transition-colors duration-150">Email: {user.email}</p>
+          <p className="mt-1 text-gray-500">User blocked: {user.isBlocked ? "Yes": "No"}</p>
 
           {/* Channel Description */}
           {user.channelDescription && (
-            <div className="mb-4 text-sm text-gray-700 font-medium">
+            <div className="mb-4 text-xs text-gray-700 font-medium">
               <p className="inline">
                 {showDescription
                   ? user.channelDescription
@@ -122,7 +123,7 @@ function UserProfilePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {videos.map((video) => (
-              <VideoCard key={video._id} video={video} showOwner={false} />
+              <VideoCard key={video._id} video={video} />
             ))}
           </div>
         )}

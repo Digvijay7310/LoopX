@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiTrash } from 'react-icons/fi';
 import VideoShareButton from './VideoShareButton';
 
-function VideoCard({ video, onDelete, showDelete = false, showShare = true, showOwner = true }) {
+function VideoCard({ video, onDelete, showDelete = false, showShare = true }) {
   if (!video) return null;
 
   return (
@@ -38,7 +38,7 @@ function VideoCard({ video, onDelete, showDelete = false, showShare = true, show
 
         {/* Video Info */}
         <div className="flex mt-3 px-2 pb-2">
-          {showOwner && (
+          {(
             <img
               src={video.owner?.avatar || '/default-avatar.png'}
               alt={video.owner?.username}
@@ -49,11 +49,13 @@ function VideoCard({ video, onDelete, showDelete = false, showShare = true, show
           <div className="flex flex-col flex-grow">
             <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">{video.title}</h3>
 
-            {showOwner && <p className="text-xs text-gray-600 mt-1">{video.owner?.username}</p>}
-
-            <p className="text-xs text-gray-500">
+             <p className="text-xs text-gray-600 mt-1">{video.owner?.username} {" "}
+              <span className="text-xs text-gray-500">
               {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
-            </p>
+            </span>
+              </p>
+
+            
           </div>
         </div>
       </Link>

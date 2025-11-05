@@ -9,7 +9,6 @@ function ReportVideoComponent({ videoId, videoTitle }) {
   const [loading, setLoading] = useState(false);
 
   const reportOptions = [
-    { value: '', label: 'Select a reason' },
     { value: 'spam', label: 'Spam or misleading' },
     { value: 'abuse', label: 'Abusive content' },
     { value: 'copyright', label: 'Copyright violation' },
@@ -39,7 +38,7 @@ function ReportVideoComponent({ videoId, videoTitle }) {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-red-600 text-white gap-1 flex items-center p-1 rounded-2xl text-sm font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+        className="bg-red-600 text-white gap-1 flex items-center px-3 py-1 rounded-2xl text-sm hover:bg-red-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500"
       >
         <MdReportGmailerrorred size={20} />
         Report
@@ -53,7 +52,7 @@ function ReportVideoComponent({ videoId, videoTitle }) {
           aria-labelledby="report-video-title"
         >
           <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
-            <h2 id="report-video-title" className="text-lg font-semibold mb-4">
+            <h2 id="report-video-title" className=" mb-4">
               Report Video 
             </h2>
             {videoTitle && (
@@ -71,6 +70,7 @@ function ReportVideoComponent({ videoId, videoTitle }) {
               onChange={(e) => setReason(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
             >
+              <option value="" disabled className='text-center'>-- Select a reason --</option>
               {reportOptions.map((option) => (
                 <option
                   key={option.value}

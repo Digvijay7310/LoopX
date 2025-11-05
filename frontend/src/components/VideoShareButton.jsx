@@ -24,7 +24,7 @@ function VideoShareButton({ videoId }) {
     <button
        aria-label='Share this video'
       onClick={handleShare}
-      className="flex items-center gap-1 text-gray-200 font-semibold gap-1 cursor-pointer text-sm bg-red-600 rounded-2xl p-1 hover:text-white transition"
+      className="flex items-center justify-center  text-white gap-1 cursor-pointer text-sm bg-red-600 hover:bg-red-800 rounded-2xl px-3 py-1 hover:text-white transition"
       title="Share video"
     >
       <FiShare2 />

@@ -25,7 +25,7 @@ const myLikes = AsyncHandler(async (req, res) => {
 
     const likes = await Like.find({ user: user._id }).populate({
       path: 'video',
-      select: 'title thumbnail createdAt owner', // get necessary fields
+      select: 'title thumbnail createdAt owner views', // get necessary fields
       populate: {
         path: 'owner',
         select: 'username avatar', // populate nested owner data

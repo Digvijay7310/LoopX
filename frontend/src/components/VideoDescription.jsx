@@ -4,8 +4,8 @@ function VideoDescription({ video }) {
   const [showFullDesc, setShowFullDesc] = useState(false);
   return (
     <div className="mb-4 px-4 bg-gray-100 rounded-2xl">
-      <span className="text-sm">Description: </span>
-      <p className="text-gray-700">
+      <span className="text-sm text-black">Description: </span>
+      <p className="text-gray-700 text-xs mt-0.5">
         {showFullDesc
           ? video.description
           : video.description.length > 150
