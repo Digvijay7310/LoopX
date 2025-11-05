@@ -7,6 +7,7 @@ import videoRoutes from './src/routes/video.routes.js';
 import adminRoutes from './src/routes/admin.routes.js';
 import likesRoutes from './src/routes/likes.routes.js';
 import commentsRoutes from './src/routes/comments.routes.js';
+import SubscriptionRoutes from './src/routes/subscription.routes.js'
 
 const app = express();
 
@@ -32,5 +33,6 @@ app.use('/api/video', videoRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/likes', likesRoutes);
 app.use('/api/comments', commentsRoutes);
+app.use('/api/subscription', SubscriptionRoutes)
 
 export { app };

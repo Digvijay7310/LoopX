@@ -12,6 +12,7 @@ import VideoShareButton from '../components/VideoShareButton';
 import VideoDescription from '../components/VideoDescription';
 import Loading from '../components/Loading';
 import ReportVideoComponent from '../components/ReportVideoComponent';
+import SubscribeButton from '../components/SubscribeButton';
 
 function WatchPage() {
   const { id } = useParams();
@@ -56,15 +57,7 @@ function WatchPage() {
     }
   };
 
-  const handleSubscribeToggle = async () => {
-    try {
-      await axiosInstance.post(`/api/video/subscriber/${video.owner._id}`);
-      setSubscribed(!subscribed);
-      toast.success(subscribed ? 'Unsubscribed' : 'Subscribed');
-    } catch (error) {
-      toast.error('Error toggling subscription');
-    }
-  };
+
   useEffect(() => {
     if (video?.title) {
       document.title = `LoopX - ${video.title}`; // You can customize this
@@ -142,16 +135,9 @@ function WatchPage() {
             </button>
 
             {/* Subscribe Button */}
-            <button
-              type="button"
-              onClick={handleSubscribeToggle}
-              className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition 
-                ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300 animate-pulse' : 'bg-red-600 text-white hover:bg-red-800'}`}
-            >
-
-              {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
-              {subscribed ? 'Subscribed' : 'Subscribe'}
-            </button>
+            <SubscribeButton channelUsername={video.owner.username}
+            initialSubscribed={subscribed} 
+            />
 
             {/* Share Button */}
             <VideoShareButton videoId={video._id} />

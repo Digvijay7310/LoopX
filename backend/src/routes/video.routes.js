@@ -66,7 +66,6 @@ router.post('/comment/:commentId/reply', verifyToken, replyToComment);
 // Report video
 router.post('/:videoId/report', verifyToken, validate(reportSchema), reportVideo);
 
-// Subscribe or unsubscribe
-router.post('/subscriber/:channelId', verifyToken, isUser, validate(SubscribeSchema), toggleSubscribe);
+
 
 export default router;

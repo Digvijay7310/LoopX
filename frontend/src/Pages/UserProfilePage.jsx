@@ -3,6 +3,7 @@ import axiosInstance from '../utils/Axios';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import VideoCard from '../components/VideoCard';
+import SubscribeButton from '../components/SubscribeButton';
 
 function UserProfilePage() {
   const { username } = useParams();
@@ -39,17 +40,7 @@ function UserProfilePage() {
     }
   }, [username]);
 
-  const handleSubscribeToggle = async () => {
-    if (!user) return;
-    try {
-      await axiosInstance.post(`/api/video/subscriber/${user._id}`);
-      setSubscribed(!subscribed);
-      toast.success(subscribed ? 'Unsubscribed' : 'Subscribed');
-    } catch (err) {
-      toast.error('Failed to toggle subscription');
-      console.error('Subscription error:', err);
-    }
-  };
+ 
 
   if (loading) return <p className="text-center mt-10 text-gray-500">Loading user details...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
@@ -81,8 +72,8 @@ function UserProfilePage() {
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-900">{user.fullName}</h1>
           <p className="text-red-600 text-lg font-semibold">@{user.username}</p>
-          <p className="mt-1 text-gray-500 hover:text-green-600 transition-colors duration-150">Email: {user.email}</p>
-          <p className="mt-1 text-gray-500">User blocked: {user.isBlocked ? "Yes": "No"}</p>
+          <p className="mt-0.5 text-xs md:mt-1 md:text-sm text-gray-500 hover:text-green-600 transition-colors duration-150">Email: {user.email}</p>
+          <p className="mt-0.5 text-xs md:mt-1 md:text-sm text-gray-500">User blocked: {user.isBlocked ? "Yes": "No"}</p>
 
           {/* Channel Description */}
           {user.channelDescription && (
@@ -113,6 +104,12 @@ function UserProfilePage() {
             </a>
           )}
         </div>
+        
+      </div>
+      <div className="flex justify-center items-center">
+        <SubscribeButton channelUsername={user.username}
+        initialSubscribed={subscribed}
+        />
       </div>
 
       {/* Videos Section */}

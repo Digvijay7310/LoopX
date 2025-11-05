@@ -2,27 +2,37 @@ import { ApiError } from '../utils/ApiError.js';
 import { AsyncHandler } from '../utils/AsyncHandler.js';
 import { Subscription } from '../models/subscribe.model.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import {User} from '../models/user.model.js'
 
 const toggleSubscribe = AsyncHandler(async (req, res) => {
-  try {
-    const { channelId } = req.params;
-    const subscriberId = req.user._id;
+  const {username} = req.params;
+  const subscriberId = req.user._id;
 
-    if (subscriberId.toString() == channelId) {
-      throw new ApiError(404, 'You cannot subscribe to yourself');
+  try {
+    const channel = await User.findOne({username});
+    if(!channel){
+      throw new ApiError(404, "User not found")
     }
 
-    const existing = await Subscription.findOne({ subscriber: subscriberId, channel: channelId });
+    if(subscriberId.toString() === channel._id.toString()){
+      throw new ApiError(400, 'You cannot subscribe to yourself')
+    }
 
-    if (existing) {
+    const existing = await Subscription.findOne({
+      subscriber: subscriberId,
+      channel: channel._id
+    });
+
+    if(existing) {
       await Subscription.findByIdAndDelete(existing._id);
-      return res.status(200).json(new ApiResponse(200, null, 'Unsubscribed successfully'));
+      return res.status(200).json(new ApiResponse(200, null , 'Unsubscribed successfully'));
     } else {
-      await Subscription.create({ subscriber: subscriberId, channel: channelId });
-      return res.status(201).json(new ApiResponse(201, null, 'Subscriber successfully!'));
+      await Subscription.create({subscriber: subscriberId, channel: channel._id})
+      return res.status(201).json(new ApiResponse(201, null, 'Subscribed successfully'))
     }
   } catch (error) {
-    console.log('Error in toggle subscribe: ', error);
+    console.log('Error in toggle subscribe: ',error)
+    
   }
 });
 
