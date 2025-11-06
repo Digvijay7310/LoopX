@@ -32,7 +32,7 @@ function WatchPage() {
   const fetchVideoData = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get(`/api/video/${id}`);
+      const res = await axiosInstance.get(`/video/${id}`);
       const data = res.data.data;
       setVideo(data.video);
       setRelatedVideos(data.relatedVideos);
@@ -51,7 +51,7 @@ function WatchPage() {
   const handleLikeToggle = async () => {
     if(!video._id) return;
     try {
-      await axiosInstance.post(`/api/video/${video._id}/like`);
+      await axiosInstance.post(`/video/${video._id}/like`);
       setLikeStatus(!likeStatus);
       toast.success(likeStatus ? 'Like removed' : 'Liked video');
     } catch (error) {

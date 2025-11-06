@@ -24,7 +24,7 @@ function AdminSignupPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosInstance.post('/api/admin/signup', form);
+      await axiosInstance.post('/admin/signup', form);
       navigate('/admin/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');

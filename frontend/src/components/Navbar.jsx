@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaComment, FaRegistered } from 'react-icons/fa';
-import { SlLike } from 'react-icons/sl';
 import { FiBell, FiThumbsUp, FiUpload, FiUser, FiUserPlus, FiVideo } from 'react-icons/fi';
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
@@ -23,7 +22,7 @@ function Navbar({ onLinkClick }) {
       }
 
       try {
-        const res = await axiosInstance.get('/api/users/me');
+        const res = await axiosInstance.get('/users/me');
         setCurrentUser(res.data.data);
         setCachedUser(res.data.data);
       } catch (error) {
@@ -37,7 +36,7 @@ function Navbar({ onLinkClick }) {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post('/api/auth/logout');
+      await axiosInstance.post('/auth/logout');
       toast.success('Logged out successfully');
       setCachedUser(null);
       navigate('/auth/login');

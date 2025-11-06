@@ -13,7 +13,7 @@ function MyCommentsPage() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axiosInstance.get('/api/comments/my-comments');
+        const res = await axiosInstance.get('/comments/my-comments');
         const commentData = res.data?.data?.comments || [];
         const validComments = commentData.filter((comment) => comment.video !== null);
 
@@ -33,7 +33,7 @@ function MyCommentsPage() {
 
   const handleDelete = async (commentId) => {
     try {
-      await axiosInstance.post('/api/comments/delete-comment', { commentId });
+      await axiosInstance.post('/comments/delete-comment', { commentId });
 
       setComments((prev) => prev.filter((c) => c._id !== commentId));
       setCommentCount((prev) => prev - 1);

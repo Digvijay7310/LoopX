@@ -18,7 +18,7 @@ function SearchResultsPage() {
 
     const fetchResults = async () => {
       try {
-        const res = await axiosInstance.get(`/api/video/search?q=${encodeURIComponent(query)}`);
+        const res = await axiosInstance.get(`/video/search?q=${encodeURIComponent(query)}`);
         if (res.data && res.data.data && res.data.data.results) {
           setResults(res.data.data.results);
         } else {

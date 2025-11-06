@@ -11,7 +11,7 @@ function AdminUsersPage() {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.get('/api/admin/all-users');
+        const res = await axiosInstance.get('/admin/all-users');
         setUsers(res.data.data.users || []);
         setError('');
       } catch (err) {

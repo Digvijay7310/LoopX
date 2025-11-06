@@ -10,7 +10,7 @@ function HomePage() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axiosInstance.get('/api/video/home');
+        const res = await axiosInstance.get('/video/home');
         if (res.data.data) {
           setVideos(res.data.data);
         }

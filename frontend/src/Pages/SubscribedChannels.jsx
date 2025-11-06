@@ -14,7 +14,7 @@ function SubscribedChannels() {
 
   const fetchSubscriptions = async () => {
     try {
-      const res = await axiosInstance.get('/api/subscription/my-subscriptions');
+      const res = await axiosInstance.get('/subscription/my-subscriptions');
       const data = res.data.data;
       setChannels(data.channels);
       setCount(data.count);

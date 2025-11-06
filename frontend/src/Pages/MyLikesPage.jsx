@@ -11,7 +11,7 @@ function MyLikesPage() {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const res = await axiosInstance.get('/api/likes/my-likes');
+        const res = await axiosInstance.get('/likes/my-likes');
 
         const likeData = res.data?.data?.likes || [];
         const validLikes = likeData.filter((like) => like.video !== null);
@@ -19,7 +19,6 @@ function MyLikesPage() {
         setLikes(validLikes);
         setLikeCount(validLikes.length);
       } catch (err) {
-        console.error('Error fetching likes:', err);
         setError('Failed to fetch likes. Please try again later.');
       } finally {
         setLoading(false);

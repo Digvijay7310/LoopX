@@ -15,7 +15,7 @@ function SubscribersPage() {
 
   const fetchSubscribers = async () => {
     try {
-      const res = await axiosInstance.get('/api/subscription/my-subscribers');
+      const res = await axiosInstance.get('/subscription/my-subscribers');
       const data = res.data.data;
       setSubscribers(data.subscribers);
       setCount(data.count);

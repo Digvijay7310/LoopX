@@ -19,7 +19,7 @@ function RequestedUserPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await axiosInstance.get('/api/users/me');
+        const res = await axiosInstance.get('/users/me');
         if (res.data && res.data.data) {
           setUser(res.data.data);
         } else {
@@ -44,7 +44,7 @@ function RequestedUserPage() {
     const fetchMyVideos = async () => {
       setVideosLoading(true);
       try {
-        const res = await axiosInstance.get('/api/video/my-videos'); // ✅ adjust if your endpoint differs
+        const res = await axiosInstance.get('/video/my-videos'); // ✅ adjust if your endpoint differs
         setMyVideos(res.data?.data?.videos || []);
       } catch (error) {
         console.log('Error fetching my videos:', error.response || error.message || error);

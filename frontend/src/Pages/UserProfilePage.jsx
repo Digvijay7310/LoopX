@@ -20,7 +20,7 @@ function UserProfilePage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await axiosInstance.get(`/api/users/${username}`);
+        const res = await axiosInstance.get(`/users/${username}`);
         if (res.data.data.user) {
           setUser(res.data.data.user);
           setVideos(res.data.data.videos || []);

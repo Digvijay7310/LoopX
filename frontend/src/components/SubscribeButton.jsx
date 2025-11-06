@@ -18,7 +18,7 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
         setLoading(true);
 
         try {
-            const res = await axiosInstance.post(`/api/subscription/${channelUsername}`);
+            const res = await axiosInstance.post(`/subscription/${channelUsername}`);
             const message = res.data.message || '';
             
             if (message.toLowerCase().includes('unsubscribed')) {

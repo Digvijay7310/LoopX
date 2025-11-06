@@ -9,7 +9,7 @@ function CommentSection({ videoId, comments, setComments }) {
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Toggle comments visibility on input focus or click
+
   const handleInputFocus = () => {
     setShowComments((prev) => !prev);
   };
@@ -18,11 +18,11 @@ function CommentSection({ videoId, comments, setComments }) {
     if (!comment.trim()) return;
     setIsSubmitting(true);
     try {
-      const res = await axiosInstance.post(`/api/video/${videoId}/comment`, { text: comment });
-      setComments([res.data.data, ...comments]); // Add new comment at top
+      const res = await axiosInstance.post(`/video/${videoId}/comment`, { text: comment });
+      setComments([res.data.data, ...comments]); 
       setComment('');
       toast.success('Comment added');
-      setShowComments(true); // Make sure comments are visible after submit
+      setShowComments(true); 
     } catch (error) {
       toast.error('Error adding comment');
     } finally {

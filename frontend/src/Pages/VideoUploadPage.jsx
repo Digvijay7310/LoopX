@@ -55,7 +55,7 @@ function VideoUploadPage() {
     if (videoUrl) form.append('videoUrl', videoUrl);
 
     try {
-      const res = await axiosInstance.post('/api/video/upload', form);
+      const res = await axiosInstance.post('/video/upload', form);
       if (res.data.data) {
         toast.success('Video uploaded successfully!');
         navigate('/video/home');

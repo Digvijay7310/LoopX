@@ -24,7 +24,7 @@ function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axiosInstance.post('/api/auth/login', form);
+      const res = await axiosInstance.post('/auth/login', form);
       navigate('/video/home');
     } catch (error) {
       console.error('Error in login ', error);

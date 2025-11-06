@@ -9,7 +9,7 @@ function SearchUserComponent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Call API jab query length >= 3 ho
+  
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.trim().length >= 3) {
@@ -17,7 +17,7 @@ function SearchUserComponent() {
       } else {
         setUsers([]);
       }
-    }, 300); // Thoda debounce time to avoid too many requests
+    }, 300); 
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
@@ -25,7 +25,7 @@ function SearchUserComponent() {
   const searchUsers = async (searchTerm) => {
     try {
       setLoading(true);
-      const res = await axiosInstance.get(`/api/admin/search?q=${searchTerm}`);
+      const res = await axiosInstance.get(`/admin/search?q=${searchTerm}`);
       setUsers(res.data.data || []);
       setError('');
     } catch (err) {

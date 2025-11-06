@@ -13,7 +13,7 @@ function AdminDashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axiosInstance.get('/api/admin/all-users-data');
+        const res = await axiosInstance.get('/admin/all-users-data');
         setStats(res.data.data);
       } catch (err) {
         if (err.response?.status === 401) {
@@ -31,10 +31,10 @@ function AdminDashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.post('/api/admin/logout');
-      navigate('/api/admin/login');
+      await axiosInstance.post('/admin/logout');
+      navigate('/admin/login');
     } catch {
-      navigate('/api/admin/login');
+      navigate('/admin/login');
     }
   };
 

@@ -24,7 +24,7 @@ function AdminLoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axiosInstance.post('/api/admin/login', form);
+      const res = await axiosInstance.post('/admin/login', form);
       navigate('/admin/all-users-data');
     } catch (error) {
       console.error('Error in login ', error);

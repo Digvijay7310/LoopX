@@ -28,7 +28,7 @@ function UpdateProfilePage() {
     if (coverImageFile) formData.append('coverImage', coverImageFile);
 
     try {
-      const res = await axiosInstance.patch('/api/users/profile/update', formData);
+      const res = await axiosInstance.patch('/users/profile/update', formData);
       if (res.data?.data) {
         toast.success('Profile updated successfully!');
         navigate('/');
