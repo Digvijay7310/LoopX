@@ -3,6 +3,7 @@ import { verifyToken } from '../middlewares/verify.middleware.js';
 import { getMe, getUserByUsername, updateUserProfile } from '../controllers/user.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 
+
 const router = express.Router();
 
 router.get('/me', verifyToken, getMe);

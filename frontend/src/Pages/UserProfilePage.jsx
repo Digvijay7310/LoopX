@@ -40,6 +40,8 @@ function UserProfilePage() {
     }
   }, [username]);
 
+
+
  
 
   if (loading) return <p className="text-center mt-10 text-gray-500">Loading user details...</p>;

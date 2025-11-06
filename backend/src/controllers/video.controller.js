@@ -119,7 +119,7 @@ const getVideoById = AsyncHandler(async (req, res) => {
   // Increment view count
   await Video.findByIdAndUpdate(id, { $inc: { views: 1 } });
 
-  // ✅ Parallel likes + likeByUser fetch
+  // Parallel likes + likeByUser fetch
   const [likesCount, likeByCurrentUser] = await Promise.all([
     Like.countDocuments({ video: id }),
     Like.exists({ video: id, user: userId }),
@@ -152,6 +152,8 @@ const getVideoById = AsyncHandler(async (req, res) => {
     subscriber: userId,
     channel: video.owner._id,
   });
+
+  const subscriberCount = await Subscription.countDocuments({channel: video.owner._id})
 
   // ✅ Related videos (same owner)
   const relatedVideos = await Video.find({
@@ -190,6 +192,7 @@ const getVideoById = AsyncHandler(async (req, res) => {
           list: commentList,
         },
         subscribed: !!isSubscribed,
+        subscriberCount,
         relatedVideos,
         randomVideos,
       },
@@ -197,7 +200,6 @@ const getVideoById = AsyncHandler(async (req, res) => {
     ),
   );
 });
-
 
 const updateVideoDetails = AsyncHandler(async (req, res) => {
   const { id } = req.params;

@@ -21,6 +21,7 @@ function WatchPage() {
   const [randomVideos, setRandomVideos] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [subscriberCount, setSubscriberCount] = useState(0)
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +39,7 @@ function WatchPage() {
       setRandomVideos(data.randomVideos); // ✅ Set random suggestions
       setLikeStatus(data.likes.likeByCurrentUser);
       setSubscribed(data.subscribed);
+      setSubscriberCount(data.subscriberCount);
       setComments(data.comments.list);
     } catch (error) {
       toast.error('Error fetching video');
@@ -59,14 +61,10 @@ function WatchPage() {
 
 
   useEffect(() => {
-    if (video?.title) {
-      document.title = `LoopX - ${video.title}`; // You can customize this
-    }
+    if (video?.title) document.title = `LoopX - ${video.title}`;
+      return () => {document.title = 'LoopX'}
 
-    return () => {
-      document.title = 'LoopX'; // Reset to default when navigating away
-    };
-  }, []);
+  }, [video]);
 
   if (loading || !video)
     return (
@@ -104,6 +102,7 @@ function WatchPage() {
               title={video.owner.username}
             /> 
             <p className="text-xs text-center w-10" title={video.owner.username}>{video.owner.username}</p>
+            <p className="text-xs text-center w-10">{subscriberCount} Subscriber</p>
             <div> 
             </div>
           </Link>
@@ -136,7 +135,7 @@ function WatchPage() {
 
             {/* Subscribe Button */}
             <SubscribeButton channelUsername={video.owner.username}
-            initialSubscribed={subscribed} 
+            initialSubscribed={subscribed} subscriberCount={subscriberCount} setSubscriberCount={setSubscriberCount}
             />
 
             {/* Share Button */}
