@@ -102,7 +102,6 @@ function WatchPage() {
               title={video.owner.username}
             /> 
             <p className="text-xs text-center w-10" title={video.owner.username}>{video.owner.username}</p>
-            <p className="text-xs text-center w-10">{subscriberCount} Subscriber</p>
             <div> 
             </div>
           </Link>
