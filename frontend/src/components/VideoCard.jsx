@@ -49,9 +49,9 @@ function VideoCard({ video, onDelete, showDelete = false, showShare = true }) {
           <div className="flex flex-col flex-grow">
             <h3 className="font-semibold text-sm text-gray-900 line-clamp-2">{video.title}</h3>
 
-             <p className="text-xs text-gray-600 mt-1">{video.owner?.username} {" "}
+             <p className="text-sm font-medium text-gray-600 mt-1">{video.owner?.username} {" "}
               <span className="text-xs text-gray-500">
-              {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
+              •{video.views} views {new Date(video.createdAt).toLocaleDateString()}
             </span>
               </p>
 

@@ -13,12 +13,10 @@ import { upload } from '../middlewares/multer.middleware.js';
 import { toggleVideoLike } from '../controllers/like.controller.js';
 import { addCommentToVideo, replyToComment } from '../controllers/comment.controller.js';
 import { reportVideo } from '../controllers/report.controller.js';
-import { toggleSubscribe } from '../controllers/subscription.controller.js';
 import { isUser } from '../middlewares/user.middlware.js';
 import { validate } from '../middlewares/validate.middlware.js';
 import { commentSchema } from '../validations/comment.validation.js';
 import { likeSchema } from '../validations/like.validation.js';
-import { SubscribeSchema } from '../validations/subscribe.model.js';
 import { videoSchema } from '../validations/video.validation.js';
 import { reportSchema } from '../validations/report.validation.js';
 

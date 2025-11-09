@@ -77,10 +77,10 @@ function WatchPage() {
     <div className="flex flex-col lg:flex-row gap-6 p-1 max-w-7xl mx-auto">
       {/* Left section */}
       <div className="flex-1">
-        <VideoPlayer src={video.videoUrl} />
+        <VideoPlayer thumbnail={video.thumbnail} src={video.videoUrl} />
 
         {/* Video info */}
-        <h1 className="text-sm font-semibold mb-0.5 line-clamp-2">{video.title}</h1>
+        <h1 className="font-semibold line-clamp-1">{video.title}</h1>
         <p className="text-xs mb-2">Views: {video.views} { " "}
           <span className='font-semibold'>
             {new Date(video.createdAt).toLocaleDateString(undefined, {

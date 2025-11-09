@@ -39,8 +39,6 @@ const checkEmail = AsyncHandler(async (req, res) => {
 
 const signup = AsyncHandler(async (req, res) => {
   try {
-    console.log('Request body: ', req.body);
-
     const { username, fullName, email, password, channelDescription, myLink } = req.body;
 
     if (!username || !fullName || !email || !password) {

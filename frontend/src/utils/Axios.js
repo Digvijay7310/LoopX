@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://loopx-backend-vtnn.onrender.com/api',
+  baseURL: 'http://localhost:8000/api',
   withCredentials: true,
 });
 

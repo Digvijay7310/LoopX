@@ -27,7 +27,6 @@ const addCommentToVideo = AsyncHandler(async (req, res) => {
   }
 });
 
-
 const myComments = AsyncHandler(async (req, res) => {
   try {
     const user = req.user;
@@ -40,7 +39,7 @@ const myComments = AsyncHandler(async (req, res) => {
     const comments = await Comment.find({ user: user._id })
       .populate({
         path: 'video',
-        select: 'title thumbnail createdAt owner',
+        select: 'title thumbnail views createdAt owner',
         populate: {
           path: 'owner',
           select: 'username avatar',

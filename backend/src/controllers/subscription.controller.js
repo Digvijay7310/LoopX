@@ -50,7 +50,9 @@ const getSubscriptionStats = AsyncHandler(async (req, res) => {
       );
     }
 
-    const subscribedChannels = subscriptions.map((sub) => ({
+    const validSubscriptions = subscriptions.filter(sub => sub.channel);
+
+    const subscribedChannels = validSubscriptions.map((sub) => ({
       _id: sub.channel._id,
       username: sub.channel.username,
       avatar: sub.channel.avatar,
@@ -62,7 +64,7 @@ const getSubscriptionStats = AsyncHandler(async (req, res) => {
         {
           count: subscribedChannels.length,
           channels: subscribedChannels,
-        },
+        }, 
         "User subscriptions fetched successfully"
       )
     );

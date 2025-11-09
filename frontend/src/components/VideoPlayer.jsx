@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaExpand } from 'react-icons/fa';
 
-function VideoPlayer({ src }) {
+function VideoPlayer({ src, thumbnail }) {
   const videoRef = useRef(null);
   const progressRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -105,6 +105,10 @@ function VideoPlayer({ src }) {
       <video
         ref={videoRef}
         src={src}
+        poster={thumbnail}
+        preload='metadata'
+        playsInline
+        muted
         className="w-full h-full object-contain"
         onTimeUpdate={handleTimeUpdate}
         onClick={togglePlay}
