@@ -14,7 +14,9 @@ function HomePageVideoCard({ video }) {
         <img
           src={video.thumbnail}
           alt={video.title}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
+          fetchPriority='high'
+          decoding='async'
+          className="absolute object-cover h-full w-full transition-opacity duration-300 group-hover:opacity-0"
         />
 
         <video

@@ -39,6 +39,7 @@ function HomePage() {
       document.head.appendChild(meta)
     }
   },[])
+  
 
   if (loading) return <HomePageLoading />;
 
