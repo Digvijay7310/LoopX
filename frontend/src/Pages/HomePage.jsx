@@ -44,14 +44,15 @@ function HomePage() {
   if (loading) return <HomePageLoading />;
 
   return (
-    <div className="p-1 max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="max-w-7xl mx-auto relative">
+      <div className="p-1 top-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {videos.length === 0 ? (
           <p className="w-full text-center font-bold text-3xl">Login to see videos </p>
         ) : (
           videos.map((video) => <HomePageVideoCard key={video._id} video={video} />)
         )}
       </div>
+      <HomePageLoading />
     </div>
   );
 }

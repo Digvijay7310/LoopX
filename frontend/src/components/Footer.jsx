@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FaYoutube, FaTwitter, FaGithub } from 'react-icons/fa';
 
 function Footer() {
+  const year = useMemo(() => new Date().getUTCFullYear(), [])
   return (
     <footer className="bg-gray-900 text-white py-8">
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
@@ -75,7 +76,7 @@ function Footer() {
 
       {/* Bottom Bar */}
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-500 text-xs">
-        © {new Date().getFullYear()} LoopX. All rights reserved.
+        © {year} LoopX. All rights reserved.
       </div>
     </footer>
   );

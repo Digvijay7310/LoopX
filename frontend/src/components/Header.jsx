@@ -40,7 +40,7 @@ function Header() {
   return (
     <>
       {/* Sticky Header */}
-      <header className="w-full bg-white shadow-lg px-4 py-3 z-50 sticky top-0">
+      <header className="w-full mb-2 bg-white border-b border-red-600 px-4 py-3 z-50 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
 
@@ -74,7 +74,7 @@ function Header() {
             {/* Close Icon */}
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-4 right-4 text-gray-700"
+              className="absolute top-4 right-4 text-gray-900"
               aria-label="Close menu"
             >
               <FaTimes size={24} />

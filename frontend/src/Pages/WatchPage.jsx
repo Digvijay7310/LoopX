@@ -138,7 +138,7 @@ function WatchPage() {
             />
 
             {/* Share Button */}
-            <VideoShareButton videoId={video._id} />
+            <VideoShareButton showbg={true} videoId={video._id} />
 
             {/* Report Button */}
             <ReportVideoComponent videoId={video._id} videoTitle={video.title} />

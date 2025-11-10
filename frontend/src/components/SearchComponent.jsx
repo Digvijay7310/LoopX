@@ -23,7 +23,7 @@ function SearchComponent() {
         placeholder="Search videos or channels..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="flex-grow px-3 py-2 border rounded-l-md focus:outline-none"
+        className="flex-grow px-3 py-2 border focus:border focus:border-red-600 rounded-l-md focus:outline-none transition-colors duration-200"
       />
       <button
         title="search"

@@ -13,7 +13,7 @@ function Layout() {
   return (
     <>
       {!isAdminRoute && <Header />} {/* Hide header if it's an admin route */}
-      <main className="min-h-screen">
+      <main className='flex-grow min-h-screen h-auto'>
         <Outlet />
         <ScrollToTopButton />
       </main>

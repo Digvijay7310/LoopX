@@ -31,7 +31,7 @@ const ScrollToTopButton = () => {
           title="Scroll To Top"
           type="button"
           onClick={scrollToTop}
-          className="fixed bottom-5 right-1 p-3 rounded-full text-white bg-red-600  cursor-pointer"
+          className="fixed bottom-5 right-5 p-3 rounded-full text-white bg-red-600  cursor-pointer"
         >
           <FaArrowUp className='animate-bounce' />
         </button>
