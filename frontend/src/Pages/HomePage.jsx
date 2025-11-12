@@ -52,7 +52,6 @@ function HomePage() {
           videos.map((video) => <HomePageVideoCard key={video._id} video={video} />)
         )}
       </div>
-      <HomePageLoading />
     </div>
   );
 }

@@ -20,6 +20,7 @@ function Header() {
     setMenuOpen(false);
   }, [location]);
 
+
   // Close on click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,7 +41,7 @@ function Header() {
   return (
     <>
       {/* Sticky Header */}
-      <header className="w-full mb-2 bg-white border-b border-red-600 px-4 py-3 z-50 sticky top-0">
+      <header className="w-full bg-white border-b border-red-600 px-4 py-3 z-50 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
 

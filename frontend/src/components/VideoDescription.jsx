@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function VideoDescription({ video }) {
   const [showFullDesc, setShowFullDesc] = useState(false);
   return (
-    <div className="mb-4 px-4 bg-gray-200 rounded-2xl">
+    <div className="mb-4 p-4 bg-gray-50 rounded-2xl">
       <span className="text-sm text-black">Description: </span>
       <p className="text-gray-700 text-xs mt-0.5">
         {showFullDesc
