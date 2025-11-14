@@ -7,17 +7,15 @@ import ScrollToTopButton from '../components/ScrollToTopButton';
 function Layout() {
   const location = useLocation();
 
-  // Hide header on admin routes
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
-      {!isAdminRoute && <Header />} {/* Hide header if it's an admin route */}
-      <main className="flex-grow min-h-screen bg-zinc-50">
-  <Outlet />
-  <ScrollToTopButton />
-</main>
-
+      {!isAdminRoute && <Header />} 
+      <main className="flex-grow min-h-screen">
+     <Outlet />
+     <ScrollToTopButton /> 
+      </main>
       <Footer />
     </>
   );

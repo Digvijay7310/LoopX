@@ -15,25 +15,28 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
     const handleSubscribeToggle = async () => {
         if (!channelUsername) return;
 
+        const prevState = subscribed;
+        setSubscribed(!subscribed)
         setLoading(true);
 
         try {
             const res = await axiosInstance.post(`/subscription/${channelUsername}`);
-            const message = res.data.message || '';
+            const message = res.data.data || '';
             
             if (message.toLowerCase().includes('unsubscribed')) {
                 setSubscribed(false);
-                toast.success('Unsubscribed successfully');
+                // toast.success('Unsubscribed successfully');
             } else if (message.toLowerCase().includes('subscribed')) {
                 setSubscribed(true);
-                toast.success('Subscribed successfully');
+                // toast.success('Subscribed successfully');
             } else {
-                toast.info('Subscription status updated');
+                // toast.info('Subscription status updated');
             }
 
         } catch (error) {
             console.error('Subscription error: ', error);
             toast.error('Failed to toggle subscription');
+            setSubscribed(prevState)
         } finally {
             setLoading(false);
         }
@@ -43,8 +46,8 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
         <button
             disabled={loading}
             onClick={handleSubscribeToggle}
-            className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm cursor-pointer font-medium transition 
-                ${subscribed ? 'bg-gray-200 text-black hover:bg-gray-300 animate-pulse' : 'bg-red-600 text-white hover:bg-red-800'}`}>
+            className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm cursor-pointer transition 
+                ${subscribed ? 'bg-gray-200 text-black ' : 'bg-red-600 text-white hover:bg-red-800'}`}>
             {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
             {subscribed ? 'Subscribed' : 'Subscribe'}
         </button>

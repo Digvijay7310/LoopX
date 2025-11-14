@@ -30,6 +30,7 @@ router.post(
   '/upload',
   verifyToken,
   isUser,
+  validate(videoSchema),
   upload.fields([
     { name: 'videoUrl', maxCount: 1 },
     { name: 'thumbnail', maxCount: 1 },

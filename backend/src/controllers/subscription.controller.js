@@ -9,7 +9,7 @@ const toggleSubscribe = AsyncHandler(async (req, res) => {
   const subscriberId = req.user._id;
 
   try {
-    const channel = await User.findOne({username});
+    const channel = await User.findOne({username}, {_id: 1}).lean()
     if(!channel){
       throw new ApiError(404, "User not found")
     }
@@ -18,20 +18,21 @@ const toggleSubscribe = AsyncHandler(async (req, res) => {
       throw new ApiError(400, 'You cannot subscribe to yourself')
     }
 
-    const existing = await Subscription.findOne({
+    const Unsubscribed = await Subscription.findOne({
       subscriber: subscriberId,
       channel: channel._id
     });
 
-    if(existing) {
-      await Subscription.findByIdAndDelete(existing._id);
+    if(Unsubscribed) {
       return res.status(200).json(new ApiResponse(200, null , 'Unsubscribed successfully'));
-    } else {
-      await Subscription.create({subscriber: subscriberId, channel: channel._id})
-      return res.status(201).json(new ApiResponse(201, null, 'Subscribed successfully'))
-    }
+    } 
+
+    // If nt subscribe, create subscription
+    await Subscription.create({subscriber: subscriberId, channel: channel._id})
+    return res.status(201).json(new ApiResponse(201, null, "Subscribed successfully"))
   } catch (error) {
     console.log('Error in toggle subscribe: ',error)
+    return res.status(500).json(new ApiResponse(500, null, "Internal server Error"))
     
   }
 });

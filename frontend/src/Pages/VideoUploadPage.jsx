@@ -15,6 +15,7 @@ const allowedCategories = [
   "Travel",
   "Comedy",
   "Blogs",
+  "WildLife",
   "Others"
 ]; 
 
@@ -78,7 +79,7 @@ function VideoUploadPage() {
     <>
       {/* Background overlay + blur */}
       {isDialogOpen && (
-        <div className="fixed inset-0 bg-opacity-40 backdrop-blur-lg flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-opacity-80 backdrop-blur-lg flex justify-center items-center z-50">
           {/* Dialog box */}
           <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl mx-4 p-6 relative">
             {/* Close Button */}
@@ -90,14 +91,14 @@ function VideoUploadPage() {
               &times;
             </button>
 
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-2">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
               <FiUpload /> Upload Your Video
             </h2>
 
             {/* The Form */}
-            <form onSubmit={handleUpload} encType="multipart/form-data" className="space-y-6">
+            <form onSubmit={handleUpload} encType="multipart/form-data" className={`space-y-1 md:space-y-2 ${loading ? 'hidden' : 'block'}`}>
               {/* Title */}
-              <div>
+              <div className='border-b border-black focus-within:border-b-red-600'>
                 <label htmlFor="title" className="block text-gray-700 mb-1">
                   Title
                 </label>
@@ -105,7 +106,7 @@ function VideoUploadPage() {
                   type="text"
                   id="title"
                   name="title"
-                  className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
+                  className="w-full p-2 border-0 rounded-md outline-none"
                   placeholder="Enter title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -121,7 +122,7 @@ function VideoUploadPage() {
                 <textarea
                   id="description"
                   name="description"
-                  className="w-full p-2 border border-red-500 rounded-md outline-none focus:ring-1 focus:ring-red-600"
+                  className="w-full p-2 border border-red-600 rounded outline-none "
                   placeholder="Enter description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -158,17 +159,17 @@ function VideoUploadPage() {
 
               {/* Thumbnail Upload */}
               <div>
-                <label htmlFor="thumbnail" className="block text-gray-700 mb-1">
+                <label htmlFor="thumbnail" className="hidden text-gray-700 mb-1">
                   Thumbnail
                 </label>
                 <div className="flex items-center gap-4">
                   
                   <label
                     htmlFor="thumbnail"
-                    className="cursor-pointer bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                    className="cursor-pointer flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                   >
                     <FiImage />
-                    Choose Thumbnail
+                     Thumbnail
                   </label>
                   <input
                     id="thumbnail"
@@ -194,16 +195,16 @@ function VideoUploadPage() {
 
               {/* Video Upload */}
               <div>
-                <label htmlFor="video" className="block text-gray-700 mb-1">
+                <label htmlFor="video" className="hidden text-gray-700 mb-1">
                   Video File
                 </label>
                 <div className="flex items-center gap-4">
                   <label
                     htmlFor="video"
-                    className="cursor-pointer bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                    className="cursor-pointer flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                   >
                     <FiVideo />
-                    Choose Video
+                    Video
                   </label>
                   <input
                     id="video"

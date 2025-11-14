@@ -10,9 +10,6 @@ import { User } from '../models/user.model.js';
 
 const uploadVideo = AsyncHandler(async (req, res) => {
   try {
-    if (req.role !== 'user') {
-      throw new ApiError(403, 'You cannot upload a video');
-    }
     if (req.user?.isBlocked === true) {
       throw new ApiError(403, 'You are blocked and you cannot upload a video');
     }
@@ -35,9 +32,9 @@ const uploadVideo = AsyncHandler(async (req, res) => {
     const video = await Video.create({
       title,
       description,
-      videoUrl: videoUpload.secure_url,
+      videoUrl: videoUpload,
       category,
-      thumbnail: thumbnailUpload.secure_url,
+      thumbnail: thumbnailUpload,
       owner: req.user._id, // assuming req.user is user object
     });
 
@@ -50,37 +47,27 @@ const uploadVideo = AsyncHandler(async (req, res) => {
 });
 
 const getVideosForHome = AsyncHandler(async (req, res) => {
-  const { page = 1, limit = 20 } = req.query;
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    const lastId = req.query.lastId;
 
-  // Pagination params
-  const pageNum = parseInt(page);
-  const limitNum = parseInt(limit);
+    let query = {}
+    if(lastId){
+      query = {_id: {$lt: lastId}}
+    }
+    const videos = await Video.find(query).sort({createdAt: -1})
+    .limit(limit)
+    .populate("owner", 'username avatar')
 
-  // Get popular videos (top 10 by views)
-  const popularVideos = await Video.find()
-    .sort({ views: -1 })
-    .limit(10)
-    .populate('owner', 'username avatar');
-
-  // Get recent videos (latest uploads)
-  const recentVideos = await Video.find()
-    .sort({ createdAt: -1 })
-    .skip((pageNum - 1) * limitNum)
-    .limit(limitNum)
-    .populate('owner', 'username avatar');
-
-  // Combine popular and recent videos (avoid duplicates)
-  const popularIds = new Set(popularVideos.map((v) => v._id.toString()));
-
-  const combinedVideos = [
-    ...popularVideos,
-    ...recentVideos.filter((v) => !popularIds.has(v._id.toString())),
-  ];
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, combinedVideos, 'Home videos fetched successfully'));
-});
+    if(!videos || videos.length === 0){
+      throw  new ApiError(404, "no Video found")
+    }
+    res.status(200).json(new ApiResponse(200, videos, 'Video fetch successfully!'))
+  } catch (error) {
+    console.error("getVideo for home", error)
+    throw new ApiError(500, "Internal server error in getVideoForHome")
+  }
+})
 
 const myVideos = AsyncHandler(async (req, res) => {
   const userId = req.user?._id;

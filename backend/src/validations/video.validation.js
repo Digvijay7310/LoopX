@@ -17,23 +17,8 @@ export const videoSchema = Joi.object({
       'string.max': 'Description cannot exceed 5000 characters',
     }),
   category: Joi.string().optional().allow(''),
-  videoUrl: Joi.string()
-    .uri()
-    .required()
-    .messages({
-      'string.empty': 'Video URL is required',
-      'string.uri': 'Video URL must be a valid URL',
-    }),
-  thumbnail: Joi.string()
-    .uri()
-    .required()
-    .messages({
-      'string.empty': 'Thumbnail URL is required',
-      'string.uri': 'Thumbnail must be a valid URL',
-    }),
   owner: Joi.string()
     .required()
-    .regex(/^[0-9a-fA-F]{24}$/)
     .messages({
       'string.pattern.base': 'Invalid owner ID format',
       'string.empty': 'Owner is required',
