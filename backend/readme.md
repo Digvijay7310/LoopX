@@ -6,6 +6,7 @@ This project provides backend APIs for user profile management and video platfor
 
 ### User Profile
 
+- Sign up/Login with email and password
 - Update user profile details (fullName)
 - Upload user avatar and cover images (Cloudinary integration)
 - Authentication required for profile updates
