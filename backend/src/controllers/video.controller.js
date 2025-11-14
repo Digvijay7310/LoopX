@@ -220,46 +220,41 @@ const deleteVideo = AsyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, null, 'Video deleted successfully'));
 });
 
+
 const searchVideos = AsyncHandler(async (req, res) => {
   const { q = '', category = '', sort = 'createdAt', page = 1, limit = 10 } = req.query;
-
   const searchQuery = q.trim();
   const skip = (parseInt(page) - 1) * parseInt(limit);
 
-  let userIds = [];
-
-  if (searchQuery) {
-    // Search users by username or fullName to get matching owner ids
-    const users = await User.find({
-      $or: [
-        { username: { $regex: searchQuery, $options: 'i' } },
-        { fullName: { $regex: searchQuery, $options: 'i' } },
-      ],
-    }).select('_id');
-
-    userIds = users.map((user) => user._id);
-  }
-
-  // Build MongoDB query
-  const query = {
-    ...(searchQuery && {
-      $or: [{ title: { $regex: searchQuery, $options: 'i' } }, { owner: { $in: userIds } }],
-    }),
+  // Prepare regex filters
+  const videoFilter = {
+    ...(searchQuery && { title: { $regex: searchQuery, $options: 'i' } }),
     ...(category && { category: { $regex: category, $options: 'i' } }),
   };
 
-  // Choose sort option
   const sortOption = sort === 'views' ? { views: -1 } : { createdAt: -1 };
 
-  const total = await Video.countDocuments(query);
+  // Run both queries in parallel
+  const [videos, users] = await Promise.all([
+    Video.find(videoFilter)
+      .populate('owner', 'username avatar fullName')
+      .sort(sortOption)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .select('title thumbnail videoUrl description views owner'),
 
-  const videos = await Video.find(query)
-    .populate('owner', 'username avatar')
-    .sort(sortOption)
-    .skip(skip)
-    .limit(parseInt(limit))
-    .select('title thumbnail videoUrl description views owner');
+    // Only search users if query exists
+    searchQuery
+      ? User.find({
+          $or: [
+            { username: { $regex: searchQuery, $options: 'i' } },
+            { fullName: { $regex: searchQuery, $options: 'i' } },
+          ],
+        }).select('username avatar fullName')
+      : Promise.resolve([]),
+  ]);
 
+  // Format videos
   const formattedVideos = videos.map((video) => ({
     _id: video._id,
     title: video.title,
@@ -271,22 +266,27 @@ const searchVideos = AsyncHandler(async (req, res) => {
     owner: {
       username: video.owner.username,
       avatar: video.owner.avatar,
+      fullName: video.owner.fullName,
     },
   }));
 
   return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        total,
-        page: parseInt(page),
-        limit: parseInt(limit),
-        results: formattedVideos,
-      },
-      'Search results fetched',
-    ),
-  );
+    new ApiResponse(200, {
+      videos: formattedVideos,
+      users: users.map((user) => ({
+        _id: user._id,
+        username: user.username,
+        fullName: user.fullName,
+        avatar: user.avatar,
+      })),
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalVideos: formattedVideos.length,
+      totalUsers: users.length,
+    }))
 });
+
+
 
 export {
   uploadVideo,

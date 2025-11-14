@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/Axios';
 import HomePageLoading from '../components/LoadingComponents/HomePageLoading';
 import HomePageVideoCard from '../components/HomePageVideoCard';
+import UploadLoading from '../components/LoadingComponents/UploadLoading';
 
 function HomePage() {
   const [videos, setVideos] = useState([]);

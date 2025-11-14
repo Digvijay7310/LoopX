@@ -93,6 +93,8 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
+userSchema.index({username: 'text', fullName: 'text'})
+
 const User = new mongoose.model('User', userSchema);
 
 export { User };

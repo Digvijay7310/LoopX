@@ -3,6 +3,7 @@ import axiosInstance from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiImage, FiUpload, FiVideo } from 'react-icons/fi';
+import UploadLoading from '../components/LoadingComponents/UploadLoading';
 
 const allowedCategories = [
   "Education",
@@ -97,6 +98,11 @@ function VideoUploadPage() {
 
             {/* The Form */}
             <form onSubmit={handleUpload} encType="multipart/form-data" className={`space-y-1 md:space-y-2 ${loading ? 'hidden' : 'block'}`}>
+            {loading && (
+              <div className='flex justify-center items-center'>
+                <UploadLoading />
+              </div>
+            )}
               {/* Title */}
               <div className='border-b border-black focus-within:border-b-red-600'>
                 <label htmlFor="title" className="block text-gray-700 mb-1">

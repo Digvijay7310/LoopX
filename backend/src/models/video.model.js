@@ -43,6 +43,7 @@ const VideoSchema = new mongoose.Schema(
 
 VideoSchema.plugin(aggregatePaginate);
 
+VideoSchema.index({title: 'text', description: 'text', category: 'text'})
 const Video = mongoose.model('Video', VideoSchema);
 
 export { Video };
