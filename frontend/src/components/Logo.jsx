@@ -1,11 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./Logo.css";
 
 function Logo() {
+  const navigate = useNavigate();
+
   return (
-    <Link to="/video/home" className="text-4xl text-red-600 ">
-      LoopX
-    </Link>
+    <h1
+      onClick={() => navigate("/")}
+      className="loopx-logo"
+    >
+      <span className="font-medium">LoopX</span>
+    </h1>
   );
 }
 

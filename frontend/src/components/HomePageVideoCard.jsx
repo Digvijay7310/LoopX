@@ -7,7 +7,7 @@ function HomePageVideoCard({ video }) {
     <Link
       to={`/video/${video._id}`}
        aria-label={`Watch video titled ${video.title}`}
-      className="block group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
+      className="block group rounded-xl overflow-hidden bg-white hover:bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-300"
     >
       {/* Thumbnail with hover video */}
       <div className="aspect-video relative bg-black overflow-hidden">

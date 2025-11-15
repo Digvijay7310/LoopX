@@ -1,0 +1,15 @@
+
+.loopx-logo {
+  font-size: 1rem;
+  color: #ff1a1a; /* primary red text */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px 20px;
+  border: 1px solid #ff4d4d; /* subtle red border */
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff; /* clean white background */
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* soft red glow */
+  cursor: pointer;
+}
