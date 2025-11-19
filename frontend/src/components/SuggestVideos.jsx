@@ -19,7 +19,7 @@ function SuggestedVideos({ videos = [], currentVideoId, title = 'Suggested Video
         <div
           key={v._id?.toString()}
           className="flex gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition"
-          onClick={() => navigate(`/video/${v._id}`)}
+          onClick={() => navigate(`/videos/${v._id}`)}
         >
           <div className="w-32 h-20 bg-gray-300 rounded-md overflow-hidden">
             <img

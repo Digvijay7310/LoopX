@@ -29,20 +29,20 @@ function App() {
     <>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Navigate to="/video/home" replace />} />
+          <Route path="/" element={<Navigate to="/videos/home" replace />} />
           <Route path="/auth/signup" element={<SignupPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/video/search" element={<SearchResultsPage />} />
-          <Route path="/video/home" element={<HomePage />} />
-          <Route path="/video/:id" element={<WatchPage />} />
-          <Route path="/video/:id/edit" element={<UpdateAndDeletePage />} />
+          <Route path="/videos/search" element={<SearchResultsPage />} />
+          <Route path="/videos/home" element={<HomePage />} />
+          <Route path="/videos/:id" element={<WatchPage />} />
+          <Route path="/videos/:id/edit" element={<UpdateAndDeletePage />} />
           <Route path="/users/me" element={<RequestedUserPage />} />
-          <Route path="/video/my-videos" element={<MyVideosPage />} />
+          <Route path="/videos/my-videos" element={<MyVideosPage />} />
           <Route path="/users/:username" element={<UserProfilePage />} />
           <Route path="/users/profile/update" element={<UpdateProfilePage />} />
           <Route path="/likes/my-likes" element={<MyLikesPage />} />
           <Route path="/comments/my-comments" element={<MyCommentsPage />} />
-          <Route path="/video/upload" element={<VideoUploadPage />} />
+          <Route path="/videos/upload" element={<VideoUploadPage />} />
           <Route path='/subscription/my-subscriptions' element={<SubscribedChannels />}/>
           <Route path='/subscription/my-subscribers' element={<SubscribersPage />}/>
         </Route>

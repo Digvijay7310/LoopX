@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../utils/Axios';
 import { toast } from 'react-toastify';
-import { FiBell } from 'react-icons/fi';
-import { FaBell } from 'react-icons/fa';
+import { MdNotificationsActive, MdNotificationsOff } from 'react-icons/md'
 
 function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md'}) {
     const [subscribed, setSubscribed] = useState(initialSubscribed);
@@ -25,7 +24,6 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
             
             if (message.toLowerCase().includes('unsubscribed')) {
                 setSubscribed(false);
-                // toast.success('Unsubscribed successfully');
             } else if (message.toLowerCase().includes('subscribed')) {
                 setSubscribed(true);
                 // toast.success('Subscribed successfully');
@@ -48,7 +46,7 @@ function SubscribeButton({channelUsername, initialSubscribed = false, size = 'md
             onClick={handleSubscribeToggle}
             className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm cursor-pointer transition 
                 ${subscribed ? 'bg-gray-200 text-black ' : 'bg-red-600 text-white hover:bg-red-800'}`}>
-            {subscribed ? <FaBell size={18} /> : <FiBell size={18} />}
+            {subscribed ? <MdNotificationsOff size={18} /> : <MdNotificationsActive size={18} />}
             {subscribed ? 'Subscribed' : 'Subscribe'}
         </button>
     )

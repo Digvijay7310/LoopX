@@ -48,6 +48,7 @@ function SubscribersPage() {
             <li key={sub._id} className="flex items-center gap-3">
               <img
                 src={sub.avatar}
+                loading='lazy'
                 alt={sub.username}
                 className="h-10 w-10 rounded-full border"
               />

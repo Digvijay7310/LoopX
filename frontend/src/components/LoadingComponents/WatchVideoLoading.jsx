@@ -2,30 +2,7 @@ import React from 'react';
 import { FaThumbsUp, FaCommentDots, FaBell } from 'react-icons/fa';
 
 function WatchVideoLoading() {
-  const mainVideoSrc = 'https://www.w3schools.com/html/mov_bbb.mp4';
-
-  const suggestedVideos = [
-    {
-      title: 'Wildlife Adventure in the Jungle',
-      src: 'https://vjs.zencdn.net/v/oceans.mp4',
-      thumbnail: 'https://via.placeholder.com/128x80?text=Video+1',
-    },
-    {
-      title: 'Ocean Deep Dive Documentary',
-      src: 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-      thumbnail: 'https://via.placeholder.com/128x80?text=Video+2',
-    },
-    {
-      title: 'Mountain Hiking POV',
-      src: 'https://filesamples.com/samples/video/mp4/sample_640x360.mp4',
-      thumbnail: 'https://via.placeholder.com/128x80?text=Video+3',
-    },
-    {
-      title: 'Sunset Time-lapse Compilation',
-      src: 'https://samplelib.com/lib/preview/mp4/sample-5s.mp4',
-      thumbnail: 'https://via.placeholder.com/128x80?text=Video+4',
-    },
-  ];
+ 
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 max-w-7xl mx-auto">

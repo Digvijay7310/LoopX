@@ -7,9 +7,11 @@ function VideoCard({ video, onDelete, showDelete = false, showShare = true }) {
   if (!video) return null;
 
   return (
-    <div className="cursor-pointer rounded overflow-hidden bg-white bg-gray-50 shadow-sm hover:shadow-md transition-all duration-200 relative border border-gray-200">
+    <div className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-200 relative border border-gray-200">
       {/* Video Link */}
-      <Link to={`/video/${video._id}`}>
+      <Link to={`/videos/${video._id}`}
+      aria-label={`open video titled ${video.title}`}
+      >
         {/* Thumbnail / Video hover */}
         <div className="aspect-video relative bg-black group">
           <img

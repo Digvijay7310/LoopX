@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/Axios';
 import HomePageLoading from '../components/LoadingComponents/HomePageLoading';
 import HomePageVideoCard from '../components/HomePageVideoCard';
-import UploadLoading from '../components/LoadingComponents/UploadLoading';
 
 function HomePage() {
   const [videos, setVideos] = useState([]);
@@ -18,7 +17,7 @@ function HomePage() {
       if (lastId) {
         setLoadingMore(true);
       }
-      const res = await axiosInstance.get(`/video/home?limit=${limit}${lastId ? '&lastId=' + lastId : ''}`);
+      const res = await axiosInstance.get(`/videos/home?limit=${limit}${lastId ? '&lastId=' + lastId : ''}`);
       const newVideos = res.data.data;
 
       if (newVideos.length < limit) setHasMore(false); // agar kam videos aaye to stop
@@ -72,7 +71,7 @@ function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto relative">
-      <div className="p-1 top-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="p-1 top-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {videos.length === 0 ? (
           <p className="w-full text-center font-bold text-3xl">Login to see videos</p>
         ) : (

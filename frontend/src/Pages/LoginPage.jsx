@@ -24,7 +24,7 @@ function LoginPage() {
     setLoading(true);
     try {
       await axiosInstance.post('/auth/login', form);
-      navigate('/video/home');
+      navigate('/videos/home');
       setForm({ email: '', password: '' }); // clear inputs after submit
     } catch (error) {
       console.error('Error in login', error);
@@ -39,10 +39,10 @@ function LoginPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-orange-50 to-pink-50">
+    <div className="min-h-screen flex items-center justify-center bg-red-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 shadow-xl w-full max-w-sm space-y-6 rounded-xl"
+        className="bg-white p-8 w-full max-w-sm space-y-6 rounded-xl"
       >
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 

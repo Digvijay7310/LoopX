@@ -6,12 +6,12 @@ function Logo() {
   const navigate = useNavigate();
 
   return (
-    <h1
+    <div
       onClick={() => navigate("/")}
-      className="loopx-logo"
+      className="px-3 py-1 ring ring-red-600 rounded-lg logo-bg"
     >
-      <span className="font-medium">LoopX</span>
-    </h1>
+      <span className="font-semibold text-red-600 text-2xl">LoopX</span>
+    </div>
   );
 }
 

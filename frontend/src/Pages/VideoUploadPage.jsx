@@ -35,6 +35,11 @@ function VideoUploadPage() {
 
   const navigate = useNavigate();
 
+  const handleClose = () => {
+    setIsDialogOpen(false)
+    navigate(-1)
+  }
+
   const handleUpload = async (e) => {
     e.preventDefault();
 
@@ -57,10 +62,10 @@ function VideoUploadPage() {
     if (videoUrl) form.append('videoUrl', videoUrl);
 
     try {
-      const res = await axiosInstance.post('/video/upload', form);
+      const res = await axiosInstance.post('/videos/upload', form);
       if (res.data.data) {
         toast.success('Video uploaded successfully!');
-        navigate('/video/home');
+        navigate('/videos/home');
       } else {
         toast.error('Video not uploaded.');
       }
@@ -85,7 +90,7 @@ function VideoUploadPage() {
           <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl mx-4 p-6 relative">
             {/* Close Button */}
             <button
-              onClick={() => setIsDialogOpen(false)}
+              onClick={handleClose}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl font-bold"
               aria-label="Close dialog"
             >
@@ -181,7 +186,7 @@ function VideoUploadPage() {
                     id="thumbnail"
                     name="thumbnail"
                     type="file"
-                    accept="image/*"
+                    accept="image/*"                    loading="lazy"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files[0];
@@ -192,6 +197,7 @@ function VideoUploadPage() {
                   {thumbnailPreview && (
                     <img
                       src={thumbnailPreview}
+                      loading='lazy'
                       alt="Thumbnail Preview"
                       className="w-24 h-16 object-cover border rounded"
                     />
@@ -242,17 +248,6 @@ function VideoUploadPage() {
         </div>
       )}
 
-      {/* Agar dialog band hai to simple ek button dikhaye jisse wapas open ho sake */}
-      {!isDialogOpen && (
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={() => setIsDialogOpen(true)}
-            className="px-6 py-3 bg-red-600 text-white rounded hover:bg-red-700"
-          >
-            Start upload your video
-          </button>
-        </div>
-      )}
     </>
   );
 }

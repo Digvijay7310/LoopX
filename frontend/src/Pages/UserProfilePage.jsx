@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { Link, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import VideoCard from '../components/VideoCard';
 import SubscribeButton from '../components/SubscribeButton';
 
@@ -29,7 +28,6 @@ function UserProfilePage() {
           setError('User data not found');
         }
       } catch (err) {
-        console.error('Error fetching user:', err);
         setError(err.response?.data?.message || 'Failed to fetch user data');
       } finally {
         setLoading(false);
@@ -41,9 +39,6 @@ function UserProfilePage() {
   }, [username]);
 
 
-
- 
-
   if (loading) return <p className="text-center mt-10 text-gray-500">Loading user details...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!user) return <p className="text-center mt-10 text-gray-700">User not found</p>;
@@ -54,8 +49,9 @@ function UserProfilePage() {
       <div className="w-full h-48 md:h-54 rounded-lg overflow-hidden mb-2 bg-gray-200">
         <img
           src={user.coverImage || 'https://via.placeholder.com/900x300'}
+          loading='lazy'
           alt={`${user.username}'s cover`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-fill"
         />
       </div>
 
@@ -65,8 +61,9 @@ function UserProfilePage() {
         <div className="w-32 h-32  rounded-full overflow-hidden border border-red-600 flex-shrink-0 bg-gray-100">
           <img
             src={user.avatar || 'https://via.placeholder.com/150'}
+            loading='lazy'
             alt={`${user.username}'s avatar`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill"
           />
         </div>
 

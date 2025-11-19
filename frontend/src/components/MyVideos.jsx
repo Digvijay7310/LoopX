@@ -7,7 +7,7 @@ function MyVideos({ video, onDelete }) {
   return (
     <div className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200 relative border border-red-500">
       {/* Video Link */}
-      <Link to={`/video/${video._id}`}>
+      <Link to={`/videos/${video._id}`}>
         {/* Thumbnail with hover video */}
         <div className="aspect-video relative bg-black group">
           <img

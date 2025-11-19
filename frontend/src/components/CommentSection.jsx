@@ -18,7 +18,7 @@ function CommentSection({ videoId, comments, setComments }) {
     if (!comment.trim()) return;
     setIsSubmitting(true);
     try {
-      const res = await axiosInstance.post(`/video/${videoId}/comment`, { text: comment });
+      const res = await axiosInstance.post(`/videos/${videoId}/comment`, { text: comment });
       setComments([res.data.data, ...comments]); 
       setComment('');
       toast.success('Comment added');

@@ -17,6 +17,11 @@ function UpdateProfilePage() {
 
   const navigate = useNavigate();
 
+  const handleClose = () => {
+    setIsDialogOpen(false)
+    navigate(-1)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +41,6 @@ function UpdateProfilePage() {
         toast.error('Update failed.');
       }
     } catch (error) {
-      console.error('Update failed:', error);
       toast.error('Error updating profile.');
     } finally {
       setLoading(false);
@@ -53,7 +57,7 @@ function UpdateProfilePage() {
         <div className="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl mx-4 p-6 relative">
             <button
-              onClick={() => setIsDialogOpen(false)}
+              onClick={handleClose}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl font-bold"
               aria-label="Close dialog"
             >
@@ -127,6 +131,7 @@ function UpdateProfilePage() {
                     <img
                       src={avatarPreview}
                       alt="Avatar Preview"
+                      loading='lazy'
                       className="w-20 h-20 rounded-full object-cover border"
                     />
                   )}
@@ -158,6 +163,7 @@ function UpdateProfilePage() {
                   {coverPreview && (
                     <img
                       src={coverPreview}
+                      loading='lazy'
                       alt="Cover Preview"
                       className="w-40 h-24 object-cover border rounded-md"
                     />
@@ -179,16 +185,6 @@ function UpdateProfilePage() {
         </div>
       )}
 
-      {!isDialogOpen && (
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={() => setIsDialogOpen(true)}
-            className="px-6 py-3 bg-red-600 text-white rounded hover:bg-red-700"
-          >
-            Open Profile Editor
-          </button>
-        </div>
-      )}
     </>
   );
 }

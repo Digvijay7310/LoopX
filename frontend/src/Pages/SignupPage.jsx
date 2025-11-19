@@ -123,10 +123,10 @@ function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-orange-50 to-pink-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-red-50 p-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-xl rounded-xl px-8 py-6 w-full max-w-md space-y-5"
+        className="bg-white rounded-xl px-8 py-6 w-full max-w-md space-y-5"
       >
         <h2 className="text-2xl font-bold text-center text-gray-800">Signup</h2>
 
@@ -148,10 +148,10 @@ function SignupPage() {
             <div className="text-sm mt-1 ml-1">
               {checkingUsername && <span className="text-gray-500">Checking...</span>}
               {!checkingUsername && isUsernameAvailable === true && (
-                <span className="text-green-600">✅ Username available</span>
+                <span className="text-green-600"> Username available</span>
               )}
               {!checkingUsername && isUsernameAvailable === false && (
-                <span className="text-red-600">❌ Username taken</span>
+                <span className="text-red-600"> Username taken</span>
               )}
             </div>
           )}
@@ -189,10 +189,10 @@ function SignupPage() {
             <div className="text-sm mt-1 ml-1">
               {checkingEmail && <span className="text-gray-500">Checking...</span>}
               {!checkingEmail && isEmailAvailable === true && (
-                <span className="text-green-600">✅ Email available</span>
+                <span className="text-green-600"> Email available</span>
               )}
               {!checkingEmail && isEmailAvailable === false && (
-                <span className="text-red-600">❌ Email in use</span>
+                <span className="text-red-600"> Email in use</span>
               )}
             </div>
           )}
@@ -238,6 +238,7 @@ function SignupPage() {
           {avatarPreview && (
             <img
               src={avatarPreview}
+              loading='lazy'
               alt="Avatar Preview"
               className="w-20 h-20 object-cover rounded-full"
             />
@@ -262,6 +263,7 @@ function SignupPage() {
           {coverImagePreview && (
             <img
               src={coverImagePreview}
+              loading='lazy'
               alt="Cover Preview"
               className="w-full h-32 object-cover rounded"
             />

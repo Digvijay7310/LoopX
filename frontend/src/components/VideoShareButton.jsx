@@ -8,7 +8,7 @@ function VideoShareButton({ videoId, showbg, children }) {
     e.stopPropagation();
     e.preventDefault();
 
-    const videoUrl = `${window.location.origin}/video/${videoId}`;
+    const videoUrl = `${window.location.origin}/videos/${videoId}`;
 
     navigator.clipboard
       .writeText(videoUrl)

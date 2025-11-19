@@ -19,7 +19,7 @@ function SearchResultsPage() {
 
     const fetchResults = async () => {
       try {
-        const res = await axiosInstance.get(`/video/search?q=${encodeURIComponent(query)}`);
+        const res = await axiosInstance.get(`/videos/search?q=${encodeURIComponent(query)}`);
         const data = res.data.data;
 
         setVideos(data.videos || []);
@@ -51,7 +51,7 @@ function SearchResultsPage() {
           <div className="flex flex-wrap gap-4">
             {users.map((user) => (
               <Link
-                to={`/user/${user._id}`}
+                to={`/users/${user.username}`}
                 key={user._id}
                 className="flex items-center gap-3 p-2 bg-white shadow-sm rounded hover:shadow-md transition-shadow"
               >
@@ -77,13 +77,14 @@ function SearchResultsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {videos.map((video) => (
               <Link
-                to={`/video/${video._id}`}
+                to={`/videos/${video._id}`}
                 key={video._id}
                 className="cursor-pointer rounded overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
               >
                 <div className="aspect-video relative bg-black group">
                   <img
                     src={video.thumbnail}
+                    loading='lazy'
                     alt={video.title}
                     className="absolute top-0 left-0 w-full h-full object-cover group-hover:hidden"
                   />
@@ -103,6 +104,7 @@ function SearchResultsPage() {
                 <div className="flex mt-3 px-2">
                   <img
                     src={video.owner?.avatar}
+                    loading='lazy'
                     alt={video.owner?.username}
                     className="rounded-full w-9 h-9 object-cover mr-3"
                   />

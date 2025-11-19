@@ -32,7 +32,7 @@ function WatchPage() {
   const fetchVideoData = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get(`/video/${id}`);
+      const res = await axiosInstance.get(`/videos/${id}`);
       const data = res.data.data;
       setVideo(data.video);
       setRelatedVideos(data.relatedVideos);
@@ -97,6 +97,7 @@ function WatchPage() {
           <Link to={`/users/${video.owner.username}`} className="flex flex-col items-center mb-4 w-fit">
             <img
               src={video.owner.avatar}
+              loading='lazy'
               alt={`${video.owner.username} avatar`}
               className="rounded-full h-10 w-10 border border-red-600"
               title={video.owner.username}

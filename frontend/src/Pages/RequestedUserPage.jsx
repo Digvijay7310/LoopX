@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/Axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
-import HomePageVideoCard from '../components/HomePageVideoCard'; // 👈 use your existing video card
+import HomePageVideoCard from '../components/HomePageVideoCard'; 
 
 function RequestedUserPage() {
   const [user, setUser] = useState(null);
-  const [myVideos, setMyVideos] = useState([]); // 👈 for user videos
+  const [myVideos, setMyVideos] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [videosLoading, setVideosLoading] = useState(true);
   const [error, setError] = useState('');
@@ -44,7 +44,7 @@ function RequestedUserPage() {
     const fetchMyVideos = async () => {
       setVideosLoading(true);
       try {
-        const res = await axiosInstance.get('/video/my-videos'); // ✅ adjust if your endpoint differs
+        const res = await axiosInstance.get('/videos/my-videos'); 
         setMyVideos(res.data?.data?.videos || []);
       } catch (error) {
         console.log('Error fetching my videos:', error.response || error.message || error);
@@ -77,6 +77,7 @@ function RequestedUserPage() {
         <div className="absolute -top-16 left-6 border-4 border-white rounded-full overflow-hidden w-32 h-32 bg-gray-200 shadow-md">
           <img
             src={user?.avatar || 'https://via.placeholder.com/150'}
+            loading='lazy'
             alt={`${user.fullName || 'User'} avatar`}
             className="object-cover w-full h-full"
           />
@@ -114,7 +115,7 @@ function RequestedUserPage() {
           <Link to="/comments/my-comments">My Comments</Link>
         </button>
         <button className="bg-red-600 hover:bg-red-700 text-white cursor-pointer font-semibold text-sm px-4 py-2 rounded-xl shadow-lg">
-          <Link to="/video/my-videos">My Videos</Link>
+          <Link to="/videos/my-videos">My Videos</Link>
         </button>
       </div>
 

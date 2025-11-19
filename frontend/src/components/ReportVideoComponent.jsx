@@ -23,7 +23,7 @@ function ReportVideoComponent({ videoId, videoTitle }) {
 
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/video/${videoId}/report`, { reason });
+      const res = await axiosInstance.post(`/videos/${videoId}/report`, { reason });
       toast.success(res.data.message);
       setShowModal(false);
       setReason('');

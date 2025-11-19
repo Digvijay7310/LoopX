@@ -74,7 +74,7 @@ function Navbar({ onLinkClick }) {
             <li title="Video Upload">
               <Link
                 onClick={onLinkClick}
-                to="/video/upload"
+                to="/videos/upload"
                 className="flex items-center gap-2 px-1 py-2 hover:text-red-600"
               >
                 <FiUpload size={18} /> Upload
@@ -94,7 +94,7 @@ function Navbar({ onLinkClick }) {
             <li title='My Videos'>
               <Link 
               onClick={onLinkClick}
-              to="/video/my-videos"
+              to="/videos/my-videos"
               className='flex items-center gap-2 px-1 py-2 hover:text-red-600'>
                <FiVideo size={18} /> My Videos
               </Link>

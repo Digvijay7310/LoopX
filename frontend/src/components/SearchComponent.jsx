@@ -9,7 +9,7 @@ function SearchComponent() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate(`/video/search?q=${encodeURIComponent(query)}`);
+      navigate(`/videos/search?q=${encodeURIComponent(query)}`);
     }
   };
 
